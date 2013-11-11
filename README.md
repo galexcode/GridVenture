@@ -7,7 +7,7 @@ This is a game like Terraria, but it will be much more story oriented. I want to
 ###Playing the Game
 To play the game, simply download the release from mediafire here:
 
-[GridVenture 0.3 - .7z](http://www.mediafire.com/download/fi0tbzz4znv34mr/DF_Alpha0.3.0.7z)
+[GridVenture 0.3 - .7z](http://www.mediafire.com/download/744baw4posktrwu/GridSim_v0.3.7z)
 
 [GridVenture 0.3 - .zip](http://www.mediafire.com/download/a6thag5j9bzg34i/GridSim_v0.3.zip)
 
