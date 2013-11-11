@@ -1,4 +1,4 @@
-##GridVenture
+#GridVenture
 *A sandbox adventure rpg*
 
 ###About
@@ -10,6 +10,8 @@ To play the game, simply download the release from mediafire here:
 [GridVenture 0.3 - .7z](http://www.mediafire.com/download/744baw4posktrwu/GridSim_v0.3.7z)
 
 [GridVenture 0.3 - .zip](http://www.mediafire.com/download/a6thag5j9bzg34i/GridSim_v0.3.zip)
+
+*Note: Release Version 0.3 was the latest release of the game before it was taken in a different direction. The game is currently goin in an adventure/rpg direction. When v0.3 was released, the game was a simulation type game. However, it was still pretty fun. So do try it out regardless.*
 
 Alternatively, navigate to the
 
@@ -29,7 +31,7 @@ directory. There are several version of the game in there that were not official
 
 
 
-##Developers
+###Developers
 *Ryan Jensen - Creator and Head Developer*
 - JensenR30@GMail.com
 
