@@ -1,17 +1,21 @@
-##GridSim Repo
-*A repo for JP and Jensen where we write programs collaboratively.*
+##GridVenture
+*A sandbox adventure rpg*
 
-In this repository, the .exe is NOT updated with the project. It is ignored for ease of committing and merging. If you want the lastest copy of NatureSim, ask either Jensen (me) or JP by sending one of us a good old fashioned email!
+###About
+This is a game like Terraria, but it will be much more story oriented. I want to make a complex event/quest system that will allow the user to take many different paths through the game.
 
-**conventions:**
+###Playing the Game
+If you want to play the latest release, go into the
+bin/Release History/
+directory. There you will find all of the release version of the game - including the latest one.
+*(Note: if a release folder does not contain a .zip and a .7z file, that means that release is currently being built)*
 
-added				+
+There are som "interesting" gems in the
+bin/debug
+directory. There are several version of the game in there that were not official releases, but I thought were noteworthy in some way and wanted to save the exe of that build.
 
-removed				-
 
-updated/revisedchanged		^  or ~
 
-fixed bug				%
 
 ##Contact
 *Jensen*
