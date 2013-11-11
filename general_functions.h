@@ -130,8 +130,8 @@ int load_files(){
     }
     
     //open font file
-    font = TTF_OpenFont( "FreeMonoBold.ttf", 22 );
-    font16 = TTF_OpenFont( "FreeMonoBold.ttf", 16);
+    font = TTF_OpenFont( "8bitoperator.ttf", 22 );
+    font16 = TTF_OpenFont( "8bitoperator.ttf", 16);
     
     if (font == NULL || font16 == NULL)
     {
