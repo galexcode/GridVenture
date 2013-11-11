@@ -5,7 +5,13 @@
 This is a game like Terraria, but it will be much more story oriented. I want to make a complex event/quest system that will allow the user to take many different paths through the game.
 
 ###Playing the Game
-If you want to play the latest release, go into the
+To play the game, simply download the release from mediafire here:
+
+[GridVenture 0.3 - .7z](http://www.mediafire.com/download/fi0tbzz4znv34mr/DF_Alpha0.3.0.7z)
+
+[GridVenture 0.3 - .zip](http://www.mediafire.com/download/a6thag5j9bzg34i/GridSim_v0.3.zip)
+
+Alternatively, navigate to the
 
 **bin/Release History/**
 
