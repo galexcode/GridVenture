@@ -23,10 +23,11 @@ struct Quest{
 	// each subquest is a smaller part of the main quest. they contain bits and pieces of the original goals.
 	// imagine your main quest is to grow some food...
 	SubQuests{
-		1	plant crops
-		2	water crops
-		3	harvest crops
+		Quest_x_1: plant crops
+		Quest_x_2: water crops
+		Quest_x_3: harvest crops
 		...
+		Quest_x_n: ...
 	}
 	
 	// goals are things that need to be satisfied in order to complete the quest.
@@ -47,3 +48,10 @@ struct Quest{
 	}
 	
 }
+
+
+
+there must be some large fuction that checks every quest requirements.
+it will evaluate the quests and see if the user has started a quest, finished it, or even if it is available.
+to make sure it is watertight, it would loop through checking each quest until there are no new updates.
+i.e. if you unlock the ability to do another quest, then you 
