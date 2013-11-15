@@ -13,20 +13,12 @@ To play the game, simply download the release from mediafire here:
 
 *Note: Release Version 0.3 was the latest release of the game before it was taken in a different direction. The game is currently goin in an adventure/rpg direction. When v0.3 was released, the game was a simulation type game. However, it was still pretty fun. So do try it out regardless.*
 
-Alternatively, navigate to the
-
-**bin/Release History/**
-
-directory. There you will find every release version of the game - including the latest one.
+Alternatively, navigate to the **bin/Release History/** directory. There you will find every release version of the game - including the latest one.
 *(Note: if a release folder does not contain a .zip and a .7z file, that means that release is currently being built)*
 
 
 
-There are some "interesting" gems in the
-
-**bin/debug**
-
-directory. There are several version of the game in there that were not official releases, but I thought were noteworthy in some way and wanted to save the exe of that build.
+There are some "interesting" gems in the **bin/Debug/** directory. There are several version of the game in there that were not official releases, but I thought were noteworthy in some way and wanted to save the exe of that build.
 
 ###Story
 [GoogleDoc](https://docs.google.com/document/d/1JKBvbpDwEkYBhVAvm2ZJd-BDJjaw3UVOXTx5iTxoJ2w/edit#heading=h.a2ybt58xq5v3)
