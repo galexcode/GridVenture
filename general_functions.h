@@ -120,12 +120,13 @@ int load_files(){
 	*/
 	
 	icon = SDL_LoadBMP("game icon.ico");
-	SDL_WM_SetIcon(icon, NULL); // sets the icon of the windows and taskbar item
+	if(icon != NULL)
+		SDL_WM_SetIcon(icon, NULL); // sets the icon of the windows and taskbar item
 	
 	//Initialize SDL_ttf
     if( TTF_Init() == -1 )
     {
-        MessageBox(NULL, "all your base are belong to us", "Hello Gentelmen", MB_OK);
+        MessageBox(NULL, "Error in initializing TTF (True Type Font) library", "TTF Error", MB_OK);
         return false;
     }
     
@@ -135,7 +136,7 @@ int load_files(){
     
     if (font == NULL || font16 == NULL)
     {
-        MessageBox(NULL, "all your base are belong to us", "Hello Gentelmen", MB_OK);
+        MessageBox(NULL, "Could not load 8bitoperator.ttf", "Error loading font", MB_OK);
     }
 	
 	//If everthing loaded fine
@@ -145,9 +146,6 @@ int load_files(){
 
 
 void clean_up(){
-	//free the image
-	//SDL_FreeSurface(image);
-	//SDL_FreeSurface(text);
 	SDL_FreeSurface(gridSurface);
 	SDL_FreeSurface(skySurface);
 	SDL_FreeSurface(screen);
