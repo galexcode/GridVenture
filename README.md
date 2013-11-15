@@ -1,4 +1,4 @@
-##GridVenture
+#GridVenture
 *A sandbox adventure rpg*
 
 ###About
@@ -7,9 +7,11 @@ This is a game like Terraria, but it will be much more story oriented. I want to
 ###Playing the Game
 To play the game, simply download the release from mediafire here:
 
-[GridVenture 0.3 - .7z](http://www.mediafire.com/download/fi0tbzz4znv34mr/DF_Alpha0.3.0.7z)
+[GridVenture 0.3 - .7z](http://www.mediafire.com/download/744baw4posktrwu/GridSim_v0.3.7z)
 
 [GridVenture 0.3 - .zip](http://www.mediafire.com/download/a6thag5j9bzg34i/GridSim_v0.3.zip)
+
+*Note: Release Version 0.3 was the latest release of the game before it was taken in a different direction. The game is currently goin in an adventure/rpg direction. When v0.3 was released, the game was a simulation type game. However, it was still pretty fun. So do try it out regardless.*
 
 Alternatively, navigate to the
 
@@ -32,7 +34,7 @@ directory. There are several version of the game in there that were not official
 The above document is public and anyone can comment on it. (Ctrl+Alt+M)
 
 
-##Developers
+###Developers
 *Ryan Jensen - Creator and Head Developer*
 - JensenR30@GMail.com
 
