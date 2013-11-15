@@ -1,0 +1,49 @@
+most quests will have subquests.
+
+the format of the quest system might look like this:
+
+struct Quest{
+
+	// prerequisites are quests that need to be completed before you have access to the current quest.
+	Prerequisites{
+		Quest1
+		Quest3
+		Quest16
+		Ques9
+		...
+	}
+	
+	// corequisites are quests that you need to have started. Coreq's might be unnecessary...
+	Corequisites{
+		Quest14
+		Quest3
+		...
+	}
+	
+	// each subquest is a smaller part of the main quest. they contain bits and pieces of the original goals.
+	// imagine your main quest is to grow some food...
+	SubQuests{
+		1	plant crops
+		2	water crops
+		3	harvest crops
+		...
+	}
+	
+	// goals are things that need to be satisfied in order to complete the quest.
+	// goals basically describe the quest.
+	Goals{
+		- reached certain level
+		- attained certain items
+		- visited certain places
+		- talked to certain people
+	}
+	
+	// these are meta information about the quest.
+	// these are mostly true/false flags.
+	Metadata{
+		- quest finished
+		- quest available
+		- quest started
+	}
+	
+}
