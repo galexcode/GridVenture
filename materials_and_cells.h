@@ -56,7 +56,7 @@ struct cellData grid[GRID_WIDTH_ELEMENTS][GRID_HEIGHT_ELEMENTS];
 
 #define m_earth			1
 #define m_fire			2
-#define m_rock			3
+#define m_stone			3
 #define m_rubble		4
 #define m_sand			5
 #define m_water			6
@@ -170,9 +170,9 @@ void init_materials(void){
 	mats[m_test2].color = 0xff00FFCC;
 	mats[m_test2].gravity = 2;
 //-------------------------------------------------------------------------------------------------------------------------------
-	mats[m_rock].name = "Rock";
-	mats[m_rock].color = 0xff5A5651;
-	mats[m_rock].collision = true;
+	mats[m_stone].name = "Rock";
+	mats[m_stone].color = 0xff5A5651;
+	mats[m_stone].collision = true;
 //-------------------------------------------------------------------------------------------------------------------------------
 	mats[m_rubble].name = "Rubble";
 	mats[m_rubble].color = 0xff715A63;

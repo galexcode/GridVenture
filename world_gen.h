@@ -73,26 +73,26 @@ void gen_world(int worldType, long long  unsigned int worldFlag){
 	int i,j;
 	/// all of these numbers are relative to the bottom cell in the grid (grid[i][GRID_WIDTH_ELEMENTS-1])
 	
-	// these just tell us the height band of where top of the rock layer can be generated
-	// rockline_max is exclusive, rockline_min is inclusive. the domain would be [rockling_min,rockline_max) for integer numbers.
-	int rockline_max=500, rockline_min=200;
-	// this is an array that tells us for myColumn, the highest point where there is rock = top_rock[myColumn]
-	int top_rock[GRID_WIDTH_ELEMENTS];
+	// these just tell us the height band of where top of the stone layer can be generated
+	// stoneline_max is exclusive, stoneline_min is inclusive. the domain would be [stoneling_min,stoneline_max) for integer numbers.
+	int stoneline_max=500, stoneline_min=200;
+	// this is an array that tells us for myColumn, the highest point where there is stone = top_stone[myColumn]
+	int top_stone[GRID_WIDTH_ELEMENTS];
 	// the larger the slope is,  the more steep and sharp the slopes can be.
 	// the smaller the slope is, the smoother and duller the landscape will be.
-	float rock_slope = 0.9;
+	float stone_slope = 0.9;
 	
-	//set default values to top_rock array (this is just so that the elements are not left un-initialized. they should all be overwritten
+	//set default values to top_stone array (this is just so that the elements are not left un-initialized. they should all be overwritten
 	for(i=0; i<GRID_WIDTH_ELEMENTS; i++){
-		top_rock[i] = 0; // default value. this will get overwritten.
+		top_stone[i] = 0; // default value. this will get overwritten.
 	}
 	
 	//get initial points at the left and right sides of the map
-	top_rock[0]						= get_rand(rockline_min, rockline_max-1);
-	top_rock[GRID_WIDTH_ELEMENTS-1]	= get_rand(rockline_min, rockline_max-1);
+	top_stone[0]						= get_rand(stoneline_min, stoneline_max-1);
+	top_stone[GRID_WIDTH_ELEMENTS-1]	= get_rand(stoneline_min, stoneline_max-1);
 	
-	// generate the top_rock array
-	gen_landscape(top_rock, 0, GRID_WIDTH_ELEMENTS-1, rockline_min, rockline_max, rock_slope, m_rock);
+	// generate the top_stone array
+	gen_landscape(top_stone, 0, GRID_WIDTH_ELEMENTS-1, stoneline_min, stoneline_max, stone_slope, m_stone);
 	
 	/// this only works (well or at all) with a screen width of 1080 pixels
 	if(worldFlag & wf_display_generation){
@@ -106,10 +106,10 @@ void gen_world(int worldType, long long  unsigned int worldFlag){
 		for(sections = 1; sections<=SCREEN_WIDTH/2; sections<<=1){
 			//blank screen
 			SDL_FillRect(screen, &screenRect, 0x000000);
-			//draw_line(screen, 0,GRID_HEIGHT_ELEMENTS-1-top_rock[0], GRID_WIDTH_ELEMENTS/sections, GRID_HEIGHT_ELEMENTS-1-top_rock[GRID_WIDTH_ELEMENTS/sections], 1, mats[m_rock].color);
+			//draw_line(screen, 0,GRID_HEIGHT_ELEMENTS-1-top_stone[0], GRID_WIDTH_ELEMENTS/sections, GRID_HEIGHT_ELEMENTS-1-top_stone[GRID_WIDTH_ELEMENTS/sections], 1, mats[m_stone].color);
 			for(i=0; i<sections; i++){
-				draw_line(screen, i*SCREEN_WIDTH/sections,  SCREEN_HEIGHT-1-top_rock[i*SCREEN_WIDTH/sections],  (i+1)*(SCREEN_WIDTH-1)/sections,  SCREEN_HEIGHT-1-top_rock[(i+1)*(SCREEN_WIDTH-1)/sections],  1, 0x0bf100);
-				draw_line(screen, i*SCREEN_WIDTH/sections,  SCREEN_HEIGHT-1-top_rock[i*SCREEN_WIDTH/sections]-4,  (i+1)*(SCREEN_WIDTH-1)/sections,  SCREEN_HEIGHT-1-top_rock[(i+1)*(SCREEN_WIDTH-1)/sections]-4,  1, 0x0bf100);
+				draw_line(screen, i*SCREEN_WIDTH/sections,  SCREEN_HEIGHT-1-top_stone[i*SCREEN_WIDTH/sections],  (i+1)*(SCREEN_WIDTH-1)/sections,  SCREEN_HEIGHT-1-top_stone[(i+1)*(SCREEN_WIDTH-1)/sections],  1, 0x0bf100);
+				draw_line(screen, i*SCREEN_WIDTH/sections,  SCREEN_HEIGHT-1-top_stone[i*SCREEN_WIDTH/sections]-4,  (i+1)*(SCREEN_WIDTH-1)/sections,  SCREEN_HEIGHT-1-top_stone[(i+1)*(SCREEN_WIDTH-1)/sections]-4,  1, 0x0bf100);
 			}
 			
 			// display the lines that were just printed
@@ -120,19 +120,19 @@ void gen_world(int worldType, long long  unsigned int worldFlag){
 	}
 	
 	
-	//fill up the rock area.
+	//fill up the stone area.
 	for(i=0; i<GRID_WIDTH_ELEMENTS; i++){
-		for(j=GRID_HEIGHT_ELEMENTS-top_rock[i]-1; j<GRID_HEIGHT_ELEMENTS; j++){
-			grid[i][j].mat = m_rock;
+		for(j=GRID_HEIGHT_ELEMENTS-top_stone[i]-1; j<GRID_HEIGHT_ELEMENTS; j++){
+			grid[i][j].mat = m_stone;
 		}
 	}
 	
 	//int top_earth[GRID_WIDTH_ELEMENTS]; // this keeps track of the top layer of earth.
 	
-	int earth_average_above_rock = 4; // average of 4 blocks of dirt above rock.
+	int earth_average_above_stone = 4; // average of 4 blocks of dirt above stone.
 	
 	for(i=0; i<GRID_WIDTH_ELEMENTS; i++){
-		for(j=GRID_HEIGHT_ELEMENTS-top_rock[i]-2; j>=GRID_HEIGHT_ELEMENTS-top_rock[i]-2-earth_average_above_rock; j--){
+		for(j=GRID_HEIGHT_ELEMENTS-top_stone[i]-2; j>=GRID_HEIGHT_ELEMENTS-top_stone[i]-2-earth_average_above_stone; j--){
 			grid[i][j].mat = m_earth;
 		}
 	}
