@@ -31,6 +31,11 @@ unsigned int SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
 unsigned int SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 
 
+#define NUMBER_OF_GUI_SIZES 4
+// this number indexes into the ITEM_SIZE array and the item_set[] array.
+unsigned short GUI_SIZE = 1;
+unsigned short ITEM_SIZE[NUMBER_OF_GUI_SIZES] = {0x20, 0x40, 0x80, 0x100}; // 13,32,48, and 64
+SDL_Surface *item_set[NUMBER_OF_GUI_SIZES] = 	{NULL,NULL,NULL,NULL};	// this is what holds all of the item sprites
 
 #define SCREEN_BPP 32
 
@@ -45,8 +50,6 @@ SDL_Surface *gridSurface =	NULL;	// this holds the printout of the world grid.
 SDL_Surface *skySurface =	NULL;	// this holds the gradient for the sky.
 SDL_Surface *text = 		NULL;	// this is a general purpose text surface.
 SDL_Surface *icon = 		NULL;	// this holds the icon for the game.
-SDL_Surface *item_parts_set=NULL;	// this is the surface that holds all of the item parts
-SDL_Surface *item_set = 	NULL;	// this is what gets the items printed to it.
 // The event structure that will be used
 SDL_Event event;
 
@@ -69,6 +72,7 @@ void setcell(int , int, int);
 void apply_surface( int x, int y,  SDL_Surface* source, SDL_Surface* destination );
 void apply_surface_clips( int x, int y,  SDL_Surface *source, SDL_Surface *destination, SDL_Rect *clip );
 Uint32 get_pixel(SDL_Surface *surface, int x, int y);
+void scale_surface(SDL_Surface *sour, SDL_Surface *dest, short scalingFactor);
 
 // include all of the other header files that have functions and variables that will be used throughout the program.
 //#include "world_gen.h"

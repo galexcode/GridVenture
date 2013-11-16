@@ -163,3 +163,6 @@ bool player_valid_position(struct playerData *datplayer, int x, int y){
 	return true; // if there are no collision type materials found inside the player, then return true!  :D
 }
 
+
+
+

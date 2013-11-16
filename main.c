@@ -18,6 +18,7 @@ int main( int argc, char* args[] )
     int mouseStatusRight = 0;					
 	int keyw=0,keya=0,keys=0,keyd=0;			// these keep track of the user's WASD keys
 	bool keyF3=true;							// this keeps track of the state of the F3 key
+	bool inventoryView=0;						// this keeps track of the inventory key's state (E)
 	
 	int ticksSinceLastFPSUpdate=0;				// time since last FPS update (ideally, goes from 0 to 1000 milliseconds and then resets)
 	int cumulativeFrames = 0;					// this counts how many Frames there have been since the last
@@ -32,6 +33,7 @@ int main( int argc, char* args[] )
     if( SDL_Flip( screen ) == -1 ) return 3;	// make sure the screen works
     init_cell_stuff();							// initialize the cells
     init_items();								// initialize items
+    init_different_item_set_sizes();			// initialize different sizes of item_set surfaces
     init_quests();								// initialize the quests
     
     //----------------------------------------------------
@@ -124,6 +126,7 @@ int main( int argc, char* args[] )
 				case SDLK_a:		keya=1; break;
 				case SDLK_s:		keys=1; break;
 				case SDLK_d:		keyd=1; break;
+				case SDLK_e:		inventoryView^=1;break;	// toggle inventory view
 				
 				default: break;
 				}
@@ -169,7 +172,6 @@ int main( int argc, char* args[] )
         /// GRID PRINTING STUFF
         /// --------------------------------------------------------------------
         
-        
         // apply initial black background to wipe the screen's slate clean.
 		SDL_FillRect( screen , &screenRect , 0x000000);
 		
@@ -191,9 +193,11 @@ int main( int argc, char* args[] )
         // print the character
         SDL_FillRect(screen, &playerRect, player.color);
         
+        if(inventoryView) inventory_display(&player.inv, screen);
         
         // print the debugging information to the screen.
         if(keyF3) print_debugging_information(x,y);
+        
         
         
         //updates the screen

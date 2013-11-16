@@ -1,18 +1,28 @@
 // these are different error types
 #define e_loadfile 1
 #define e_surface_creation 2
+#define e_scalingFactor 3
 
 /// this handles an error.
 void handle_error(int type, char *msg){
 	char fullMsg[256];
 	
-	if(type == e_loadfile){
+	switch(type){
+	case e_loadfile:
 		strcpy(fullMsg, "Error loading:   ");
 		strcat(fullMsg, msg);
 		MessageBox(NULL, fullMsg, "Error loading file", MB_ICONERROR);
+		break;
+	case e_surface_creation:
+		MessageBox(NULL, msg, "Error creating surface",MB_ICONERROR);
+		break;
+	case e_scalingFactor:
+		MessageBox(NULL, msg, "Error scaling surface", MB_ICONERROR);
+		break;
+	default:
+		MessageBox(NULL, msg, "General Error", MB_ICONWARNING);
+		break;
 	}
-	
-	
 }
 
 
@@ -150,9 +160,9 @@ int load_files(){
         MessageBox(NULL, "Could not load 8bitoperator.ttf", "Error loading font", MB_OK);
     }
 	
-	item_parts_set = load_image("resources\\images\\item_parts_set.png");
-	if(item_parts_set == NULL){
-		handle_error(e_loadfile, "resources\\images\\item_parts_set.png");
+	item_set[0] = load_image("resources\\images\\item_set.png");
+	if(item_set == NULL){
+		handle_error(e_loadfile, "resources\\images\\item_set.png");
 	}
 	
 	

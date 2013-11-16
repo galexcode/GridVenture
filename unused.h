@@ -235,3 +235,117 @@ void pan(int direction){
 	verify_camera();
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+///UNNECESSARY STUFF THAT I DON'T NEED
+
+
+///-----------------------------------------------------------------------------
+/// ITEM_PART COMBINATION
+///-----------------------------------------------------------------------------
+// this section will combine item parts from the item_parts_set SDl_Surface and it will piecemeal them together to form the correct images for all items.
+
+#define DEBUG_ITEM_SET_SURFACES 1
+
+#define ORIGINAL_ITEM_SET_SIZE	32	// pixels
+#define ITEM_SET_WIDTH 	32			// number of items wide the item_set is (maximum)
+#define ITEM_SET_HEIGHT 32			// number of items high the item_set is (maximum)
+#define ITEM_SET_WIDTH_PIXELS	(ORIGINAL_ITEM_SET_SIZE*ITEM_SET_WIDTH)		// this is t
+#define ITEM_SET_HEIGHT_PIXELS	(ORIGINAL_ITEM_SET_SIZE*ITEM_SET_HEIGHT)
+
+/// these are definitions of where items parts are located on the original item_parts_set that gets loaded in
+#define ip_none					0x0000
+
+#define ip_axe_head_igneous 	0x0100
+#define ip_axe_head_stone		0x0200
+#define ip_axe_handle_wood		0x0300
+
+#define ip_sword_blade_igneous	0x0400
+#define ip_sword_blade_wood		0x0401
+#define ip_sword_blade_stone	0x0500
+#define ip_sword_hilt_igneous	0x0600
+#define ip_sword_hilt_wood		0x0700
+
+/// proprietary use in only the below function
+//#define apply_item_part(sour, dest) itemClip.x = (sour/0x100)*ORIGINAL_ITEM_SET_SIZE; itemClip.y = (sour%0x100)*ORIGINAL_ITEM_SET_SIZE; apply_surface_clips((dest/0x100)*ORIGINAL_ITEM_SET_SIZE,(dest%0x100)*ORIGINAL_ITEM_SET_SIZE, item_parts_set, item_set, &itemClip);
+
+// 
+void apply_item_part(Uint16 sour, Uint16 dest){
+	
+}
+
+void generate_item_sets(){
+	
+	SDL_Rect itemClip;
+	itemClip.w = itemClip.h = ORIGINAL_ITEM_SET_SIZE; // set the width and height permanently
+	
+	item_set = create_surface(1024, 1024);
+	// set correct alpha properties
+	SDL_SetAlpha(item_set, 0, 0xff);
+	// set correct alpha properties
+	SDL_SetAlpha(item_parts_set, SDL_SRCALPHA, 0x0);
+	
+	
+	if(item_set==NULL){
+		handle_error(e_surface_creation, "item_set surface could not be fabricated. Quitting Game.");		// if there is an error, report it.
+		quit_game(quit_surface_error,NULL);
+	}
+	
+	
+	
+	
+	
+	
+	//generate wooden sword
+	apply_item_part(ip_sword_hilt_wood,  items[i_sword_wood_wood].imagePos);
+	apply_item_part(ip_sword_blade_wood, items[i_sword_wood_wood].imagePos);
+	
+	//generate wooden-stone sword
+	apply_item_part(ip_sword_hilt_wood,   items[i_sword_wood_stone].imagePos);
+	apply_item_part(ip_sword_blade_stone, items[i_sword_wood_stone].imagePos);
+	
+	//generate igneous-stone sword
+	apply_item_part(ip_sword_hilt_igneous, items[i_sword_igneous_stone].imagePos);
+	apply_item_part(ip_sword_blade_stone,  items[i_sword_igneous_stone].imagePos);
+	
+	//generate igneous-igneous sword
+	apply_item_part(ip_sword_hilt_igneous,  items[i_sword_igneous_igneous].imagePos);
+	apply_item_part(ip_sword_blade_igneous, items[i_sword_igneous_igneous].imagePos);
+	
+	#if(DEBUG_ITEM_SET_SURFACES)
+	int i,j;
+	for(j=0; j<32; j++){
+		for(i=32; i<128; i++){
+			printf("%8x  ",get_pixel(item_parts_set,i,j));
+		}
+		printf("\n");
+	}
+	printf("\n\n\n\n\n\n");
+	
+	for(j=0; j<32; j++){
+		for(i=32; i<128+32; i++){
+			printf("%8x  ",get_pixel(item_set,i,j));
+		}
+		printf("\n");
+	}
+	#endif
+	
+	
+	SDL_Rect screenRect;
+	screenRect.x = screenRect.y = 0;
+	screenRect.h = SCREEN_HEIGHT;
+	screenRect.w = SCREEN_WIDTH;
+	//SDL_FillRect( screen , &screenRect , 0xffffffff);
+	
+	itemClip.x = 32; itemClip.w = 128;
+	itemClip.y =  0; itemClip.h =  32;
+	apply_surface_clips(32,0,item_parts_set,screen, &screenRect);	// apply the item_set surface to the screen for debugging
+	SDL_Flip(screen);
+	SDL_Delay(2000);
+}
+
+
+
+
+
+
+

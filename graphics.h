@@ -36,6 +36,12 @@ void set_pixel(SDL_Surface *surf, int x, int y, Uint32 pixel){
 	*p = pixel;
 }
 
+void apply_surface_alpha_blend(int x, int y, SDL_Surface *source, SDL_Surface *dest){
+	
+	// nothing yet
+	
+}
+
 
 void apply_surface( int x, int y,  SDL_Surface* source, SDL_Surface* destination ){
     //make a temporary rectangle to hold offsets
@@ -79,8 +85,31 @@ void apply_surface_clips( int x, int y,  SDL_Surface *source, SDL_Surface *desti
     SDL_BlitSurface( source, clip, destination, &offset );
 }
 
-
-
+void scale_surface(SDL_Surface *sour, SDL_Surface *dest, short scalingFactor){
+	
+	if(scalingFactor < 1){
+		handle_error(e_scalingFactor, "Could not scale image. scalingFactor is invalid.");
+		return;
+	}
+	
+	int i,j;	// i and j indexes into the original surface
+	int it,jt; // i transform and j transform indexes
+	Uint32 pixel;
+	
+	for(i=0; i<sour->w; i++){
+		for(j=0; j<sour->h; j++){
+			pixel = get_pixel(sour, i, j);
+			
+			for(it = 0; it<scalingFactor; it++){
+				if(it+i*scalingFactor >= dest->w) return; // quit if you are out of bounds
+				for(jt=0; jt<scalingFactor; jt++){
+					if(jt+j*scalingFactor >= dest->h) break; // move to the next column if you are out of bounds
+					set_pixel(dest, i*scalingFactor + it, j*scalingFactor + jt, pixel);
+				}
+			}
+		}
+	}
+}
 
 
 
@@ -449,8 +478,42 @@ void draw_line(SDL_Surface *theSurface, int x1, int y1, int x2, int y2, int thic
 			SDL_FillRect(theSurface, &myPixel, lineColor);
 		}
 	}
+}
+
+
+
+#define INVENTORY_COLOR 0xff33354e
+
+void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
+	
+	SDL_Rect guirect;								// this is the rectangle that the items are printed into
+	guirect.w = ITEM_SIZE[GUI_SIZE]*inv->width;		// calculate the gui's width  in pixels
+	guirect.h = ITEM_SIZE[GUI_SIZE]*inv->height;	// calculate the gui's height in pixels
+	guirect.x = SCREEN_WIDTH/2  - guirect.w/2;		// calculate the x position in pixels
+	guirect.y = SCREEN_HEIGHT/2 - guirect.h/2;		// calculate the y position in pixels
+	SDL_FillRect(dest, &guirect, INVENTORY_COLOR);	// fill the gui rect.
+	
+	int i,j; 										// used for indexing 
+	SDL_Rect itemclip;								// this is used for selecting the item from the item_set
+	itemclip.w = itemclip.h = ITEM_SIZE[GUI_SIZE];	// est the width and height of the item clip
+	
+	// loop through all the user's items and print them all in the inventory.
+	for(i=0; i<inv->width; i++){
+		for(j=0; j<inv->height; j++){
+			if(inv->slot[i*inv->height+j].item == i_none) continue; 	// don't print empty item slots
+			itemclip.x = items[inv->slot[i*inv->height+j].item].imagePos/0x100;	// calculate the x clip value for clipping out the item from the item set
+			itemclip.y = items[inv->slot[i*inv->height+j].item].imagePos%0x100; // calculate the y ^...
+			// apply the user's item at slot (i,j)
+			apply_surface_clips(i*ITEM_SIZE[GUI_SIZE]+guirect.x, j*ITEM_SIZE[GUI_SIZE]+guirect.y, item_set[GUI_SIZE], dest, &itemclip);
+		}
+	}
 	
 }
+
+
+
+
+
 
 
 
