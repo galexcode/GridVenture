@@ -54,7 +54,7 @@ struct itemData{
 	char *name;	// the name of the item
 	char *desc;	// the description of the item
 	
-	//this tells us where this item's image is on the item_set sprite sheet.
+	//this tells us where this item's image is on the item_parts_set sprite sheet.
 	// this is a hexadecimal address for indexing.
 	// 0x0000 corresponds to the "no item" image.
 	// 0x070f means that it is in column 7 row 15.
@@ -123,24 +123,24 @@ void init_items(){
 	
 	//slightly modify the better swords
 	items[i_sword_wood_stone].name = "Wooden-Stone Sword";
-	items[i_sword_wood_stone].desc = "A sword made from a wooden grip and a stone blade. It is sharper than a completely wooden blade. And quite a bit more durable too.";
+	items[i_sword_wood_stone].desc = "A sword made from a wooden hilt and a stone blade. It is sharper than a completely wooden blade. And quite a bit more durable too.";
 	items[i_sword_wood_stone].attack = 6;
 	items[i_sword_wood_stone].durability = (dur_stone+dur_wood)/2;
 	items[i_sword_wood_stone].imagePos = 0x0200;
 	
 	items[i_sword_igneous_stone].name = "Igneous-Stone Sword";
-	items[i_sword_igneous_stone].desc = "A sword made from a igneous grip and a stone blade. The igneous adds a higher level of durability.";
+	items[i_sword_igneous_stone].desc = "A sword made from a igneous hilt and a stone blade. The igneous adds a higher level of durability.";
 	items[i_sword_igneous_stone].attack = 6;
 	items[i_sword_igneous_stone].cooldown = 450;
 	items[i_sword_igneous_stone].durability = (dur_stone+dur_igneous)/2;
 	items[i_sword_igneous_stone].imagePos = 0x0300;
 	
-	items[i_sword_igneous_stone].name = "Igneous Sword";
-	items[i_sword_igneous_stone].desc = "A sword made completely from igneous rock. The weapon is sharper than anything made of stone. The weapon can also be used quicker than anything made of stone.";
-	items[i_sword_igneous_stone].attack = 8;
-	items[i_sword_igneous_stone].cooldown = 333;
-	items[i_sword_igneous_stone].durability = dur_igneous;
-	items[i_sword_igneous_stone].imagePos = 0x0400;
+	items[i_sword_igneous_igneous].name = "Igneous Sword";
+	items[i_sword_igneous_igneous].desc = "A sword made completely from igneous rock. The weapon is sharper than anything made of stone. The weapon can also be used quicker than anything made of stone.";
+	items[i_sword_igneous_igneous].attack = 8;
+	items[i_sword_igneous_igneous].cooldown = 333;
+	items[i_sword_igneous_igneous].durability = dur_igneous;
+	items[i_sword_igneous_igneous].imagePos = 0x0400;
 	
 	//--------------------------------------------------------------------------
 	// HAMMER
@@ -154,23 +154,114 @@ void init_items(){
 	items[i_hammer].itemType = it_weapon;
 	items[i_hammer].imagePos = 0x0500;
 	
-	generate_item_sets();
+	generate_item_sets();	//generate the item images on the item_set surface using item_parts_set 
 }
 
+///-----------------------------------------------------------------------------
+/// ITEM_PART COMBINATION
+///-----------------------------------------------------------------------------
+// this section will combine item parts from the item_parts_set SDl_Surface and it will piecemeal them together to form the correct images for all items.
 
+#define DEBUG_ITEM_SET_SURFACES 1
+
+#define ORIGINAL_ITEM_SET_SIZE	32	// pixels
+#define ITEM_SET_WIDTH 	32			// number of items wide the item_set is (maximum)
+#define ITEM_SET_HEIGHT 32			// number of items high the item_set is (maximum)
+#define ITEM_SET_WIDTH_PIXELS	(ORIGINAL_ITEM_SET_SIZE*ITEM_SET_WIDTH)		// this is t
+#define ITEM_SET_HEIGHT_PIXELS	(ORIGINAL_ITEM_SET_SIZE*ITEM_SET_HEIGHT)
+
+/// these are definitions of where items parts are located on the original item_parts_set that gets loaded in
+#define ip_none					0x0000
+
+#define ip_axe_head_igneous 	0x0100
+#define ip_axe_head_stone		0x0200
+#define ip_axe_handle_wood		0x0300
+
+#define ip_sword_blade_igneous	0x0400
+#define ip_sword_blade_wood		0x0401
+#define ip_sword_blade_stone	0x0500
+#define ip_sword_hilt_igneous	0x0600
+#define ip_sword_hilt_wood		0x0700
+
+/// proprietary use in only the below function
+#define apply_item_part(sour, dest) itemClip.x = (sour/0x100)*ORIGINAL_ITEM_SET_SIZE; itemClip.y = (sour%0x100)*ORIGINAL_ITEM_SET_SIZE; apply_surface_clips((dest/0x100)*ORIGINAL_ITEM_SET_SIZE,(dest%0x100)*ORIGINAL_ITEM_SET_SIZE, item_parts_set, item_set, &itemClip);
 
 void generate_item_sets(){
-	// this will hold the item_set temporarily.
-	SDL_Surface *item_set_temp = create_surface(item_set->w, item_set->h);
 	
-	// copy the item_set to item_set_temp
-	apply_surface(0,0,item_set, item_set_temp);
+	SDL_Rect itemClip;
+	itemClip.w = itemClip.h = ORIGINAL_ITEM_SET_SIZE; // set the width and height permanently
+	
+	item_set = create_surface(1024, 1024);
+	// set correct alpha properties
+	SDL_SetAlpha(item_set, 0, 0xff);
+	// set correct alpha properties
+	SDL_SetAlpha(item_parts_set, SDL_SRCALPHA, 0xff);
+	
+	
+	if(item_set==NULL){
+		handle_error(e_surface_creation, "item_set surface could not be fabricated. Quitting Game.");		// if there is an error, report it.
+		quit_game(quit_surface_error,NULL);
+	}
 	
 	
 	
 	
 	
+	
+	//generate wooden sword
+	apply_item_part(ip_sword_hilt_wood,  items[i_sword_wood_wood].imagePos);
+	apply_item_part(ip_sword_blade_wood, items[i_sword_wood_wood].imagePos);
+	
+	//generate wooden-stone sword
+	apply_item_part(ip_sword_hilt_wood,   items[i_sword_wood_stone].imagePos);
+	apply_item_part(ip_sword_blade_stone, items[i_sword_wood_stone].imagePos);
+	
+	//generate igneous-stone sword
+	apply_item_part(ip_sword_hilt_igneous, items[i_sword_igneous_stone].imagePos);
+	apply_item_part(ip_sword_blade_stone,  items[i_sword_igneous_stone].imagePos);
+	
+	//generate igneous-igneous sword
+	apply_item_part(ip_sword_hilt_igneous,  items[i_sword_igneous_igneous].imagePos);
+	apply_item_part(ip_sword_blade_igneous, items[i_sword_igneous_igneous].imagePos);
+	
+	#if(DEBUG_ITEM_SET_SURFACES)
+	int i,j;
+	for(j=0; j<32; j++){
+		for(i=32; i<128; i++){
+			printf("%8x  ",get_pixel(item_parts_set,i,j));
+		}
+		printf("\n");
+	}
+	printf("\n\n\n\n\n\n");
+	
+	for(j=0; j<32; j++){
+		for(i=32; i<128; i++){
+			printf("%8x  ",get_pixel(item_set,i,j));
+		}
+		printf("\n");
+	}
+	#endif
+	
+	
+	SDL_Rect screenRect;
+	screenRect.x = screenRect.y = 0;
+	screenRect.h = SCREEN_HEIGHT;
+	screenRect.w = SCREEN_WIDTH;
+	SDL_FillRect( screen , &screenRect , 0xffffffff);
+	
+	itemClip.x = 32; itemClip.w = 128;
+	itemClip.y =  0; itemClip.h =  32;
+	apply_surface_clips(32,0,item_set,screen, &itemClip);	// apply the item_set surface to the screen for debugging
+	SDL_Flip(screen);
+	SDL_Delay(2000);
 }
+
+
+
+
+
+
+
 
 
 

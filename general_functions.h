@@ -1,5 +1,6 @@
 // these are different error types
 #define e_loadfile 1
+#define e_surface_creation 2
 
 /// this handles an error.
 void handle_error(int type, char *msg){
@@ -46,7 +47,7 @@ void quit_game(Uint32 quitFlag, char *errmsg){
  
  
  
-SDL_Surface *load_image( char* filename ){
+SDL_Surface *load_image(char* filename){
     //Temporary storage for the image that is loaded
     SDL_Surface* loadedImage = NULL;
     
@@ -61,9 +62,10 @@ SDL_Surface *load_image( char* filename ){
     if( loadedImage != NULL ){
         // Create an optimized image
         optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
-        
+        // set correct alpha properties
+        //SDL_SetAlpha(optimizedImage, 0, 0xff);
         //Free the old image
-        SDL_FreeSurface( loadedImage );
+        SDL_FreeSurface(loadedImage);
     }
     // if the image was not loaded correctly
     else{
@@ -73,6 +75,7 @@ SDL_Surface *load_image( char* filename ){
     //Return the optimized image
     return optimizedImage;
 }
+
 
 //this returns a pointer to an SDL_Surface
 SDL_Surface *create_surface(int width, int height){
@@ -147,9 +150,9 @@ int load_files(){
         MessageBox(NULL, "Could not load 8bitoperator.ttf", "Error loading font", MB_OK);
     }
 	
-	item_set = load_image("resources\\images\\item_set.png");
-	if(item_set == NULL){
-		handle_error(e_loadfile, "resources\\images\\itemset.png");
+	item_parts_set = load_image("resources\\images\\item_parts_set.png");
+	if(item_parts_set == NULL){
+		handle_error(e_loadfile, "resources\\images\\item_parts_set.png");
 	}
 	
 	

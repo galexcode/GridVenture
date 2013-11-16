@@ -1,6 +1,6 @@
 
 /// this returns the pixel data of a pixel at a certain point on a surface (color and alpha in an Uint32)
-Uint32 getpixel(SDL_Surface *surface, int x, int y)
+Uint32 get_pixel(SDL_Surface *surface, int x, int y)
 {
     int bpp = surface->format->BytesPerPixel;
     /* Here p is the address to the pixel we want to retrieve */
