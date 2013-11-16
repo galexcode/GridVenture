@@ -1,11 +1,6 @@
-make an adventure where you have to consult with a storm god.
-maybe you change the rain dynamics by talking to him?
-make him angry and it rains?
-I dunno.
-He would be more like a demigod than a god.
-he would have phisical form and be mostly in contorl of the rain.
-
-Maybe there are multiple demigods in the game. and you have to go on a quest for each one of them to unlock the weather that each one provides.
+work on scaling up and down the item_set. It would be nice to be able to do that in the program on boot.
+so the sprites are all generated and rendered for every cell size available on program boot.
+you can make a collection of SDL surface pointers that will store the different sized item_set and material_set images.
 
 ------------------------------------------------------------------------------------------------------
 
@@ -30,6 +25,7 @@ and make a block with a gradient.
 There are going to be a lot of complex textures if I implement this.
 It would be smart to generate all of the textures (at boot) on a surface (a sprite sheet) and then simply blit the pre-rendered images (with clips) to the screen when updating the screen.
 so that instead of rendering the material each time, you can simply copy and paste what you have already rendered at program startup.
+and maybe have some materials that will have textures.
 
 ------------------------------------------------------------------------------------------------------
 
