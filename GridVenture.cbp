@@ -51,12 +51,15 @@
 		<Unit filename="icon.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="items.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="map_editor.h" />
 		<Unit filename="materials_and_cells.h" />
 		<Unit filename="player.h" />
+		<Unit filename="player_movement.h" />
+		<Unit filename="quests.h" />
 		<Unit filename="unused.h" />
 		<Unit filename="world_gen.h" />
 		<Extensions>

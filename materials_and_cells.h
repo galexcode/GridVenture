@@ -48,25 +48,25 @@ struct cellData grid[GRID_WIDTH_ELEMENTS][GRID_HEIGHT_ELEMENTS];
 //negative values are not actual materials, but rather flags for conditions used in evaluating the grid.
 //for instance, you can use mats[5] to get gunpowder data, or you can use mats[m_gunpowder] to get gunpowder data.
 //this is just for ease of code writing.
-#define m_any_of_my_sats	-4	// this is used when checking affectMat[].satNeeded to see if a material has ANY of its valid saturations. if it does have any, then evaluate_affectMaterial() will allow the affect to occur.
 #define m_dont_care			-3  // this is used to show that we don't care what the material is.
-#define m_no_saturation 	-2  // this is used to signify that a material in a cell has no saturation
 #define m_no_change 		-1	// this material is more of a flag. It is used by the cell_engine in checking the changes to the cells in the grid.
 #define m_air			0
 
 /// materials you will see
 
 #define m_earth			1
-
+#define m_fire			2
 #define m_rock			3
 #define m_rubble		4
 #define m_sand			5
 #define m_water			6
 #define m_plant			7
 
-#define m_fire			9
+
 #define m_log			10
 #define m_leaves		11
+
+
 
 #define m_test			23
 #define m_test2			24
@@ -123,7 +123,7 @@ struct material {
 
 
 
-///this sets the default properties for all matss to default (air, basically)
+///this sets the default properties for all mats to default (air, basically)
 ///after this is done, the "init_material_attributes" specifies everything that needs to be specified.
 ///this is just here to be a catch all that assigns a value to everything.
 ///so basically, if you don't specify a material's behavior, it will basically be air.
@@ -135,17 +135,17 @@ void set_default_material_attributes(){
 	for(i=0 ; i<MAX_NUMBER_OF_UNIQUE_MATERIALS ; i++){
         mats[i].name = NULL;			// default no name
 		mats[i].gravity = 0;			// is not affected by gravity
-		mats[i].color = 0x000000;		//default color is black
+		mats[i].color = 0x00000000;		//default color is black and transparent
 		mats[i].collision = false;		// default is a non-collision type material
 	}
 }
 
-void init_material_attributes(void){
+void init_materials(void){
 	
 	// I don't need to specify anything for air because air doesn't do anything.
 	// all of the elements of the mats[m_air] structure are initialized in the set_default_material_attributes() function.
 	mats[m_air].name = "Air";
-	///DON'T YOU DARE CHANGE ANYTHING ABOUT AIR! you SACK of SHIT!
+	///DON'T YOU DARE CHANGE ANYTHING ABOUT AIR!
 //-------------------------------------------------------------------------------------------------------------------------------
 	mats[m_earth].name = "Earth";
 	mats[m_earth].color = 0xff8b672d;
@@ -157,10 +157,10 @@ void init_material_attributes(void){
 //-------------------------------------------------------------------------------------------------------------------------------
 	mats[m_water].name = "Water";
 	mats[m_water].gravity = -32;
-    mats[m_water].color = 0xff52a9e0;
+    mats[m_water].color = 0xbf52a9e0;
 //-------------------------------------------------------------------------------------------------------------------------------
 	mats[m_fire].name = "Fire";
-    mats[m_fire].color = 0xffd83313;
+    mats[m_fire].color = 0x9fd83313;
 //-------------------------------------------------------------------------------------------------------------------------------
 	mats[m_test].name = "test";
 	mats[m_test].color = 0xffCCFF00;
@@ -193,7 +193,7 @@ void init_material_attributes(void){
 	
 //-------------------------------------------------------------------------------------------------------------------------------
 	
-} // end init_material_attributes
+} // end init_materials
 
 
 
@@ -213,7 +213,7 @@ void reset_cells(void){
 ///It initializes everything that needs to be done to get the cell stuff working.
 void init_cell_stuff(void){
 	set_default_material_attributes();
-	init_material_attributes();
+	init_materials();
 	reset_cells();
 }
 

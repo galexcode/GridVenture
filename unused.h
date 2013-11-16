@@ -43,8 +43,8 @@
 		
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	/// OLD GRAVITY
-	/*
+	/// OLD original GRAVITY
+	
 	/// 1. GRAVITY - this is where the gravity gets CHECKED and APPLIED.
 	for(j=GRID_HEIGHT-1 ; j>=0 ; j--){
 		for(i=0 ; i<GRID_WIDTH ; i++){
@@ -85,13 +85,13 @@
 			} // if gravity
 		} // for columns
 	} // for rows
-	*/
+	
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /// FIRST ATTEMPT AT TUNNELING MATERIALS
 
-/* OLD GRADED GRAVITY
+ OLD GRADED GRAVITY
 					// the minimum slope that the material can fall down is a 1/1 or less steep
 					else{
 						for(ig=1; (-ig>=currentGrav); ig++){
@@ -212,7 +212,7 @@
 						} // for (check for tunneling)
 					} // if tunneling if possible
 				} // if all else fails, try to tunnel
-				*/
+				
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 

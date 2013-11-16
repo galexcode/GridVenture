@@ -191,19 +191,6 @@ int main( int argc, char* args[] )
 		
     	} // end while(event)
 		//no more events to handle at the moment.
-		/*
-		//this handles time-controlled panning
-		if(SDL_GetTicks() - MIN_PAN_INTERVAL > lastPanTime){
-			if(keyw) pan(D_UP);
-			if(keya) pan(D_LEFT);
-			if(keys) pan(D_DOWN);
-			if(keyd) pan(D_RIGHT);
-			lastPanTime = SDL_GetTicks();
-			//#if (DEBUG_GRIDSIM)
-			//	printf("\nlastPanTime = %d\n", lastPanTime);
-			//#endif
-		}
-		*/
 		
 		
 		//evaluate the player's movements.
@@ -219,7 +206,7 @@ int main( int argc, char* args[] )
 		if(within_grid_elements(xcell,ycell)){
 			//checks if the mouse is held or not
 			if(mouseStatusRight == 1 && mouseModifier == 0){
-				grid[xcell][ycell].mat = m_earth;
+				grid[xcell][ycell].mat = rand()%8;
 			}
 			if(mouseStatusLeft == 1 && mouseModifier == 0){
 				grid[xcell][ycell].mat = m_air;

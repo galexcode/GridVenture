@@ -1,4 +1,44 @@
 
+///-----------------------------------------------------------------------------
+///------------ ALL PLAYER RELATED STRUCTURES DEFINED HERE ---------------------
+///-----------------------------------------------------------------------------
+
+
+/// this is a single slot of an inventory. this would be a user inventory or possibly a chest inventory.
+struct inventorySlot{
+	
+	// this is the number that indexes into the items[] array.
+	int item;
+	
+	// this is the number of uses left the item has.
+	// breaks at 0 NOT after 0.
+	int uses;
+	
+	// this is how many of this item are in this stack.
+	Uint32 quantity;
+};
+
+
+
+// these describe the inventory maximum sizes.
+#define MAX_INVENTORY_WIDTH		32
+#define MAX_INVENTORY_HEIGHT	16
+#define MAX_INVENTORY_LENGTH (MAX_INVENTORY_WIDTH*MAX_INVENTORY_HEIGHT)
+#define DEFAULT_PLAYER_INVENTORY_WIDTH	8
+#define DEFAULT_PLAYER_INVENTORY_HEIGHT	4
+
+/// this is a general purpose inventory it is a collection of inventory slots.
+// this is used for the player as well as storage chests.
+struct inventoryData{
+	unsigned char width;
+	unsigned char height;
+	struct inventorySlot slot[MAX_INVENTORY_LENGTH];
+};
+
+
+
+
+
 #define DEFAULT_PLAYER_WIDTH	1.0f
 #define DEFAULT_PLAYER_HEIGHT	3.0f
 
@@ -6,6 +46,9 @@
 #define GRAVITY_ACCEL 0.00018f
 // the fastest you can ever travel in cells/millsecond (positive by SDL coordinate convention)
 #define TERMINAL_VELOCITY 0.33f
+
+#define DEFAULT_PLAYER_WALK_SPEED 0.045f
+#define DEFAULT_PLAYER_JUMP_VELOCITY -0.110f
 
 
 struct playerData{
@@ -35,33 +78,78 @@ struct playerData{
 	
 	// this keeps track of whether or not the player is on a collision material
 	bool onCollMat;
+	
+	// this value is how much time the player has played in the sessions before the current sessions (in seconds)
+	// when the player boots up a game, this data is loaded.
+	// this data type will roll over after about 139.5 years. (nothing for anyone alive today to be concerned about)
+	// needless to say, this value will be set to 0 by default when a new player is created.
+	Uint32 playTime;
+	
+	//this is the player's unventory
+	struct inventoryData inv;
+	
 };
 
 // this is the player.
 struct playerData player;
 
 
+///-----------------------------------------------------------------------------
+///------------ ALL PLAYER RELATED STRUCTURE FUNCTIONS DEFINED HERE ------------
+///-----------------------------------------------------------------------------
+
+
+/// this erases an inventory slot
+void inventory_slot_erase(struct inventorySlot *datslot){
+	datslot->item = i_none;
+	datslot->quantity = 0;
+	datslot->uses = 0;
+}
+
+
+void inventory_erase(struct inventoryData *datinv){
+	int i;
+	// loop through every inventory item and erase it.
+	for(i=0; i<MAX_INVENTORY_LENGTH; i++){
+			inventory_slot_erase(&datinv->slot[i]);
+	}
+}
+
+
+
 // this sets up a blank character
 void init_player_attributes(struct playerData *datplayer){
 	
-	// set all position, velocity, and acceleration values to 0's.
-	datplayer->x_pos = datplayer->x_vel = datplayer->x_accel = datplayer->y_pos = datplayer->y_vel = datplayer->y_accel = 0;
 	
-	// set default player dimensions.
-	datplayer->width  = DEFAULT_PLAYER_WIDTH;
+	datplayer->x_pos =			// set all x position...
+	datplayer->x_vel =			// ...velocity...
+	datplayer->x_accel =		// ...and acceleration to 0.
+	datplayer->y_pos =			// set all y position...
+	datplayer->y_vel =			// ...velocity...
+	datplayer->y_accel = 0;		// ...and acceleration to 0.
+	
+	datplayer->width  = DEFAULT_PLAYER_WIDTH;					// set default player dimensions.
 	datplayer->height = DEFAULT_PLAYER_HEIGHT;
 	
-	//set default jump velocity. this is negative (following the SDL coordinate convention)
-	datplayer->jumpVelocity = -0.110;
+	datplayer->jumpVelocity = DEFAULT_PLAYER_JUMP_VELOCITY;		// this is the speed at which the player jumps up from the ground.
+																// it is negative by SDL coordinate system convention.
 	
-	// set default walking speed. this is used for walking left and right. so just enter a positive value. evaluate_player_movement() will do the rest.
-	datplayer->walkSpeed = 0.045;
+	datplayer->walkSpeed = DEFAULT_PLAYER_WALK_SPEED;			// set default walking speed. this is used for walking left and right.
+																// so just enter a positive value. evaluate_player_movement() will do the rest.
 	
-	// set default state of standing on a collision materia
-	datplayer->onCollMat = false;
+	datplayer->onCollMat = false;								// the player is, by default, not on a material. this gets evaluated almost immidiately.
 	
-	datplayer->color = 0x987a5c;
+	datplayer->color = 0x987a5c;								// base color of the player
+	
+	datplayer->playTime = 0;									// default time the user has played the game in previous sessions.
+	
+	inventory_erase(&datplayer->inv);							// erase new player's inventory
+	datplayer->inv.width =  DEFAULT_PLAYER_INVENTORY_WIDTH;		// set default dimensions for width
+	datplayer->inv.height = DEFAULT_PLAYER_INVENTORY_HEIGHT;	// and height
 }
+
+
+
 
 /// tests to see if the position is valid for the player to be
 bool player_valid_position(struct playerData *datplayer, int x, int y){
@@ -75,72 +163,3 @@ bool player_valid_position(struct playerData *datplayer, int x, int y){
 	return true; // if there are no collision type materials found inside the player, then return true!  :D
 }
 
-
-#define MILLISECONDS_PER_CELL 20
-/// evaluate the physics of the player's motion.
-void evaluate_player_movement(struct playerData *datplayer, int keyup, int keyleft, int keydown, int keyright){
-	//----------------------------------------------------
-	// time stuff
-	//----------------------------------------------------
-	static int ticksSinceMotion = 0;			// the number of milliseconds since the player last moved
-	static int previousTicks = 0;				// the previous cycle's ticks (milliseconds since SDL library initialized) default to 0
-	int currentTicks = SDL_GetTicks();			// the current cycle's ticks (milliseconds since SDL library initialized)
-	int millis = currentTicks - previousTicks;	// the difference in ticks (the time that has passed since the last cycle in milliseconds)
-	if(millis <= 0) return; 					// don't check player movement when time stops or runs backwards.
-	previousTicks = currentTicks;				// store current ticks in the previous ticks variable. it will be used next time.
-	ticksSinceMotion += millis;					// add to the cumulative number of milliseconds that have passed since last movement
-	//----------------------------------------------------
-	// standing on collision material checking
-	//----------------------------------------------------
-	// check to see if the player is standing on a collision type material
-	if(mats[grid[datplayer->x_pos][datplayer->y_pos].mat].collision){
-		datplayer->onCollMat = true;			// set the player's "standing on collision material" flag to true
-		datplayer->y_accel = 0;					// set accelteration to 0. (as of 2013-11-10 this doesn't do anything)
-	}
-	else{
-		datplayer->onCollMat = false;			// set the player's "standing on collision material" flag to false
-		datplayer->y_accel = GRAVITY_ACCEL;		// set the player's y acceleration to acceleration due to gravity
-	}
-	
-	///---------------------------------------------------
-	/// this section of the code is only temporary.
-	/// The movement of the character is still under development.
-	/// this was put here so that I don't have to focus on development of the player's motion right now.
-	///---------------------------------------------------
-	// these are used to see where the user is trying to get to.
-	int moveHoriz=0, moveVert=0;
-	//check to see if it is time to move
-	while(ticksSinceMotion >= MILLISECONDS_PER_CELL){
-		// decrement ticksSinceMotion because we are about to move.
-		ticksSinceMotion -= MILLISECONDS_PER_CELL;
-		if(keyright){
-			moveHoriz += 1;	// move right
-		}
-		if(keyleft){
-			moveHoriz -= 1;	// move left
-		}
-		if(keyup){
-			moveVert  -= 1;	// move up
-		}
-		if(keydown){
-			moveVert  += 1;	// move down
-		}
-		//try to move (only if the destination is valid)
-		if( player_valid_position(datplayer, datplayer->x_pos+moveHoriz, datplayer->y_pos+moveVert) ){
-			datplayer->x_pos += moveHoriz;	// apply motion
-			datplayer->y_pos += moveVert;	// apply motion
-		}
-	}
-	//----------------------------------------------------
-	// position boundaries checking and enforcement
-	//----------------------------------------------------
-	//check to see if the outside the bounds of the game screen.
-	if(datplayer->x_pos < 0)
-		datplayer->x_pos = 0;						// lower bound enforcement on x
-	if(datplayer->x_pos >= GRID_WIDTH_ELEMENTS)
-		datplayer->x_pos = GRID_WIDTH_ELEMENTS-1;	// upper bound enforcement on x
-	if(datplayer->y_pos < 0)
-		datplayer->y_pos = 0;						// lower bound enforcement on y
-	if(datplayer->y_pos >= GRID_HEIGHT_ELEMENTS)
-		datplayer->y_pos = GRID_HEIGHT_ELEMENTS-1;	// upper bound enforcement on y
-}
