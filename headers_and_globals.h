@@ -45,6 +45,7 @@ SDL_Surface *gridSurface =	NULL;
 SDL_Surface *skySurface =	NULL;
 SDL_Surface *text = 		NULL;
 SDL_Surface *icon = 		NULL;
+SDL_Surface *item_set = 	NULL;
 // The event structure that will be used
 SDL_Event event;
 

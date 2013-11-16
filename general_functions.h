@@ -1,19 +1,34 @@
+// these are different error types
+#define e_loadfile 1
+
+/// this handles an error.
+void handle_error(int type, char *msg){
+	char fullMsg[256];
+	
+	if(type == e_loadfile){
+		strcpy(fullMsg, "Error loading:   ");
+		strcat(fullMsg, msg);
+		MessageBox(NULL, fullMsg, "Error loading file", MB_ICONERROR);
+	}
+	
+	
+}
+
 
 
 
 
 void clean_up();
 
-#define quit_surface_error 1
+#define quit_surface_error 10
 
 void quit_game(Uint32 quitFlag, char *errmsg){
 	
 	if(quitFlag == quit_surface_error){
 		MessageBox(NULL,errmsg,"NULL surface error.", MB_OK);
 	}
-	
 	clean_up();
-	
+	exit(quitFlag);
 }
 
 
@@ -46,8 +61,13 @@ SDL_Surface *load_image( char* filename ){
     if( loadedImage != NULL ){
         // Create an optimized image
         optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
+        
         //Free the old image
         SDL_FreeSurface( loadedImage );
+    }
+    // if the image was not loaded correctly
+    else{
+		handle_error(e_loadfile, filename);
     }
     
     //Return the optimized image
@@ -58,7 +78,7 @@ SDL_Surface *load_image( char* filename ){
 SDL_Surface *create_surface(int width, int height){
 	
 	// try to create surface
-	SDL_Surface *retSurf = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32, 0xFF0000, 0x00FF00, 0x0000FF, 0xff000000);
+	SDL_Surface *retSurf = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xff000000);
 	
 	// check to see if the surface creation went well
 	if(retSurf == NULL){
@@ -70,18 +90,6 @@ SDL_Surface *create_surface(int width, int height){
 	// delete old surface
 	SDL_FreeSurface(retSurf);
 	return retSurfAlpha;
-}
-
-void apply_surface( int x, int y,  SDL_Surface* source, SDL_Surface* destination ){
-    //make a temporary rectangle to hold offsets
-    SDL_Rect offset;
-    
-    //Give the offsets to the rectangle
-    offset.x = x;
-    offset.y = y;
-    
-    //Blit surface
-    SDL_BlitSurface( source, NULL, destination, &offset );
 }
 
 int init(){
@@ -119,7 +127,7 @@ int load_files(){
 	}
 	*/
 	
-	icon = SDL_LoadBMP("game icon.ico");
+	icon = SDL_LoadBMP("resources//images//game icon.ico");
 	if(icon != NULL)
 		SDL_WM_SetIcon(icon, NULL); // sets the icon of the windows and taskbar item
 	
@@ -131,17 +139,26 @@ int load_files(){
     }
     
     //open font file
-    font = TTF_OpenFont( "8bitoperator.ttf", 22 );
-    font16 = TTF_OpenFont( "8bitoperator.ttf", 16);
+    font = TTF_OpenFont( "resources\\fonts\\8bitoperator.ttf", 22 );
+    font16 = TTF_OpenFont( "resources\\fonts\\8bitoperator.ttf", 16);
     
     if (font == NULL || font16 == NULL)
     {
         MessageBox(NULL, "Could not load 8bitoperator.ttf", "Error loading font", MB_OK);
     }
 	
+	item_set = load_image("resources\\images\\item_set.png");
+	if(item_set == NULL){
+		handle_error(e_loadfile, "resources\\images\\itemset.png");
+	}
+	
+	
+	
 	//If everthing loaded fine
 	return true;
 }
+
+
 
 
 

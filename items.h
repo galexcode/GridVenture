@@ -42,6 +42,14 @@ struct itemData{
 	// 0 is invalid and will be interpreted as 1.
 	Uint32 stackAmount;
 	
+	char *name;
+	
+	//this tells us where this item's image is on the item_set sprite sheet.
+	// this is a hexadecimal address for indexing.
+	// 0x0000 corresponds to the "no item" image.
+	// 0x070f means that it is in column 7 row 15.
+	Uint16 image;
+	
 }items[MAX_ITEMS];
 
 
@@ -50,19 +58,44 @@ struct itemData{
 
 /// this fuction sets a certain item to default values 
 void item_erase(struct itemData *datitem){
-	datitem->itemType = it_consumable; 	// consumable by default.
-	datitem->attack = 0;
-	datitem->defense = 0;
-	datitem->cooldown = ITEM_DEFAULT_COOLDOWN;
-	datitem->durability = 1;
-	datitem->heal = 0;
-	datitem->stackAmount = DEFAULT_STACK_AMOUNT;
+	datitem->name = "invalid item";					// default invalid name
+	datitem->itemType = it_consumable; 				// consumable by default.
+	datitem->attack = 0;							//
+	datitem->defense = 0;							//
+	datitem->cooldown = ITEM_DEFAULT_COOLDOWN;		//
+	datitem->durability = 1;						//
+	datitem->heal = 0;								//
+	datitem->stackAmount = DEFAULT_STACK_AMOUNT;	//
+	datitem->image = 0x0000;						// default image "no item"
 }
 
 
 /// this initializes all of the item attributes
 void init_items(){
 	
+	int i;
+	for(i=0; i<MAX_ITEMS; i++)	// erase all items to default states.
+		item_erase(&items[i]);
 	
 	
+	items[i_sword].name = "Sword";
+	items[i_sword].attack = 4;
+	items[i_sword].cooldown = 167; // the sword can be used 6 times per second
+	items[i_sword].itemType = it_weapon;
+	items[i_sword].image = 0x0100;
+	items[i_sword].stackAmount = 1;
+	items[i_sword].durability = 128;
+	
+	
+	
+	items[i_hammer].name = "Hammer";
+	items[i_hammer].attack = 2;
+	items[i_hammer].cooldown = 333; // three attacks times per second
+	items[i_hammer].durability = 64;
+	items[i_hammer].stackAmount = 1;
+	items[i_hammer].itemType = it_weapon;
+	items[i_hammer].image = 0x0200;
 }
+
+
+

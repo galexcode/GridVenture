@@ -5,68 +5,58 @@
 
 int main( int argc, char* args[] ) 
 {
-	
 	//get a random seed.
 	srand(time(NULL));
+	CELL_SIZE = 12; // set starting cell size	
 	
-    //mouse variables and cell types
-    int x, y, sleepTime = 0, countVar = 0;
-	
-    //mouse is held variables
-    int mouseStatusLeft = 0, mouseStatusRight = 0;
-	
-	//make sure the program waits for a quit
-	int quit = false;
-	
-    //Initialize
-    if( init() == false ) return 1;
-	
-    //Load the files
-    if( load_files() == false ) return 2;
-	
-    //Update the screen
-    if( SDL_Flip( screen ) == -1 ) return 3;
-	
-    //initialize the cell stuff. This gets the cell system up and running. This also sets all cells to m_air and all the saturation to m_no_saturaion
-    init_cell_stuff();
+	//----------------------------------------------------
+	// VARIABLES USED IN MAIN()
+	//----------------------------------------------------
+    int x, y;									// this is the location of the player's mouse
     
-    // create the surface that the grid data will be printed to.
-    gridSurface = create_surface(GRID_WIDTH_ELEMENTS,GRID_HEIGHT_ELEMENTS);
+    int mouseStatusLeft = 0;					// these two keep track of the user's left and right mouse button statuses.
+    int mouseStatusRight = 0;					
+	int keyw=0,keya=0,keys=0,keyd=0;			// these keep track of the user's WASD keys
+	bool keyF3=true;							// this keeps track of the state of the F3 key
+	
+	int ticksSinceLastFPSUpdate=0;				// time since last FPS update (ideally, goes from 0 to 1000 milliseconds and then resets)
+	int cumulativeFrames = 0;					// this counts how many Frames there have been since the last
+	int currentTicks = 0;						// this is how many 
+	int quit = false;							//make sure the program waits for a quit
+	
+	//----------------------------------------------------
+	// initialize lots of stuff
+	//----------------------------------------------------
+    if( init() == false ) return 1;				// make sure you can boot up the necessary libraries
+    if( load_files() == false ) return 2;		// make sure all files are loaded correctly
+    if( SDL_Flip( screen ) == -1 ) return 3;	// make sure the screen works
+    init_cell_stuff();							// initialize the cells
+    init_items();								// initialize items
+    init_quests();								// initialize the quests
     
-    // these are used for displaying the grid and the sky
-    SDL_Rect screenRect;
+    //----------------------------------------------------
+	// surfaces and rects
+	//----------------------------------------------------
+    SDL_Rect screenRect;														// this rect is used for displaying the grid and the sky
+    screenRect.x = 0;
+	screenRect.y = 0;
+	screenRect.w = SCREEN_WIDTH;
+	screenRect.h = SCREEN_HEIGHT;
+    gridSurface = create_surface(GRID_WIDTH_ELEMENTS,GRID_HEIGHT_ELEMENTS);		// create the surface that the grid data will be printed to.
+    skySurface = create_surface(GRID_WIDTH_ELEMENTS,GRID_HEIGHT_ELEMENTS);		//create the skySurface
+    generate_sky(skySurface, SCREEN_WIDTH, SCREEN_HEIGHT);						//generate sky gradient
     
-    //create the skySurface
-    skySurface = create_surface(GRID_WIDTH_ELEMENTS,GRID_HEIGHT_ELEMENTS);
-    
-    //generate sky gradient
-    generate_sky(skySurface, SCREEN_WIDTH, SCREEN_HEIGHT);
-    
-	// these keep track of the WASD keys.
-	int keyw=0, keya=0, keys=0, keyd=0;
-	bool keyF3=true;
-	
-	//these are used to calculating and keeping track of the FPS
-	int ticksSinceLastFPSUpdate = 0;
-	int cumulativeFrames = 0;
-	int currentTicks = 0;
-	
-	//last minute verification that the initial start up values for the grid size and the camera positions are valid.
-	verify_grid_and_cell_size();
-	
-	//generate a world to begin the game
-	gen_world(w_normal,0);
-	
-	CELL_SIZE = 8;
-	
-	// get default player data.
-	init_player_attributes(&player);
-	
-	player.x_pos = GRID_WIDTH_ELEMENTS/2;
-	player.y_pos = 1080-500;
+    //----------------------------------------------------
+	// generate world; initialize player; blast off
+	//----------------------------------------------------
+	gen_world(w_normal,0);						// generate a world on startup
+	init_player_attributes(&player);			// get default player data.
+	player.x_pos = GRID_WIDTH_ELEMENTS/2;		// set player location x
+	player.y_pos = 1080-500;					// set player location y
+	verify_grid_and_cell_size();				// final grid and cell verification
 	
 	
-    //While the user hasn't quit
+	// enter the main while loop of the game.
     while(1){
 		
     	//While there's an event to handle
@@ -108,23 +98,6 @@ int main( int argc, char* args[] )
             else if( event.type == SDL_MOUSEMOTION ){						/// mouse motion
 				x = event.motion.x;
 				y = event.motion.y;
-				/*
-				// if the alt key (camera panning key) is down and the coordinates have changed, then let the screen be panned!
-				if(alt && x != mouse_x_when_pan && y != mouse_y_when_pan){
-					// this adjusts the x-axis camera (this scales with the CELL_SIZE)
-					camera_x += (x-mouse_x_when_pan+remainder_panning_motion_x)/CELL_SIZE;
-					camera_y += (y-mouse_y_when_pan+remainder_panning_motion_y)/CELL_SIZE;
-					//calculate the remainders of the mouse motion.
-					// these values represent the motion of the mouse that is not utilized by the discrete nature of the operation on the camera_x and camera_y values.
-					remainder_panning_motion_x = (x-mouse_x_when_pan+remainder_panning_motion_x) - (int)((x-mouse_x_when_pan+remainder_panning_motion_x)/CELL_SIZE)*CELL_SIZE;
-					remainder_panning_motion_y = (y-mouse_y_when_pan+remainder_panning_motion_y) - (int)((y-mouse_y_when_pan+remainder_panning_motion_y)/CELL_SIZE)*CELL_SIZE;
-					// make sure the camera is not out of bounds.
-					verify_camera();
-					
-					//reset the user's curcor position to the original position the curcor was in when the user started panning the camera
-					SDL_WarpMouse(mouse_x_when_pan, mouse_y_when_pan);
-				}
-				*/
             }
             else if(event.type == SDL_VIDEORESIZE){							/// window resize
 				
@@ -136,13 +109,13 @@ int main( int argc, char* args[] )
 				verify_grid_and_cell_size(); // make sure the window isn't too big for the cell size
 				set_window_size(event.resize.w, event.resize.h);		// set window to correct dimensions
 				generate_sky(skySurface, SCREEN_WIDTH, SCREEN_HEIGHT);	// render a new sky background
+				screenRect.w = SCREEN_WIDTH;							// update the screen rectangle
+				screenRect.h = SCREEN_HEIGHT;
 			}
 			
             if( event.type == SDL_KEYDOWN ){		///keyboard event
                 switch( event.key.keysym.sym ){
 				case SDLK_c:		reset_cells();  break;	//clear the screen
-				case SDLK_LEFT:		if(paused != 1) {sleepTime /= 2;} break; 									//speeds up the game
-				case SDLK_RIGHT:	if(paused != 1) {if(sleepTime == 0){sleepTime = 1;} {sleepTime *= 2;} if(sleepTime > 2000) {sleepTime = 2000;}} break; //slows down the game
 				case SDLK_SPACE:	if(paused == 0) {paused = 1;} else if(paused == 1) {paused = 0;} break; 	//pause the game
 				//case SDLK_ESCAPE: quit = true; 		// quit with escape
 				case SDLK_F1:		gen_world(w_normal,wf_display_generation); break; // generate a world
@@ -152,21 +125,6 @@ int main( int argc, char* args[] )
 				case SDLK_s:		keys=1; break;
 				case SDLK_d:		keyd=1; break;
 				
-				/*
-				case SDLK_LALT:
-				case SDLK_RALT:
-					// store the state of the alt key.
-					alt = 1;
-					// turn off the cursor
-					SDL_ShowCursor(SDL_DISABLE);
-					// store the position of the mouse. this will allow the program to make the cursor stay stationary
-					mouse_x_when_pan = x;
-					mouse_y_when_pan = y;
-					//reset the remainder mouse motion variables for x and y.
-					remainder_panning_motion_x = 0;
-					remainder_panning_motion_y = 0;
-					break;
-					*/
 				default: break;
 				}
 			}
@@ -176,14 +134,6 @@ int main( int argc, char* args[] )
 				case SDLK_a: keya=0; break;
 				case SDLK_s: keys=0; break;
 				case SDLK_d: keyd=0; break;
-				/*
-				case SDLK_LALT:
-				case SDLK_RALT:
-					// show the cursor again.
-					SDL_ShowCursor(SDL_ENABLE);
-					alt = 0;
-					break;
-				*/
 				default: break;
 				}
 			}
@@ -196,7 +146,6 @@ int main( int argc, char* args[] )
 		//evaluate the player's movements.
 		evaluate_player_movement(&player, keyw, keya, keys, keyd);
 		
-		//grid[(int)player.x_pos][(int)player.y_pos].mat = m_test2; // this can produce segmentation fault errors without the proper checks and balances (which it currently does not have)
 		
 		//apply/remove material (test feature for debugging)
 		#if(1)
@@ -213,38 +162,19 @@ int main( int argc, char* args[] )
 			}
 		}
 		#endif
-        
-        //speed of gameplay
-        countVar++;
-        if(sleepTime <= 0)
-        {
-            sleepTime = 0;
-        }
 		
-        //evealuate cells
-        if(countVar >= sleepTime && paused != 1){
-            evaluate_gravity(0,0,200,200);
-            countVar = 0;
-        }
-        /// ----------------------------------------------------------------
+		//evaluate_gravity(0,0,200,200);
+		
+        /// --------------------------------------------------------------------
         /// GRID PRINTING STUFF
-        /// ----------------------------------------------------------------
+        /// --------------------------------------------------------------------
         
         
-        // apply initial black background
-		screenRect.x = 0;
-		screenRect.y = 0;
-		screenRect.w = SCREEN_WIDTH;
-		screenRect.h = SCREEN_HEIGHT;
+        // apply initial black background to wipe the screen's slate clean.
 		SDL_FillRect( screen , &screenRect , 0x000000);
 		
-		//generate background
-		//generate_sky(screen, SCREEN_WIDTH, SCREEN_HEIGHT);
-		//apply background
+		//apply sky
 		apply_surface(0,0,skySurface,screen);
-		
-		//gradient(screen, &screenRect, 0, 0, 100, 200, 0x2561a9, 0x6cb8f6, 0);
-		
 		// generate the grid image
 		SDL_FillRect( gridSurface , &screenRect , 0x000000);
         generate_grid_surface(gridSurface);
@@ -262,18 +192,16 @@ int main( int argc, char* args[] )
         SDL_FillRect(screen, &playerRect, player.color);
         
         
-        
         // print the debugging information to the screen.
         if(keyF3) print_debugging_information(x,y);
-        
         
         
         //updates the screen
         SDL_Flip( screen );
         
-        //----------------------------------------------------
+        //----------------------------------------------------------------------
 		// FPS calculation and variable handling
-		//----------------------------------------------------
+		//----------------------------------------------------------------------
         currentTicks = SDL_GetTicks();
         // it is officially the next second
         if(currentTicks >= ticksSinceLastFPSUpdate + 1000){

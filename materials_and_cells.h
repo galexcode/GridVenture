@@ -9,7 +9,7 @@
 
 // this is how big each square cell is
 int CELL_SIZE = 16;
-#define MAX_CELL_SIZE 16
+#define MAX_CELL_SIZE 32
 #define MIN_CELL_SIZE 1
 
 /// this is how large the cell grid is INSIDE OF THE USER'S WINDOW
