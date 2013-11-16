@@ -202,3 +202,4 @@ int roll_ht(int chance){
 	if(chance > get_rand(0,99999)) return 1; // return 1 if the number the user gave you is greater than a random number between 0 and 99999.
 	return 0; // otherwise, return 0
 }
+

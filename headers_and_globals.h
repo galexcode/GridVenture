@@ -40,12 +40,12 @@ int paused = 0;
 int FPS = 0;
 
 // The surfaces that will be used
-SDL_Surface *screen = 		NULL;
-SDL_Surface *gridSurface =	NULL;
-SDL_Surface *skySurface =	NULL;
-SDL_Surface *text = 		NULL;
-SDL_Surface *icon = 		NULL;
-SDL_Surface *item_set = 	NULL;
+SDL_Surface *screen = 		NULL;	// this is the surface the player sees.
+SDL_Surface *gridSurface =	NULL;	// this holds the printout of the world grid.
+SDL_Surface *skySurface =	NULL;	// this holds the gradient for the sky.
+SDL_Surface *text = 		NULL;	// this is a general purpose text surface.
+SDL_Surface *icon = 		NULL;	// this holds the icon for the game.
+SDL_Surface *item_set = 	NULL;	// this is the surface that holds the item images.
 // The event structure that will be used
 SDL_Event event;
 
@@ -65,6 +65,7 @@ short mouseModifier = 0;
 
 // necessary function prototype.
 void setcell(int , int, int);
+void apply_surface(int,int,SDL_Surface *,SDL_Surface *);
 
 // include all of the other header files that have functions and variables that will be used throughout the program.
 //#include "world_gen.h"
