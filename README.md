@@ -26,12 +26,20 @@ This document is public and anyone can comment on it. (Ctrl+Alt+M)
 
 ###Compiling GridSim
 add these linkers options to your compilation of the program to be able to compile (needless to say, you will need to download  all of these libraries as well)
+
 -lcomdlg32
+
 -lmingw32
+
 -lSDLmain
+
 -lSDL
+
 -lSDL_image
+
 -lSDL_ttf
+
+
 
 
 ###Developers
