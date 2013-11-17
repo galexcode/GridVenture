@@ -33,8 +33,11 @@ unsigned int SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 
 #define NUMBER_OF_GUI_SIZES 4
 // this number indexes into the ITEM_SIZE array and the item_set[] array.
-unsigned short GUI_SIZE = 1;
-unsigned short ITEM_SIZE[NUMBER_OF_GUI_SIZES] = {0x20, 0x40, 0x80, 0x100}; // 13,32,48, and 64
+#define ITEM_SIZE_BASE 0x20
+// this is the gui size. it corresponds to how large the item sizes will be. 1=32, 2=64, 3=96, etc...
+unsigned short GUI_SIZE = 2;
+#define ITEM_SIZE (GUI_SIZE*ITEM_SIZE_BASE)
+//unsigned short ITEM_SIZE[NUMBER_OF_GUI_SIZES] = {0x20, 0x40, 0x80, 0x100}; // 13,32,48, and 64
 SDL_Surface *item_set[NUMBER_OF_GUI_SIZES] = 	{NULL,NULL,NULL,NULL};	// this is what holds all of the item sprites
 
 #define SCREEN_BPP 32

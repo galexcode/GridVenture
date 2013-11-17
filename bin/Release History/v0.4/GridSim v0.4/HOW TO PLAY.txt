@@ -15,8 +15,11 @@ Left click
 Right click
 		Place material
 
-Scroll up/down
+Ctrl + MouseWheel
 		Zoom in/out
+		
+MouseWheel
+	cycle through hotbar items
 	
 Space Bar
 		Pause

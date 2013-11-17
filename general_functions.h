@@ -140,7 +140,7 @@ int load_files(){
 	}
 	*/
 	
-	icon = SDL_LoadBMP("resources//images//game icon.ico");
+	icon = load_image("resources//images//game icon.png");
 	if(icon != NULL)
 		SDL_WM_SetIcon(icon, NULL); // sets the icon of the windows and taskbar item
 	

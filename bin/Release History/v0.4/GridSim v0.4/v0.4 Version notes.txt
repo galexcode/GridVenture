@@ -18,20 +18,31 @@ Released ####-##-## (#### ##th, 2013) ##:## PM GMT -6:00
 
 >	Materials no longer dissapear out the bottom of the screen.
 
->	Added a debug screen. See it viato the F3 key.
+>	Added a debug screen. See it to the F3 key.
+
+>	Changed zoom from  <MouseWheel>  to  <Ctrl + MouseWheel>
+
+>	Added an inventory system
 
 --------------------------------------------------------------
->>>>		Developers:		<<<<
+>>>>		Team Members:		<<<<
 --------------------------------------------------------------
 
 Ryan Jensen
 	"JensenR30"
+	Creator, Head Developer, Artist, Writer
 	JensenR30@gmail.com
 	
 Josh Pohl
 	"JPisaBrony"
+	Developer
 	jdpohl789@gmail.com
 
+Domonic Shialer
+	"Domo"
+	Artist, Writer
+	dominic.schialer@gmail.com
+	
 
-Send either me or Josh an email if you have any questions or comments.
+Send us an email.
 We'll write back.

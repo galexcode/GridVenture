@@ -19,6 +19,7 @@ int main( int argc, char* args[] )
 	int keyw=0,keya=0,keys=0,keyd=0;			// these keep track of the user's WASD keys
 	bool keyF3=true;							// this keeps track of the state of the F3 key
 	bool inventoryView=0;						// this keeps track of the inventory key's state (E)
+	unsigned char ctrl=0;						// this keeps track of if either of the ctrl keys are pressed.
 	
 	int ticksSinceLastFPSUpdate=0;				// time since last FPS update (ideally, goes from 0 to 1000 milliseconds and then resets)
 	int cumulativeFrames = 0;					// this counts how many Frames there have been since the last
@@ -81,10 +82,24 @@ int main( int argc, char* args[] )
                     mouseStatusRight = 1;
                 }
                 
-                else if( event.button.button == SDL_BUTTON_WHEELUP )
-					zoom_in(x,y);
-				else if( event.button.button == SDL_BUTTON_WHEELDOWN )
-					zoom_out(x,y);
+                else if( event.button.button == SDL_BUTTON_WHEELUP ){
+					if(ctrl){
+						zoom_in(x,y);
+					}
+					else{
+						player.hotbarIndex--;
+						if(player.hotbarIndex < 0) player.hotbarIndex = player.inv.width-1;
+					}
+                }
+				else if( event.button.button == SDL_BUTTON_WHEELDOWN ){
+					if(ctrl){
+						zoom_out(x,y);
+					}
+					else{
+						player.hotbarIndex++;
+						if(player.hotbarIndex >= player.inv.width) player.hotbarIndex = 0;
+					}
+				}
 				
             }
             else if(event.type == SDL_MOUSEBUTTONUP){						/// mouse up
@@ -127,6 +142,7 @@ int main( int argc, char* args[] )
 				case SDLK_s:		keys=1; break;
 				case SDLK_d:		keyd=1; break;
 				case SDLK_e:		inventoryView^=1;break;	// toggle inventory view
+				case SDLK_RCTRL: case SDLK_LCTRL:	ctrl++; break;	// ctrl was pressed
 				
 				default: break;
 				}
@@ -137,6 +153,7 @@ int main( int argc, char* args[] )
 				case SDLK_a: keya=0; break;
 				case SDLK_s: keys=0; break;
 				case SDLK_d: keyd=0; break;
+				case SDLK_RCTRL: case SDLK_LCTRL: ctrl--; break; // ctrl was released
 				default: break;
 				}
 			}
@@ -194,6 +211,7 @@ int main( int argc, char* args[] )
         SDL_FillRect(screen, &playerRect, player.color);
         
         if(inventoryView) inventory_display(&player.inv, screen);
+        hotbar_display(&player, screen);
         
         // print the debugging information to the screen.
         if(keyF3) print_debugging_information(x,y);

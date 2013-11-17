@@ -79,6 +79,9 @@ struct playerData{
 	// this keeps track of whether or not the player is on a collision material
 	bool onCollMat;
 	
+	// this keeps track of what element of the user's hot bar he/she is on. This indexes through the user's hotbar
+	Sint8 hotbarIndex;
+	
 	// this value is how much time the player has played in the sessions before the current sessions (in seconds)
 	// when the player boots up a game, this data is loaded.
 	// this data type will roll over after about 139.5 years. (nothing for anyone alive today to be concerned about)
@@ -142,6 +145,8 @@ void init_player_attributes(struct playerData *datplayer){
 	datplayer->color = 0x987a5c;								// base color of the player
 	
 	datplayer->playTime = 0;									// default time the user has played the game in previous sessions.
+	
+	datplayer->hotbarIndex = 0;								// default to the first one (leftmost)
 	
 	inventory_erase(&datplayer->inv);							// erase new player's inventory
 	datplayer->inv.width =  DEFAULT_PLAYER_INVENTORY_WIDTH;		// set default dimensions for width

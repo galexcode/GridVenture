@@ -204,13 +204,20 @@ void init_different_item_set_sizes(){
 	
 	// assume the [0] element has already been loaded with IMG_Load
 	for(s=1; s<NUMBER_OF_GUI_SIZES; s++){
-		scalingFactor = ITEM_SIZE[s]/ITEM_SIZE[0];
+		scalingFactor = ITEM_SIZE/ITEM_SIZE_BASE;
 		item_set[s] = create_surface(item_set[0]->w*scalingFactor, item_set[0]->h*scalingFactor);
 		scale_surface(item_set[0],item_set[s],scalingFactor);
 	}
 }
 
-
+void apply_item(int itemtype, int x, int y, SDL_Surface *dest){
+	static SDL_Rect itemclip;													// static. this will hopefully save time allocating memory.
+	itemclip.w = itemclip.h = ITEM_SIZE;										// set the width and height of the item image clip
+	itemclip.x = items[itemtype].imagePos/0x100;			// calculate the x clip value for clipping out the item from the item set
+	itemclip.y = items[itemtype].imagePos%0x100; 		// calculate the y ^...
+	// apply the user's item at slot (i,j)
+	apply_surface_clips(x, y, item_set[GUI_SIZE], dest, &itemclip);
+}
 
 
 
