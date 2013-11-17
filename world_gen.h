@@ -58,6 +58,71 @@ void gen_landscape_relative(int *top_material, int top_material_relative, int lo
 }
 
 
+/// this tries to generate a tree in grid[][] with the base at [x][y].
+// on success, it returns the height of the trunk.
+// on failure, it returns false (0)
+int gen_tree(int x, int y){
+	
+	
+	//-------------------------------
+	// generate logs
+	//-------------------------------
+	int trunkHeight = get_rand(4,8);
+	int j;
+	for(j=0; j<trunkHeight; j++){
+		// check to see if the cell is anything other than air or if it is out of bounds
+		if(!within_grid_bounds(x,y-j) || grid[x][y-j].mat != m_air ){
+			j--; // decrement to the previous cell that was turned into m_log
+			for(; j>=0; j--){		// cycle through all the log materials that were placed and delete them all.
+				grid[x][y-j].mat = m_air;
+			}
+			return false;	// return a failure flag
+		}
+		// if everything checks out, turn this material to log.
+		grid[x][y-j].mat = m_log;
+	}
+	
+	
+	
+	//-------------------------------
+	// generate leaves
+	//-------------------------------
+	int numberOfLeaves = get_rand(35,50);	// generate a random number of how many leaves need to be placed
+	int l=0;								// this keeps track of how many leaves have been placed
+	int failures = 0;						// this keeps track of how many times the loop has failed to find a suitable place to put leaves
+	int MAX_LEAF_FAILURES = 20;				// this is the maximum tolerable amount of subsequent failures.
+	int leafx,leafy;						// these are the indexes into the grid[][]
+	
+	while(l<numberOfLeaves){				// while the number of leaves placed is less than the number we need to place
+		leafx = x;							// set leafx and leafy to the top of the tree
+		leafy = y - j;
+		while(1){							// loop until success or failure in finding a suitable place to set to leaves.
+			leafx += get_rand(-1,1);		// randomly move leafx and leafy around
+			leafy += get_rand(-1,1);
+			if(!within_grid_bounds(leafx,leafy)){				// make sure the cell [leafx][leafy] is inside the valid grid area
+				failures++;
+				break;
+			}
+			if(grid[leafx][leafy].mat == m_leaves) continue;	// contniue searching if you are on leaves
+			else if(grid[leafx][leafy].mat == m_air){			// found a suitable
+				grid[leafx][leafy].mat = m_leaves;				// place leaves
+				failures = 0;
+				l++;											// increment the leaves count variable
+				break;											// start the next itteration of the outer while() loop
+			}
+			else{												// found a material that is not air or other leaves. failure to place leaves on itteration l is here.
+				failures++;
+				break;											// break out of this loop to reset the leafx and leafy positions to right above the tree trunk.
+			}
+		}
+		// if there were enough consecutive failuers in trying to place leaves, quit.
+		if(failures >= MAX_LEAF_FAILURES)break;
+	}
+	return trunkHeight;
+}
+
+
+
 /// this function will overwrite the data in grid[][] and generate a world inside it!
 // send it a world type and a worldflag and it should 
 void gen_world(int worldType, long long  unsigned int worldFlag){

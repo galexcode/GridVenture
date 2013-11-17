@@ -24,7 +24,7 @@ int CELL_SIZE = 16;
 #define GRID_HEIGHT_ELEMENTS 1080
 
 // this is a handy little definition to check to see if the some x and y values are within the grid boundaries
-#define within_grid_elements(x,y) (x>=0 && x<GRID_WIDTH_ELEMENTS-1 && y>=0 && y<GRID_HEIGHT_ELEMENTS)
+#define within_grid_bounds(x,y) (x>=0 && x<GRID_WIDTH_ELEMENTS-1 && y>=0 && y<GRID_HEIGHT_ELEMENTS)
 
 //this is how many different types of materials there can be in the game.
 #define MAX_NUMBER_OF_UNIQUE_MATERIALS 100 // the materials (i.e. m_earth, m_spring) can have values from 0-99
@@ -175,17 +175,22 @@ void init_materials(void){
 	mats[m_stone].collision = true;
 //------------------------------------------------------------------------------
 	mats[m_igneous].name = "Igneous Rock";
-	mats[m_igneous].color = 0x252525;
+	mats[m_igneous].color = 0xff252525;
 	mats[m_igneous].collision = true;
 //------------------------------------------------------------------------------
 	mats[m_rubble].name = "Rubble";
 	mats[m_rubble].color = 0xff715A63;
 	mats[m_rubble].gravity = 3;
 	mats[m_rubble].collision = true;
+
 //------------------------------------------------------------------------------
 	mats[m_log].name = "Log";
 	mats[m_log].color = 0xff7b5126;
 	mats[m_log].collision = true;
+//------------------------------------------------------------------------------
+	mats[m_leaves].name = "Leaves";
+	mats[m_leaves].color = 0xff708d23;
+	mats[m_leaves].collision = true;
 //------------------------------------------------------------------------------
 	mats[m_sand].name = "Sand";
 	mats[m_sand].gravity = -2;
@@ -221,24 +226,3 @@ void init_cell_stuff(void){
 	reset_cells();
 }
 
-/*
-///this randomizes the materials and saturations in the grid.
-///this basically randomizes cellMat[][] and cellSat[][].
-void randomize_grid(){
-	int i, j, temp;
-	for(i=0 ; i<SCREEN_WIDTH ; i++){
-		for(j=0 ; j<SCREEN_HEIGHT ; j++){
-			if(get_rand(1,10) < 10){
-				grid[i+camera_x][j+camera_y].mat = m_air;
-				continue;
-			}
-			//get random material
-			temp = m_valid_but_null_material;
-			while(mats[temp].name == NULL){ // get a material that has a valid name
-				temp = get_rand(0, MAX_NUMBER_OF_UNIQUE_MATERIALS-1);
-			}
-			grid[i+camera_x][j+camera_y].mat = temp;
-		}
-	}
-}
-*/

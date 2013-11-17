@@ -176,18 +176,21 @@ int main( int argc, char* args[] )
 		evaluate_player_movement(&player, keyw, keya, keys, keyd);
 		
 		
+	
+		
+		
 		//apply/remove material (test feature for debugging)
 		#if(1)
 		int xcell,ycell;
 		xcell = x/CELL_SIZE+(int)player.x_pos-GRID_WIDTH/2;
 		ycell = y/CELL_SIZE+(int)player.y_pos-GRID_HEIGHT/2;
-		if(within_grid_elements(xcell,ycell)){
+		if(within_grid_bounds(xcell,ycell)){
 			//checks if the mouse is held or not
-			if(mouseStatusRight == 1 && mouseModifier == 0){
-				grid[xcell][ycell].mat = rand()%8;
-			}
 			if(mouseStatusLeft == 1 && mouseModifier == 0){
 				grid[xcell][ycell].mat = m_air;
+			}
+			if(mouseStatusRight == 1 && grid[xcell][ycell].mat == m_air){
+				gen_tree(xcell,ycell);
 			}
 		}
 		#endif
@@ -210,7 +213,7 @@ int main( int argc, char* args[] )
         apply_surface(0,0, gridSurface, screen);
         
         
-        //generate player rectangle
+        //generate player rectangles
         SDL_Rect playerRect;
 		playerRect.x = CELL_SIZE*(GRID_WIDTH/2);
 		playerRect.y = CELL_SIZE*(GRID_HEIGHT/2 - player.height);
