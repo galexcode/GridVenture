@@ -22,7 +22,9 @@ Released ####-##-## (#### ##th, 2013) ##:## PM GMT -6:00
 
 >	Changed zoom from  <MouseWheel>  to  <Ctrl + MouseWheel>
 
->	Added an inventory system
+>	Added an inventory system and a hotbar
+
+>	Player can scroll through hotbar with the mouse wheel or the number keys
 
 --------------------------------------------------------------
 >>>>		Team Members:		<<<<

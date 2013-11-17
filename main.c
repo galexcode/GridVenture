@@ -36,6 +36,7 @@ int main( int argc, char* args[] )
     init_items();								// initialize items
     init_different_item_set_sizes();			// initialize different sizes of item_set surfaces
     init_quests();								// initialize the quests
+    printf("%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n", SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_6, SDLK_7, SDLK_8);
     
     //----------------------------------------------------
 	// surfaces and rects
@@ -141,6 +142,14 @@ int main( int argc, char* args[] )
 				case SDLK_a:		keya=1; break;
 				case SDLK_s:		keys=1; break;
 				case SDLK_d:		keyd=1; break;
+				case SDLK_1:
+				case SDLK_2:
+				case SDLK_3:
+				case SDLK_4:
+				case SDLK_5:
+				case SDLK_6:
+				case SDLK_7:
+				case SDLK_8:		player.hotbarIndex = event.key.keysym.sym - '1'; break; // set the user's hotbar location
 				case SDLK_e:		inventoryView^=1;break;	// toggle inventory view
 				case SDLK_RCTRL: case SDLK_LCTRL:	ctrl++; break;	// ctrl was pressed
 				

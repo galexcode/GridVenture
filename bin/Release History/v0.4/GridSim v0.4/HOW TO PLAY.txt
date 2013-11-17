@@ -21,6 +21,9 @@ Ctrl + MouseWheel
 MouseWheel
 	cycle through hotbar items
 	
+Numbers 1-8
+	hotbar items
+	
 Space Bar
 		Pause
 
