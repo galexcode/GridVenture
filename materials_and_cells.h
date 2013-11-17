@@ -148,7 +148,7 @@ void init_materials(void){
 	///DON'T YOU DARE CHANGE ANYTHING ABOUT AIR!
 //------------------------------------------------------------------------------
 	mats[m_earth].name = "Earth";
-	mats[m_earth].color = 0xff8b672d;
+	mats[m_earth].color = 0xff43351c;
 	mats[m_earth].collision = true;
 //------------------------------------------------------------------------------
 	mats[m_plant].name = "Plant";

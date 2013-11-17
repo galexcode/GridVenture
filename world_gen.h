@@ -202,6 +202,17 @@ void gen_world(int worldType, long long  unsigned int worldFlag){
 		}
 	}
 	
+	i=0;j=0;
+	while(i<GRID_WIDTH_ELEMENTS){
+		i+= get_rand(5,60);
+		for(j=SCREEN_WIDTH-1; j>=0; j--){
+			if(grid[i][j].mat == m_air){
+				gen_tree(i,j);	// if you find an open spot, generate a tree there
+				break;
+			}
+		}
+	}
+	
 }
 
 
