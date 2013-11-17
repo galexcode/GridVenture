@@ -255,9 +255,9 @@ void pan(int direction){
 /// these are definitions of where items parts are located on the original item_parts_set that gets loaded in
 #define ip_none					0x0000
 
-#define ip_axe_head_igneous 	0x0100
-#define ip_axe_head_stone		0x0200
-#define ip_axe_handle_wood		0x0300
+#define ip_hatchet_head_igneous 	0x0100
+#define ip_hatchet_head_stone		0x0200
+#define ip_hatchet_handle_wood		0x0300
 
 #define ip_sword_blade_igneous	0x0400
 #define ip_sword_blade_wood		0x0401

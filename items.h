@@ -14,9 +14,9 @@ void generate_item_sets();
 #define i_hammer_stone		8
 #define i_hammer_igneous	9
 
-#define i_axe_wood			10
-#define i_axe_stone			11
-#define i_axe_igneous		12
+#define i_hatchet_wood			10
+#define i_hatchet_stone			11
+#define i_hatchet_igneous		12
 
 
 /// it == itemType
@@ -171,29 +171,29 @@ void init_items(){
 	//--------------------------------------------------------------------------
 	// HAMMER STUFF
 	//--------------------------------------------------------------------------
-	items[i_axe_wood].name = "Wooden Axe";
-	items[i_axe_wood].attack = 3;
-	items[i_axe_wood].cooldown = 1000; // three attacks times per second
-	items[i_axe_wood].durability = dur_wood;
-	items[i_axe_wood].stackAmount = 1;
-	items[i_axe_wood].itemType = it_tool;
-	items[i_axe_wood].imagePos = 0x0002;
+	items[i_hatchet_wood].name = "Wooden hatchet";
+	items[i_hatchet_wood].attack = 3;
+	items[i_hatchet_wood].cooldown = 1000; // three attacks times per second
+	items[i_hatchet_wood].durability = dur_wood;
+	items[i_hatchet_wood].stackAmount = 1;
+	items[i_hatchet_wood].itemType = it_tool;
+	items[i_hatchet_wood].imagePos = 0x0002;
 	
-	items[i_axe_stone].name = "Stone Axe";
-	items[i_axe_stone].attack = 4;
-	items[i_axe_stone].cooldown = 750; // three attacks times per second
-	items[i_axe_stone].durability = dur_stone;
-	items[i_axe_stone].stackAmount = 1;
-	items[i_axe_stone].itemType = it_tool;
-	items[i_axe_stone].imagePos = 0x0102;
+	items[i_hatchet_stone].name = "Stone hatchet";
+	items[i_hatchet_stone].attack = 4;
+	items[i_hatchet_stone].cooldown = 750; // three attacks times per second
+	items[i_hatchet_stone].durability = dur_stone;
+	items[i_hatchet_stone].stackAmount = 1;
+	items[i_hatchet_stone].itemType = it_tool;
+	items[i_hatchet_stone].imagePos = 0x0102;
 	
-	items[i_axe_igneous].name = "Igneous Axe";
-	items[i_axe_igneous].attack = 6;
-	items[i_axe_igneous].cooldown = 500; // three attacks times per second
-	items[i_axe_igneous].durability = dur_igneous;
-	items[i_axe_igneous].stackAmount = 1;
-	items[i_axe_igneous].itemType = it_tool;
-	items[i_axe_igneous].imagePos = 0x0202;
+	items[i_hatchet_igneous].name = "Igneous hatchet";
+	items[i_hatchet_igneous].attack = 6;
+	items[i_hatchet_igneous].cooldown = 500; // three attacks times per second
+	items[i_hatchet_igneous].durability = dur_igneous;
+	items[i_hatchet_igneous].stackAmount = 1;
+	items[i_hatchet_igneous].itemType = it_tool;
+	items[i_hatchet_igneous].imagePos = 0x0202;
 	
 }
 
