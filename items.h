@@ -4,7 +4,8 @@ void generate_item_sets();
 
 /// i == item
 // item numbers are integer types
-#define i_none		0
+#define i_none				0
+#define i_torch				1
 
 #define i_sword_wood		3
 #define i_sword_stone		4
@@ -13,13 +14,12 @@ void generate_item_sets();
 #define i_hammer_wood		7
 #define i_hammer_stone		8
 #define i_hammer_igneous	9
+#define i_hatchet_wood		10
+#define i_hatchet_stone		11
+#define i_hatchet_igneous	12
 
-#define i_hatchet_wood			10
-#define i_hatchet_stone			11
-#define i_hatchet_igneous		12
 
-
-/// it == itemType
+/// it == item type
 //these are item types. short type data type
 #define it_consumable		1
 #define it_weapon			2
@@ -39,7 +39,7 @@ void generate_item_sets();
 struct itemData{
 	
 	// this is what type of item the item is. for example, it could be it_consumable, it_weapon
-	short itemType;
+	short type;
 	
 	// this is how much damage the weapon deals
 	short attack;
@@ -48,7 +48,9 @@ struct itemData{
 	// this is the delay between uses of this item (in milliseconds)
 	short cooldown;
 	
-	// this is how durable the item is. it tells you how many uses it can endure. positive integer
+	// positive integer
+	// if this is 0, it has infinite uses (doesn't break).
+	// otherwise, durability describes how many times the item can be used before it breaks.
 	unsigned short durability;
 	
 	// this is how many HP the item will heal you. negative or positive integer
@@ -79,11 +81,11 @@ struct itemData{
 void item_erase(struct itemData *datitem){
 	datitem->name = "!Invalid item!";				// default invalid name
 	datitem->desc = "This is not a valid item!";		// default description
-	datitem->itemType = it_consumable; 				// consumable by default.
+	datitem->type = it_consumable; 				// consumable by default.
 	datitem->attack = 0;							//
 	datitem->defense = 0;							//
 	datitem->cooldown = ITEM_DEFAULT_COOLDOWN;		//
-	datitem->durability = 1;						//
+	datitem->durability = 0;						// default to infinite durability
 	datitem->heal = 0;								//
 	datitem->stackAmount = DEFAULT_STACK_AMOUNT;	//
 	datitem->imagePos = 0x0000;						// default imagePos no item
@@ -93,7 +95,7 @@ void item_erase(struct itemData *datitem){
 void item_copy(struct itemData *sour, struct itemData *dest){
 	dest->name =		sour->name;
 	dest->desc =		sour->desc;
-	dest->itemType =	sour->itemType;
+	dest->type =	sour->type;
 	dest->attack =		sour->attack;
 	dest->defense =		sour->defense;
 	dest->cooldown =	sour->cooldown;
@@ -118,7 +120,7 @@ void init_items(){
 	items[i_sword_wood].desc = "A simple sword made completely from wood. It isn't your best bet for protection.";
 	items[i_sword_wood].attack = 2;
 	items[i_sword_wood].cooldown = 500; // the sword can be used twice per second
-	items[i_sword_wood].itemType = it_weapon;
+	items[i_sword_wood].type = it_weapon;
 	items[i_sword_wood].imagePos = 0x0001;
 	items[i_sword_wood].stackAmount = 1;
 	items[i_sword_wood].durability = dur_wood;
@@ -149,7 +151,7 @@ void init_items(){
 	items[i_hammer_wood].cooldown = 1000; // three attacks times per second
 	items[i_hammer_wood].durability = dur_wood;
 	items[i_hammer_wood].stackAmount = 1;
-	items[i_hammer_wood].itemType = it_tool;
+	items[i_hammer_wood].type = it_tool;
 	items[i_hammer_wood].imagePos = 0x0002;
 	
 	items[i_hammer_stone].name = "Stone Hammer";
@@ -157,7 +159,7 @@ void init_items(){
 	items[i_hammer_stone].cooldown = 750; // three attacks times per second
 	items[i_hammer_stone].durability = dur_stone;
 	items[i_hammer_stone].stackAmount = 1;
-	items[i_hammer_stone].itemType = it_tool;
+	items[i_hammer_stone].type = it_tool;
 	items[i_hammer_stone].imagePos = 0x0102;
 	
 	items[i_hammer_igneous].name = "Igneous Hammer";
@@ -165,35 +167,40 @@ void init_items(){
 	items[i_hammer_igneous].cooldown = 500; // three attacks times per second
 	items[i_hammer_igneous].durability = dur_igneous;
 	items[i_hammer_igneous].stackAmount = 1;
-	items[i_hammer_igneous].itemType = it_tool;
+	items[i_hammer_igneous].type = it_tool;
 	items[i_hammer_igneous].imagePos = 0x0202;
 	
 	//--------------------------------------------------------------------------
 	// HAMMER STUFF
 	//--------------------------------------------------------------------------
-	items[i_hatchet_wood].name = "Wooden hatchet";
+	items[i_hatchet_wood].name = "Wooden Hatchet";
 	items[i_hatchet_wood].attack = 3;
 	items[i_hatchet_wood].cooldown = 1000; // three attacks times per second
 	items[i_hatchet_wood].durability = dur_wood;
 	items[i_hatchet_wood].stackAmount = 1;
-	items[i_hatchet_wood].itemType = it_tool;
-	items[i_hatchet_wood].imagePos = 0x0002;
+	items[i_hatchet_wood].type = it_tool;
+	items[i_hatchet_wood].imagePos = 0x0401;
 	
-	items[i_hatchet_stone].name = "Stone hatchet";
+	items[i_hatchet_stone].name = "Stone Hatchet";
 	items[i_hatchet_stone].attack = 4;
 	items[i_hatchet_stone].cooldown = 750; // three attacks times per second
 	items[i_hatchet_stone].durability = dur_stone;
 	items[i_hatchet_stone].stackAmount = 1;
-	items[i_hatchet_stone].itemType = it_tool;
-	items[i_hatchet_stone].imagePos = 0x0102;
+	items[i_hatchet_stone].type = it_tool;
+	items[i_hatchet_stone].imagePos = 0x0501;
 	
-	items[i_hatchet_igneous].name = "Igneous hatchet";
+	items[i_hatchet_igneous].name = "Igneous Hatchet";
 	items[i_hatchet_igneous].attack = 6;
 	items[i_hatchet_igneous].cooldown = 500; // three attacks times per second
 	items[i_hatchet_igneous].durability = dur_igneous;
 	items[i_hatchet_igneous].stackAmount = 1;
-	items[i_hatchet_igneous].itemType = it_tool;
-	items[i_hatchet_igneous].imagePos = 0x0202;
+	items[i_hatchet_igneous].type = it_tool;
+	items[i_hatchet_igneous].imagePos = 0x0601;
+	
+	items[i_torch].name = "Torch";
+	items[i_torch].desc = "Let the torch light the path on your journey.";
+	items[i_torch].imagePos = 0x0100;
+	items[i_torch].type = it_tool;
 	
 }
 
@@ -211,10 +218,10 @@ void init_different_item_set_sizes(){
 }
 
 void apply_item(int itemtype, int x, int y, SDL_Surface *dest){
-	static SDL_Rect itemclip;													// static. this will hopefully save time allocating memory.
-	itemclip.w = itemclip.h = ITEM_SIZE;										// set the width and height of the item image clip
-	itemclip.x = items[itemtype].imagePos/0x100;			// calculate the x clip value for clipping out the item from the item set
-	itemclip.y = items[itemtype].imagePos%0x100; 		// calculate the y ^...
+	SDL_Rect itemclip;						// static. this will hopefully save time allocating memory.
+	itemclip.w = itemclip.h = ITEM_SIZE;			// set the width and height of the item image clip
+	itemclip.x = (items[itemtype].imagePos/0x100)*ITEM_SIZE;	// calculate the x clip value for clipping out the item from the item set
+	itemclip.y = (items[itemtype].imagePos%0x100)*ITEM_SIZE; 	// calculate the y ^...
 	// apply the user's item at slot (i,j)
 	apply_surface_clips(x, y, item_set[GUI_SIZE], dest, &itemclip);
 }

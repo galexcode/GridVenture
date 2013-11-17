@@ -58,8 +58,15 @@ int main( int argc, char* args[] )
 	player.x_pos = GRID_WIDTH_ELEMENTS/2;		// set player location x
 	player.y_pos = 1080-500;					// set player location y
 	verify_grid_and_cell_size();				// final grid and cell verification
-	
-	
+	#if(1)//									// this is just for testing the user's inventory
+	player.inv.slot[24].item = i_hatchet_igneous;
+	player.inv.slot[25].item = i_sword_igneous;
+	player.inv.slot[26].item = i_torch;
+	player.inv.slot[16].item = i_hatchet_igneous;
+	player.inv.slot[8].item = i_hatchet_stone;
+	player.inv.slot[17].item = i_sword_wood;
+	player.inv.slot[18].item = i_hammer_igneous;
+	#endif
 	// enter the main while loop of the game.
     while(1){
 		
@@ -221,8 +228,9 @@ int main( int argc, char* args[] )
 		playerRect.h = CELL_SIZE*player.height;
         // print the character
         SDL_FillRect(screen, &playerRect, player.color);
-        
+        // print the inventory
         if(inventoryView) inventory_display(&player.inv, screen);
+        //print the hotbar
         hotbar_display(&player, screen);
         
         // print the debugging information to the screen.

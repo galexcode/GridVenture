@@ -512,7 +512,7 @@ void draw_line(SDL_Surface *theSurface, int x1, int y1, int x2, int y2, int thic
 
 
 
-#define INVENTORY_COLOR 0xff333333
+Uint32 INVENTORY_COLOR = 0xffaaaaaa;
 
 void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
 	
@@ -520,7 +520,7 @@ void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
 	guirect.w = ITEM_SIZE*inv->width;				// calculate the gui's width  in pixels
 	guirect.h = ITEM_SIZE*inv->height;				// calculate the gui's height in pixels
 	guirect.x = ITEM_SIZE/2;						// calculate the x position in pixels
-	guirect.y = SCREEN_HEIGHT/2 - guirect.h/2;		// calculate the y position in pixels
+	guirect.y = SCREEN_HEIGHT - (inv->height+0.5)*ITEM_SIZE;		// calculate the y position in pixels
 	SDL_FillRect(dest, &guirect, INVENTORY_COLOR);	// fill the gui rect.
 	
 	int i,j; 										// used for indexing 
@@ -530,7 +530,7 @@ void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
 	// loop through all the user's items and print them all in the inventory.
 	for(j=0; j<inv->height; j++){
 		for(i=0; i<inv->width; i++){
-			if(inv->slot[i*inv->height+j].item == i_none)continue;	// don't print empty item slots
+			if(inv->slot[j*inv->width + i].item == i_none)continue;	// don't print empty item slots
 			// apply the texture of the item at the right location within the inventory
 			apply_item(inv->slot[j*inv->width + i].item, i*ITEM_SIZE+guirect.x, j*ITEM_SIZE+guirect.y, dest);
 		}
