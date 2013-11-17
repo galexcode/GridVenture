@@ -1,0 +1,11 @@
+Organize conversations into units of speech
+
+struct conversationData{
+	
+	bool npcStarted;		// this tells us if the npc says the first thing or if the player does.
+	struct player *npc;		// this is a pointer to the NPC that the player is talking to.
+	char **speech;			// this points at an array of pointers to strings.
+							// each pointer in that array points to a different string of speech.
+							// It alternates between the two characters.
+							// e.g. if the first string is said by the npc, then the second is said by the player.
+}
