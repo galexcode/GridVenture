@@ -24,6 +24,15 @@ There are some "interesting" gems in the **bin/Debug/** directory. There are sev
 [GoogleDoc](https://docs.google.com/document/d/1JKBvbpDwEkYBhVAvm2ZJd-BDJjaw3UVOXTx5iTxoJ2w/edit#heading=h.a2ybt58xq5v3)
 This document is public and anyone can comment on it. (Ctrl+Alt+M)
 
+###Compiling GridSim
+add these linkers options to your compilation of the program to be able to compile (needless to say, you will need to download  all of these libraries as well)
+-lcomdlg32
+-lmingw32
+-lSDLmain
+-lSDL
+-lSDL_image
+-lSDL_ttf
+
 
 ###Developers
 *Ryan Jensen - Creator and Head Developer*
