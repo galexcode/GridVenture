@@ -20,12 +20,15 @@ void generate_item_sets();
 
 
 /// it == item type
-//these are item types. short type data type
-#define it_consumable		1
-#define it_weapon			2
-#define it_armor			3
-#define it_special			4
-#define it_tool				5
+//these are item types. Uint32 type
+// these items types need to be powers of two so that they can be bitwise OR'd together.
+// and then I can apply AND-bitmasks to tell if an item is of a certain type.
+// for instance, a hatchet could be a weapon and a tool. so for hatchet, type = ( it_weapon | it_tool );
+#define it_consumable		0x01
+#define it_weapon			0x02
+#define it_armor			0x04
+#define it_special			0x08
+#define it_tool				0x10
 
 
 // this is how many unique items there are.
