@@ -5,6 +5,10 @@ the format of the quest system might look like this:
 struct Quest{
 
 	// prerequisites are quests that need to be completed before you have access to the current quest.
+	// I will also require some form of NOT, AND, and OR combination of quests. That would be handy and necessary.
+	// or possibly just a NOT system. so that in order to progress in a certain quest, you would need to have not completed some other quest.
+	// in that way, you could make certain quests unavailable if you finished other ones.
+	// e.g. if you complete the "Kill the Evil Ogre" quest, then you cannot start the "Run an errand for the very much alive Evil Ogre" quest. because he would be dead and it wouldn't make any sense at all.
 	Prerequisites{
 		Quest1
 		Quest3
@@ -42,9 +46,12 @@ struct Quest{
 	// these are meta information about the quest.
 	// these are mostly true/false flags.
 	Metadata{
-		- quest finished
-		- quest available
-		- quest started
+		// there would  be an array of "quest finished" bools. they would tell you if you have finished the quest. each one would correspond to a different method of finishing the quest.
+		// you could check these. 
+		- bool finished[];
+		- bool available;	// this tells you if the quest is available to start
+		- bool started;
+		- bool subquest; (is this quest a subquest)
 	}
 	
 }
