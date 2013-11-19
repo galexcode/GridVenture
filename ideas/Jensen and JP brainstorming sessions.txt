@@ -1,0 +1,87 @@
+
+Add a bowl and pestle to gridventure.
+you can grid up wheat and make flour.
+flour can be made into bread, noodles, or other common food items.
+
+Add silverware to the game.
+when you equip silverware, you can eat food better.
+maybe having silverware allows you to utilize the food better (it heals you more / satisfies hunger more)
+and you can equip the silverware as a weapon and stab people with spoons.
+
+ 
+Armor Spots:
+	right boot
+	left boot
+	right legging
+	left legging
+	chestplate
+	right arm
+	left arm
+	right hand
+	left hand
+	head
+	amulet/necklace area
+	earings
+	hand rings (right and left)
+
+
+
+Make combination rules for weapons.
+when weapons and pieces of armor are used in tandom, maybe they have bonus effects to your stats.
+Or, alternatively, have the leveling system give you points to spend on getting better at using specific classes of weapons.
+
+have "superquests".
+basically just groups of quests.
+It is a label that sorts quests into major story arcs.
+e.g. all of the demigod quests would fit into some "Demigod" superquest.
+
+Allow there to be requirements for quests (must have forged the sword before you begin the dragon slayer quest)
+allow there to be NEGATIVE requirements (must NOT have killed Dennis in order to go on the "Help Dennis repair his Refrigerator" quest.
+Allow quests to require you to have attained a certain item in order to finish them.
+e.g. there could be a "Harvest Wheat" quest where you have to attain some wheat in your inventory in order to complete the quest.
+
+
+A simple first quest might be, "gather some logs".
+When that is complete, a new quest is available to start: "make a picaxe".
+The first few quests would guide the player along and teach him/her how to play the game.
+just to warm the player up
+soon, the quests start getting more complex
+
+
+add chicken noodle soup to the game. make noodles with wheat flour and water.
+add chickens to the game.
+add 
+
+
+I'm thinking that the user has to "learn" recipes
+Or acquire recipes
+You find them in dungeons or chests or something
+maybe they are rewards for finishing quests
+i like that idea. but there should probly be a few basic ones at the beginning
+
+
+After you help the Demigods with their weather control, they are very grateful.
+They thank and respect you.
+They tell you to go out and live your life. "See the world," they say.
+
+
+I really do like the rock thing
+but if the character is made of rock, it has no need to eat
+so I'm thinking, maybe the gods created a hard rocky shell for the player
+but the insides are still organic
+and so he is still a living, breathing creature
+
+
+If there was an apocalypse in 2057, are there any humans left?
+It seems like if there were any humans left at all, they would rebuild civilization.
+So my gut reaction is to say that there are no humans left at all.
+
+
+
+what if the character is wandering the world
+and finds an odd cave
+it sees a pedestal at the back
+he approaches the pedestal
+and when he comes in contact, he hears the voice of the demigod
+(I was thinking the demigods would be beings without physical form)
+so you would approach the pedestal and then you can talk to the demigod
