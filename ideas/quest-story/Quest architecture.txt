@@ -37,7 +37,7 @@ struct Quest{
 	// goals are things that need to be satisfied in order to complete the quest.
 	// goals basically describe the quest.
 	Goals{
-		- reached certain level
+		- reached certain skill level
 		- attained certain items
 		- visited certain places
 		- talked to certain people
@@ -52,6 +52,7 @@ struct Quest{
 		- bool available;	// this tells you if the quest is available to start
 		- bool started;
 		- bool subquest; (is this quest a subquest)
+		- bool notifications; // if true, there will be a notification upon completing the quest.
 	}
 	
 }
