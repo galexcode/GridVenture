@@ -58,7 +58,12 @@ struct Quest{
 }
 
 
-
+the map would show when the player had started and finished quests.
+	time it took to complete:     	5 min		   7 min				  15 min	 		4 min
+	quest in progress:			|-- quest a--|---- quest b ----|-------- quest c -------|- quest d -|----  ...
+	absolute time:				0 min		 5 min			   12 min					27 min		31 min ...
+	
+	
 there must be some large fuction that checks every quest requirements.
 it will evaluate the quests and see if the user has started a quest, finished it, or even if it is available.
 to make sure it is watertight, it would loop through checking each quest until there are no new updates.
