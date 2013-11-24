@@ -213,7 +213,7 @@ void init_different_item_set_sizes(){
 	int scalingFactor;
 	
 	// assume the [0] element has already been loaded with IMG_Load
-	for(s=1; s<NUMBER_OF_GUI_SIZES; s++){
+	for(s=1; s<=NUMBER_OF_GUI_SIZES; s++){
 		scalingFactor = ITEM_SIZE/ITEM_SIZE_BASE;
 		item_set[s] = create_surface(item_set[0]->w*scalingFactor, item_set[0]->h*scalingFactor);
 		scale_surface(item_set[0],item_set[s],scalingFactor);

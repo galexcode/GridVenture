@@ -28,14 +28,20 @@ unsigned int SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
 unsigned int SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
 
 
-#define NUMBER_OF_GUI_SIZES 4
-// this number indexes into the ITEM_SIZE array and the item_set[] array.
+#define NUMBER_OF_GUI_SIZES 3
+// this is the native image size (32x32 pixels)
 #define ITEM_SIZE_BASE 0x20
 // this is the gui size. it corresponds to how large the item sizes will be. 1=32, 2=64, 3=96, etc...
+// this number indexes into the item_set[] array.
 unsigned short GUI_SIZE = 2;
 #define ITEM_SIZE (GUI_SIZE*ITEM_SIZE_BASE)
 //unsigned short ITEM_SIZE[NUMBER_OF_GUI_SIZES] = {0x20, 0x40, 0x80, 0x100}; // 13,32,48, and 64
-SDL_Surface *item_set[NUMBER_OF_GUI_SIZES] = 	{NULL,NULL,NULL,NULL};	// this is what holds all of the item sprites
+// item_set[0] is null. it is not inteneded to be used.
+// ietm_set[1] is the normal size
+// item_set[2] is twice the size
+// item_set[3] is three times the size
+// etc...
+SDL_Surface *item_set[NUMBER_OF_GUI_SIZES+1] = 	{NULL,NULL,NULL,NULL};	// this is what holds all of the item sprites
 
 #define SCREEN_BPP 32
 
@@ -61,24 +67,23 @@ TTF_Font *font16=NULL;
 SDL_Color textColor = { 255, 255, 255 };
 
 // id for changing materials
-// 3 = water
 int currentMat = 1;
 
 // mouse moddifier used for brushes
 short mouseModifier = 0;
 
-// necessary function prototype.
+// necessary function prototypes.
+// this is so that functions that use THESE functions can be compiled before THESE functions are implemented.
 void setcell(int , int, int);
 void apply_surface( int x, int y,  SDL_Surface* source, SDL_Surface* destination );
 void apply_surface_clips( int x, int y,  SDL_Surface *source, SDL_Surface *destination, SDL_Rect *clip );
 Uint32 get_pixel(SDL_Surface *surface, int x, int y);
 void scale_surface(SDL_Surface *sour, SDL_Surface *dest, short scalingFactor);
 
-// include all of the other header files that have functions and variables that will be used throughout the program.
-//#include "world_gen.h"
+// include all of the other header files that have proprietary functions and variables that will be used throughout the program.
 #include "general_functions.h"
 #include "materials_and_cells.h"
-//#include "selection_gui.h"
+#include "npc.h"
 #include "items.h"
 #include "quests.h"
 #include "player.h"

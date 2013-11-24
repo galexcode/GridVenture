@@ -87,7 +87,7 @@ int gen_tree(int x, int y){
 	//-------------------------------
 	// generate leaves
 	//-------------------------------
-	int numberOfLeaves = get_rand(35,50);	// generate a random number of how many leaves need to be placed
+	int numberOfLeaves = get_rand(48,64);	// generate a random number of how many leaves need to be placed
 	int l=0;								// this keeps track of how many leaves have been placed
 	int failures = 0;						// this keeps track of how many times the loop has failed to find a suitable place to put leaves
 	int MAX_LEAF_FAILURES = 20;				// this is the maximum tolerable amount of subsequent failures.
