@@ -20,8 +20,8 @@ Alternatively, navigate to the **bin/Release History/** directory. There you wil
 
 There are some "interesting" gems in the **bin/Debug/** directory. There are several version of the game in there that were not official releases, but I thought were noteworthy in some way and wanted to save the exe of that build.
 
-###Story
-[GoogleDoc](https://docs.google.com/document/d/1JKBvbpDwEkYBhVAvm2ZJd-BDJjaw3UVOXTx5iTxoJ2w/edit#heading=h.a2ybt58xq5v3) This document is public and anyone can comment on it. (Ctrl+Alt+M to comment)
+###Google Doc for Story Development
+[GoogleDoc](https://drive.google.com/#folders/0BwrDfvTqlcwKZldBWTZhdWNFc0E) This folder is **public** and anyone can comment on it. (**protip: Press Ctrl+Alt+M to comment on a document.**
 
 ###Concept Art
 [Tumblr Blog](http://jensensketch.tumblr.com/) This is the blog for concept art for the game. And generally whatever Jensen/Domo feels like drawing.
