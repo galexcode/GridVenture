@@ -38,7 +38,6 @@ void generate_item_sets();
 
 // this is the default speed at which items can be used
 #define ITEM_DEFAULT_COOLDOWN 1000;
-#define DEFAULT_STACK_AMOUNT 256;
 struct itemData{
 	
 	// this is what type of item the item is. for example, it could be it_consumable, it_weapon
@@ -80,6 +79,7 @@ struct itemData{
 #define dur_wood 0x40
 #define dur_stone 0x100
 #define dur_igneous 0x400
+#define DEFAULT_STACK_AMOUNT 256;
 /// this fuction sets a certain item to default values 
 void item_erase(struct itemData *datitem){
 	datitem->name = "!Invalid item!";				// default invalid name
@@ -213,7 +213,7 @@ void init_different_item_set_sizes(){
 	int scalingFactor;
 	
 	// assume the [0] element has already been loaded with IMG_Load
-	for(s=1; s<NUMBER_OF_GUI_SIZES; s++){
+	for(s=1; s<=NUMBER_OF_GUI_SIZES; s++){
 		scalingFactor = ITEM_SIZE/ITEM_SIZE_BASE;
 		item_set[s] = create_surface(item_set[0]->w*scalingFactor, item_set[0]->h*scalingFactor);
 		scale_surface(item_set[0],item_set[s],scalingFactor);

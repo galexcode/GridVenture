@@ -9,6 +9,7 @@ struct Quest{
 	// or possibly just a NOT system. so that in order to progress in a certain quest, you would need to have not completed some other quest.
 	// in that way, you could make certain quests unavailable if you finished other ones.
 	// e.g. if you complete the "Kill the Evil Ogre" quest, then you cannot start the "Run an errand for the very much alive Evil Ogre" quest. because he would be dead and it wouldn't make any sense at all.
+	// these would probably be pointers to the quests. or better yet, simply numbers that index into the master quest array.
 	Prerequisites{
 		Quest1
 		Quest3
@@ -24,9 +25,9 @@ struct Quest{
 		...
 	}
 	
-	// each subquest is a smaller part of the main quest. they contain bits and pieces of the original goals.
+	// each objective is a smaller part of the main quest. they contain bits and pieces of the original goals.
 	// imagine your main quest is to grow some food...
-	SubQuests{
+	Objctives{
 		Quest_x_1: plant crops
 		Quest_x_2: water crops
 		Quest_x_3: harvest crops
@@ -58,7 +59,12 @@ struct Quest{
 }
 
 
-
+the map would show when the player had started and finished quests.
+	time it took to complete:     	5 min		   7 min				  15 min	 		4 min
+	quest in progress:			|-- quest a--|---- quest b ----|-------- quest c -------|- quest d -|----  ...
+	absolute time:				0 min		 5 min			   12 min					27 min		31 min ...
+	
+	
 there must be some large fuction that checks every quest requirements.
 it will evaluate the quests and see if the user has started a quest, finished it, or even if it is available.
 to make sure it is watertight, it would loop through checking each quest until there are no new updates.

@@ -57,6 +57,7 @@
 		</Unit>
 		<Unit filename="map_editor.h" />
 		<Unit filename="materials_and_cells.h" />
+		<Unit filename="npc.h" />
 		<Unit filename="player.h" />
 		<Unit filename="player_movement.h" />
 		<Unit filename="quests.h" />
