@@ -71,6 +71,127 @@ int apply_text(SDL_Surface *datsurface, int x, int y, TTF_Font *theFont, char *t
 	return 1;
 }
 
+/// THIS WILL NEED TO BE RENOVATED. THIS FUNCTION WILL NO LONGER BE IN CHARGE OF BREAKING UP LONG PARAGRAPHS INTO SMALLER LINES OF TEXT. THAT WILL BE ANOTHER FUNCTION'S JOB.
+/// this generates a surface for a tooltop given proper parameters and returns a pointer to that surface.
+SDL_Surface *generate_tootip(char *msg){
+	//create_surface()
+	//---------------------------------------------------------------------
+	// calculate how many lines there are in the tooltip
+	//---------------------------------------------------------------------
+	int i;										// indexing variable
+	int curch;									// keeps track of line beginnings.
+	bool seenSpace;								// keep track of whether you have seen a space yet in various places in the function.
+	unsigned char lines = 1;					// this is the number of lines. initially set to zero, but it calculated right away.
+	unsigned char maxLines = 10;				// this is the max number of lines in the tooltip.
+	Uint16 lineEnds[maxLines];					// this records where current tooltip line ends.
+	Uint16 lineStarts[maxLines];				// this records where new tooltip line starts.
+	lineStarts[0] = 0;
+	
+	Uint16 c = 0;								// this is the index into the msg string.
+	Uint16 cLine = 1;							// this is the number of characters so far on the current line.
+	Uint16 cMaxPerLine = 20;					// this is the max number of characters per line.
+	Uint16 cMaxTotal = cMaxPerLine*maxLines;	// this is the total max number of characters in the tooltip itself.
+	
+	// calculate number of lines in this loop
+	while(lines <= maxLines){
+		
+		if(c >= cMaxTotal) break;				// if you reach the maximum amount of characters in the tooltip message, then quit counting lines.
+		if(msg[c] == '\0') break;				// if you reach the end of the tooltip message, then quit counting lines.
+		
+		if(cLine >= cMaxPerLine){				// if the number of characters seen on this line so far is greater than the maximum acceptable...
+			
+			//---------------------------------------------------------------------
+			// seperate the lines by words
+			//---------------------------------------------------------------------
+			seenSpace = false;											// default false. it will be set to true when the program encounters a space.
+			curch = lineStarts[lines-1];								// store the index location of the current char in the msg array
+			for(i=0; i<=cMaxPerLine; i++){								// find the end of the current string (allow i to get up to the max characters per line so that we can check it inside the for loop)
+				
+				if(curch-i < 0 || i==cMaxPerLine){						// the current word is longer than the max number of characters per line, we will have to just cut up the word into pieces on multiple lines
+					lineEnds[lines-1]=lineStarts[lines-1]+cMaxPerLine-1;// set the end of the line to the current character
+					lineStarts[lines] = lineEnds[lines-1]+1;			// set the beginning of the next line to the character immidiately after the previous line's ending.
+					break;												// break out of the loop.
+				}
+				if(msg[curch-i] == ' '){								// find the most recently passed space character.
+					seenSpace = true;									// you have encountered a space
+				}
+				if(seenSpace && msg[curch-i] != ' '){					// if you have seen a space before, but you are not currently looking at a space...
+					lineEnds[lines-1] = curch-i;						// make the lineEnding of the current line the current character minus how far back you had to go to find the end of the previous word.
+					#if(1)
+					printf("lineEnds  [%d] = %d\n",lines-1,curch-i);
+					#endif
+					break;												// you got what you needed. now break out.
+				}
+			}
+			if(i != cMaxPerLine){										// the lineStarts for the next line will already be set if i == cMaxPerLine. so only check if this isn't the case.
+				
+				lineStarts[lines] = lineEnds[lines-1]+1;				// keep track of where the next line starts.
+				
+			}
+			
+			lines++;							// increment the number of lines
+			cLine=1;							// reset the number of characters seen on the current line
+		}
+		else{
+			cLine++;							// increment the number of characters seen in the curren line of the tooltip message
+		}
+		
+		c++;									// increment the number of characters seen in the tooltip message so far
+	}
+	lines--; // decrement to make this number acurate from here on out.
+	
+	
+	#if(1)//									// debugging information
+	printf("lines = %d\n",lines); 
+	for(i=0;i<lines;i++){
+		printf("lineStarts[%d] = %d\n",i,lineStarts[i]);
+		printf("lineEnds  [%d] = %d\n",i,lineEnds[i]);
+	}
+	int l;
+	for(l=0; l<lines; l++){
+		for(c=lineStarts[l]; c<=lineEnds[l] && msg[c] != '\0'; c++){
+			printf("%c",msg[c]);
+		}
+		printf("\n");
+	}
+	#endif
+	
+	/*
+	unsigned char lines;
+	unsigned char maxLines = 10;
+	
+	unsigned char characters;
+	unsigned char maxCharactersPerLine = 15;
+	
+	unsigned short lineBegins[maxLines];
+	unsigned short charIndex;
+	
+	// index through all of the lines in the tooltip
+	for(lines=0, charIndex=0; lines<maxLines; lines++){
+			
+		for(characters=0; characters<maxCharactersPerLine; characters++){
+			// if the character at [charIndex] is a newline...
+			if(msg[charIndex] == '\n'){
+				lineBegins[lines] = ++charIndex; // increment the charIndex variable and then save a copy of that value in the lineBegins[] array.
+				break;
+			}
+		}
+		if(msg[charIndex-1]=='\0'){ // if the last character in the string was a null character,
+			break;
+		}
+	}
+	*/
+	//---------------------------------------------------------------------
+	// apply the rectangle
+	//---------------------------------------------------------------------
+	
+	
+	
+	
+	
+	return NULL;	// something bad happened if you are here...
+}
+
 
 /// this applies a source surface (with a clipping rectangle) to a destination at point (x,y)
 void apply_surface_clips( int x, int y,  SDL_Surface *source, SDL_Surface *destination, SDL_Rect *clip ){

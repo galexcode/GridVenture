@@ -62,6 +62,8 @@ SDL_Event event;
 // the fint that will be used
 TTF_Font *font = NULL;
 TTF_Font *font16=NULL;
+TTF_Font *font_tooltip=NULL; // this is the font for the tooltips.
+#define FONT_SIZE_TOOLTIP 14
 
 //The color of the text
 SDL_Color textColor = { 255, 255, 255 };
@@ -81,6 +83,7 @@ Uint32 get_pixel(SDL_Surface *surface, int x, int y);
 void scale_surface(SDL_Surface *sour, SDL_Surface *dest, short scalingFactor);
 
 // include all of the other header files that have proprietary functions and variables that will be used throughout the program.
+#include "words.h"
 #include "general_functions.h"
 #include "materials_and_cells.h"
 #include "npc.h"

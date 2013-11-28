@@ -36,7 +36,6 @@ int main( int argc, char* args[] )
     init_items();								// initialize items
     init_different_item_set_sizes();			// initialize different sizes of item_set surfaces
     init_quests();								// initialize the quests
-    printf("%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n", SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_6, SDLK_7, SDLK_8);
     
     //----------------------------------------------------
 	// surfaces and rects
@@ -67,7 +66,9 @@ int main( int argc, char* args[] )
 	player.inv.slot[17].item = i_sword_wood;
 	player.inv.slot[18].item = i_hammer_igneous;
 	#endif
+    //----------------------------------------------------
 	// enter the main while loop of the game.
+	//----------------------------------------------------
     while(1){
 		
     	//While there's an event to handle

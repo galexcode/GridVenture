@@ -152,12 +152,13 @@ int load_files(){
     }
     
     //open font file
-    font = TTF_OpenFont( "resources\\fonts\\8bitoperator.ttf", 22 );
-    font16 = TTF_OpenFont( "resources\\fonts\\8bitoperator.ttf", 16);
+    font = TTF_OpenFont( "resources\\fonts\\FreeMonoBold.ttf", 22 );
+    font16 = TTF_OpenFont( "resources\\fonts\\FreeMonoBold.ttf", 16);
+    font_tooltip = TTF_OpenFont( "resources\\fonts\\FreeMonoBold.ttf", FONT_SIZE_TOOLTIP);
     
-    if (font == NULL || font16 == NULL)
+    if (font == NULL || font16 == NULL || font_tooltip == NULL)
     {
-        MessageBox(NULL, "Could not load 8bitoperator.ttf", "Error loading font", MB_OK);
+        MessageBox(NULL, "Could not load FreeMonoBold.ttf", "Error loading font", MB_OK);
     }
 	
 	item_set[0] = load_image("resources\\images\\item_set.png");

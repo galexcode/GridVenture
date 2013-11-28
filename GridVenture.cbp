@@ -62,6 +62,7 @@
 		<Unit filename="player_movement.h" />
 		<Unit filename="quests.h" />
 		<Unit filename="unused.h" />
+		<Unit filename="words.h" />
 		<Unit filename="world_gen.h" />
 		<Extensions>
 			<code_completion />
