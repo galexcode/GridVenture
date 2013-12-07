@@ -58,13 +58,30 @@ int main( int argc, char* args[] )
 	player.y_pos = 1080-500;					// set player location y
 	verify_grid_and_cell_size();				// final grid and cell verification
 	#if(1)//									// this is just for testing the user's inventory
-	player.inv.slot[24].item = i_hatchet_igneous;
-	player.inv.slot[25].item = i_sword_igneous;
-	player.inv.slot[26].item = i_torch;
-	player.inv.slot[16].item = i_hatchet_igneous;
-	player.inv.slot[8].item = i_hatchet_stone;
-	player.inv.slot[17].item = i_sword_wood;
-	player.inv.slot[18].item = i_hammer_igneous;
+		player.inv.slot[24].item = i_hatchet_igneous;
+		player.inv.slot[25].item = i_sword_igneous;
+		player.inv.slot[26].item = i_torch;
+		player.inv.slot[16].item = i_hatchet_igneous;
+		player.inv.slot[8].item = i_hatchet_stone;
+		player.inv.slot[17].item = i_sword_wood;
+		player.inv.slot[18].item = i_hammer_igneous;
+	#endif
+	//----------------------------------------------------
+	// this simply tests the paragra_to_lines() function
+	//----------------------------------------------------
+	#if(1)
+		char *testString = "Hello World. This is Ryan Jensen Reporting in for Orders direct from the capital! Order hash number 0E8AB2C4EB82043F7FFF2AEB0C89S.";
+		const int width = 12;
+		const int height = 16;
+		char testLines[height][width+1];
+		paragraph_to_lines(testString,width,height,&testLines[0][0],NULL,NULL);
+		int j,i;
+		for(j=0; j<height; j++){
+			for(i=0; i<width+1; i++){
+				printf("%c",testLines[j][i]);
+			}
+			printf("\n");
+		}
 	#endif
     //----------------------------------------------------
 	// enter the main while loop of the game.
