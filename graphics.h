@@ -71,10 +71,13 @@ int apply_text(SDL_Surface *datsurface, int x, int y, TTF_Font *theFont, char *t
 	return 1;
 }
 
-/// THIS WILL NEED TO BE RENOVATED. THIS FUNCTION WILL NO LONGER BE IN CHARGE OF BREAKING UP LONG PARAGRAPHS INTO SMALLER LINES OF TEXT. THAT WILL BE ANOTHER FUNCTION'S JOB.
+
 /// this generates a surface for a tooltop given proper parameters and returns a pointer to that surface.
-SDL_Surface *generate_tootip(char *msg){
+SDL_Surface *generate_tootip(char *lines, int width, int height){
 	// nothing here atm.
+	
+	//if all else fails, return 
+	return NULL;
 }
 
 

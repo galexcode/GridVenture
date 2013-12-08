@@ -210,7 +210,7 @@ void evaluate_gravity(int x_start, int y_start, int width, int height){
 							if( (cells_right_to_obstruction_sloping != -currentGrav+1) && (cells_left_to_obstruction_sloping != -currentGrav+1) && (cells_right_to_obstruction != -currentGrav+1) && (cells_left_to_obstruction != -currentGrav+1) && cells_right_to_air && cells_left_to_air && length_of_mat_right<0 && length_of_mat_left<0 ) break;
 						}//end for looping through the horizontal elements around the material
 						/*
-						#if ( DEBUG_GRIDSIM )
+						#if ( DEBUG )
 							printf("\ncells_right_to_obstruction = %d\n", cells_right_to_obstruction);
 							printf("cells_left_to_obstruction = %d\n", cells_left_to_obstruction);
 							printf("cells_right_to_air = %d\n", cells_right_to_air);

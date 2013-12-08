@@ -26,17 +26,22 @@ void handle_error(int type, char *msg){
 }
 
 
-
-
-
 void clean_up();
-
-#define quit_surface_error 10
+/// these are definitions for ways to quit the game. passing any other arguments for the quitFlag just quits quietly.
+#define quit_surface_error		10
+#define quit_file_open			11
 
 void quit_game(Uint32 quitFlag, char *errmsg){
 	
-	if(quitFlag == quit_surface_error){
-		MessageBox(NULL,errmsg,"NULL surface error.", MB_OK);
+	switch(quitFlag){
+	case quit_surface_error:
+		MessageBox(NULL,errmsg,"NULL surface error", MB_OK);
+		break;
+	case quit_file_open:
+		MessageBox(NULL,errmsg,"Ironic Error", MB_OK);
+		break;
+	default:
+		break;
 	}
 	clean_up();
 	exit(quitFlag);
@@ -139,6 +144,17 @@ int load_files(){
 		return false;
 	}
 	*/
+	
+	errorFile = fopen("error.txt","w");
+	debugFile = fopen("debug.txt","w");
+	if(errorFile == NULL){
+		quit_game(quit_file_open,"Error creating errorFile.txt. Consider yourself lucky you get to see something this oddly ironic.");
+	}
+	if(debugFile == NULL){
+		quit_game(quit_file_open,"Error creating debugFile.txt");
+	}
+	
+	
 	
 	icon = load_image("resources//images//game icon.png");
 	if(icon != NULL)

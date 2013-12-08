@@ -48,7 +48,7 @@ SDL_Surface *item_set[NUMBER_OF_GUI_SIZES+1] = 	{NULL,NULL,NULL,NULL};	// this i
 //global variable that tells us if the game is paused or not
 int paused = 0;
 // global variable that tells you the FPS of the game.
-int FPS = 0;
+int FPS = 404; // arbitrary initial value
 
 // The surfaces that will be used
 SDL_Surface *screen = 		NULL;	// this is the surface the player sees.
@@ -58,6 +58,11 @@ SDL_Surface *text = 		NULL;	// this is a general purpose text surface.
 SDL_Surface *icon = 		NULL;	// this holds the icon for the game.
 // The event structure that will be used
 SDL_Event event;
+
+// this is the file that all error messages get written to
+FILE *errorFile = NULL;
+// this is what gets debugging information printed to it.
+FILE *debugFile = NULL;
 
 // the fint that will be used
 TTF_Font *font = NULL;

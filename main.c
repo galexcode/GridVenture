@@ -70,18 +70,20 @@ int main( int argc, char* args[] )
 	// this simply tests the paragra_to_lines() function
 	//----------------------------------------------------
 	#if(1)
-		char *testString = "Hello World. This is Ryan Jensen Reporting in for Orders direct from the capital! Order hash number 0E8AB2C4EB82043F7FFF2AEB0C89S.";
-		const int width = 12;
-		const int height = 16;
+		char *testString = "Hello World. ABC This is Ryan Jensen. I'm writing on behalf of the GridVenture Liberation organization.";
+		const int width = 16;
+		const int height = 8;
 		char testLines[height][width+1];
-		paragraph_to_lines(testString,width,height,&testLines[0][0],NULL,NULL);
+		int rw, rh; // resulting widths, resulting height
+		paragraph_to_lines(testString,width,height,&testLines[0][0],&rw,&rh);
 		int j,i;
 		for(j=0; j<height; j++){
 			for(i=0; i<width+1; i++){
-				printf("%c",testLines[j][i]);
+				fprintf(debugFile,"%c",testLines[j][i]);
 			}
-			printf("\n");
+			fprintf(debugFile,"\n");
 		}
+		fprintf(debugFile,"\nresultingWidth = %d\nresultingHeight = %d\n",rw,rh);
 	#endif
     //----------------------------------------------------
 	// enter the main while loop of the game.
