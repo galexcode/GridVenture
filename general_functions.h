@@ -25,6 +25,58 @@ void handle_error(int type, char *msg){
 	}
 }
 
+/// this function checks to see if a file is empty or not.
+// returns true if it is empty.
+// returns false if it is NOT empty.
+#define DEBUG_IS_EMPTY_FILE 0
+bool is_empty_file(char *relativeFilePath){
+	FILE *datFile = fopen(relativeFilePath,"r");	// attempt to open the file
+	if(datFile == NULL) return true;				// if there is no file, then the file is empty.
+	
+	#if(DEBUG_IS_EMPTY_FILE)
+	fprintf(debugFile,"\nchecking if %s is empty:\n",relativeFilePath);
+	#endif
+	
+	// check to see if the first character is an end of File character
+	char c;
+	while(1){
+		c = fgetc(datFile);
+		if( c == EOF ){
+			#if(DEBUG_IS_EMPTY_FILE)
+			fprintf(debugFile, "first character is EOF. returning true.\n");
+			#endif
+			fclose(datFile);	// shut the door on the way out
+			return true;		// the file is empty
+		}
+		else{
+			#if(DEBUG_IS_EMPTY_FILE)
+			fprintf(debugFile,"first character is (char)%c = (int)%d\n. returning false.",c,(int)c);
+			#endif
+			fclose(datFile);	// shut the door on the way out
+			return false;		// the file is NOT empty
+		}
+	}
+}
+
+/// this deletes a file if it is empty (has no characters written in it)
+// relativeFileName is the name of the file with the extension, i.e. "myTextFile.txt"
+// WARNING: if you have any open instances of the file, it will not be deleted.
+/// returns true if the file was deleted, false if the file was not deleted.
+bool delete_file_if_empty(char *relativeFileName){
+	// get the full file path of the error file
+	const int length = 200;
+	char fpath[length+1];
+	GetFullPathName("error.txt",length,fpath,NULL);
+	
+	//if the error.txt file is empty
+	if(is_empty_file("error.txt")){
+		const int length = 200;							// declare file path max length (in chars)
+		char fpath[length+1];							// this will hold the path of the file
+		GetFullPathName("error.txt",length,fpath,NULL);// get the full path of the file
+		DeleteFile(fpath);								// delete the file
+	}
+}
+
 
 void clean_up();
 /// these are definitions for ways to quit the game. passing any other arguments for the quitFlag just quits quietly.
@@ -32,6 +84,12 @@ void clean_up();
 #define quit_file_open			11
 
 void quit_game(Uint32 quitFlag, char *errmsg){
+	
+	// close the files that were never written to
+	fclose(errorFile);
+	delete_file_if_empty("error.txt");
+	fclose(errorFile);
+	delete_file_if_empty("debug.txt");
 	
 	switch(quitFlag){
 	case quit_surface_error:

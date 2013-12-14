@@ -96,8 +96,7 @@ int main( int argc, char* args[] )
     		//If the user has Xed out the window
     		if( event.type == SDL_QUIT || quit == true ){
 				//Quit the program
-				clean_up();
-				return 0;
+				quit_game(0,NULL);
 			}
 			
             if( event.type == SDL_MOUSEBUTTONDOWN ){						/// mouse down
@@ -277,8 +276,8 @@ int main( int argc, char* args[] )
     }// end while(quit == false)
 
 
-    //Free the surface and quit SDL
-    clean_up();
+    // quit the game
+    quit_game(0,NULL);
 
     return 0;
 }
