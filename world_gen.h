@@ -128,8 +128,10 @@ int gen_tree(int x, int y){
 void gen_world(int worldType, long long  unsigned int worldFlag){
 	
 	// initial settings. zoom all the way out and check out the map in all its glory
-	paused = 1;
-	CELL_SIZE = 1;
+	if(worldFlag & wf_display_generation){
+		CELL_SIZE = 1;
+		paused = 1;
+	}
 	verify_grid_and_cell_size();
 	
 	//clean grid

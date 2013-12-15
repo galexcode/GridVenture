@@ -7,7 +7,7 @@ int main( int argc, char* args[] )
 {
 	//get a random seed.
 	srand(time(NULL));
-	CELL_SIZE = 12; // set starting cell size	
+	CELL_SIZE = 32; // set starting cell size	
 	
 	//----------------------------------------------------
 	// VARIABLES USED IN MAIN()
@@ -69,7 +69,7 @@ int main( int argc, char* args[] )
 	//----------------------------------------------------
 	// this simply tests the paragra_to_lines() function
 	//----------------------------------------------------
-	#if(1)
+	#if(0)
 		char *testString = "Hello World. ABC This is Ryan Jensen. I'm writing on behalf of the GridVenture Liberation organization.";
 		const int width = 16;
 		const int height = 8;

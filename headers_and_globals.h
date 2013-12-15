@@ -11,10 +11,18 @@
 #define false 0 // c++ adaption
 #define true 1  // c++ adaption
 
-#define DEBUG 1 // this is the varibale that tells us whether we want to debug or not.
+/// the following variables are all for debugging/error output.
+// all debugging/error output will (or, at least, SHOULD) go to the "debug.txt" and "error.txt" files.
+// print all error and debugging information to those files with fprintf.
+// the FILE pointers are debugFile and errorFile respectively.
+#define DEBUG 1 // general debug output.
+#define DEBUG_QUIT_INFO 1 // this will print to the 
+#define DEBUG_IS_EMPTY_FILE 0 // this debugs specifically the is_empty_file() function.
+#define PARAGRAPH_DEBUG_OUTPUT 0 // this is for debugging output for the paragraph_to_lines() function
+#define PARAGRAPH_ERROR_OUTPUT 1 // this is for error output for the paragraph_to_lines() function
 
-//allowing us to efficiently use the 'bool' type
-#define bool char // 1 byte of information for a bool. not perfect, but better than using 4 bytes! :D
+//allowing us to use the bool type. you might want to remove this definition if you are going to try to compile this project as a C++
+#define bool char
 #define false 0
 #define FALSE 0
 #define true 1
@@ -86,6 +94,7 @@ void apply_surface( int x, int y,  SDL_Surface* source, SDL_Surface* destination
 void apply_surface_clips( int x, int y,  SDL_Surface *source, SDL_Surface *destination, SDL_Rect *clip );
 Uint32 get_pixel(SDL_Surface *surface, int x, int y);
 void scale_surface(SDL_Surface *sour, SDL_Surface *dest, short scalingFactor);
+void clean_up();
 
 // include all of the other header files that have proprietary functions and variables that will be used throughout the program.
 #include "words.h"

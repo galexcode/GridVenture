@@ -21,12 +21,11 @@ struct npcData{
 	// this tells you if you have unlocked the character's bio
 	bool bioUnlocked;
 	
-	// this is what the npc says by default.
-	// this is usually overwritten depending on what quests you have finished.
+	// this variable will point to a string. that is what the character says.
+	// the pointer is usually updated when you complete a quest.
 		// e.g.
 		// if you have not completed any quests, he says, "Hello. I'm Tim. I run the local pub."
 		// if you have completed a dragon slaying quest, he might say, "Great work! I could have never done what you did!"
-	// this variable is just what the player says by default. before any quests have bee completed.
 	char *speech;
 	
 };

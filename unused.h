@@ -244,6 +244,7 @@ void pan(int direction){
 ///-----------------------------------------------------------------------------
 // this section will combine item parts from the item_parts_set SDl_Surface and it will piecemeal them together to form the correct images for all items.
 
+
 #define DEBUG_ITEM_SET_SURFACES 1
 
 #define ORIGINAL_ITEM_SET_SIZE	32	// pixels
@@ -315,17 +316,17 @@ void generate_item_sets(){
 	int i,j;
 	for(j=0; j<32; j++){
 		for(i=32; i<128; i++){
-			printf("%8x  ",get_pixel(item_parts_set,i,j));
+			fprintf(debugFile,"%8x  ",get_pixel(item_parts_set,i,j));
 		}
-		printf("\n");
+		fprintf(debugFile,"\n");
 	}
-	printf("\n\n\n\n\n\n");
+	fprintf(debugFile,"\n\n\n\n\n\n");
 	
 	for(j=0; j<32; j++){
 		for(i=32; i<128+32; i++){
-			printf("%8x  ",get_pixel(item_set,i,j));
+			fprintf(debugFile,"%8x  ",get_pixel(item_set,i,j));
 		}
-		printf("\n");
+		fprintf(debugFile,"\n");
 	}
 	#endif
 	

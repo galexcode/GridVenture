@@ -28,13 +28,13 @@ void handle_error(int type, char *msg){
 /// this function checks to see if a file is empty or not.
 // returns true if it is empty.
 // returns false if it is NOT empty.
-#define DEBUG_IS_EMPTY_FILE 0
+
 bool is_empty_file(char *relativeFilePath){
 	FILE *datFile = fopen(relativeFilePath,"r");	// attempt to open the file
 	if(datFile == NULL) return true;				// if there is no file, then the file is empty.
 	
 	#if(DEBUG_IS_EMPTY_FILE)
-	fprintf(debugFile,"\nchecking if %s is empty:\n",relativeFilePath);
+	fprintf(debugFile,"\n\nchecking if %s is empty:\n\t",relativeFilePath);
 	#endif
 	
 	// check to see if the first character is an end of File character
@@ -68,29 +68,47 @@ bool delete_file_if_empty(char *relativeFileName){
 	char fpath[length+1];
 	GetFullPathName("error.txt",length,fpath,NULL);
 	
-	//if the error.txt file is empty
+														//IF the error.txt file is empty
 	if(is_empty_file("error.txt")){
 		const int length = 200;							// declare file path max length (in chars)
 		char fpath[length+1];							// this will hold the path of the file
-		GetFullPathName("error.txt",length,fpath,NULL);// get the full path of the file
+		GetFullPathName("error.txt",length,fpath,NULL);	// get the full path of the file
 		DeleteFile(fpath);								// delete the file
+		
+		FILE *testFile = fopen(relativeFileName,"r");	// try to open the file that was just allegedly deleted.
+		if(testFile == NULL){							// if the file cannot be opened
+			return true;								// return true
+		}
+		else{											// if the file exists
+			fclose(testFile);							// close the file
+			return false;								// return false
+		}
 	}
+	return false;										// OTHERWISE: the file was not empty. did not delete. return false
 }
 
 
-void clean_up();
 /// these are definitions for ways to quit the game. passing any other arguments for the quitFlag just quits quietly.
 #define quit_surface_error		10
 #define quit_file_open			11
 
 void quit_game(Uint32 quitFlag, char *errmsg){
 	
-	// close the files that were never written to
+	// last bit of debugging information
+	#if(DEBUG_QUIT_INFO)
+	fprintf(debugFile,"\n\nQUIT GAME with\n\tquitFlag = %d\n\terrmsg = %s",quitFlag,errmsg);
+	#endif
+	//--------------------------------------------------------
+	// closing files
+	//--------------------------------------------------------
 	fclose(errorFile);
 	delete_file_if_empty("error.txt");
-	fclose(errorFile);
-	delete_file_if_empty("debug.txt");
+	fclose(debugFile);
+	//delete_file_if_empty("debug.txt");
 	
+	//--------------------------------------------------------
+	// evaluating the quitFlag and errmsg
+	//--------------------------------------------------------
 	switch(quitFlag){
 	case quit_surface_error:
 		MessageBox(NULL,errmsg,"NULL surface error", MB_OK);
@@ -101,6 +119,9 @@ void quit_game(Uint32 quitFlag, char *errmsg){
 	default:
 		break;
 	}
+	//--------------------------------------------------------
+	// clean up and terminate the program
+	//--------------------------------------------------------
 	clean_up();
 	exit(quitFlag);
 }

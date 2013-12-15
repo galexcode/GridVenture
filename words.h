@@ -9,9 +9,7 @@
 // resultHeight is how many lines the paragraph transformed into.
 	// both resultWidth and resultHeight are pointers to memory where the function will store the values of the final width and height of the transformed paragraph.
 	// when the function is called, you will need to provide a pointer to a memory location where these values can be stored.
-/// this tells us if we want to write to the output file with debugging information or not.
-#define PARAGRAPH_DEBUG_OUTPUT 1
-#define PARAGRAPH_ERROR_OUTPUT 1
+
 /// all of the possible error codes for paragraph are defined here
 #define PARAGRAPH_SUCCESS					 0
 #define PARAGRAPH_INVALID_MSG				-1
@@ -44,33 +42,35 @@ int paragraph_to_lines(char *msg, int width, int height, char *lines, int *resul
 	//----------------------------------------------------------
 	// checking for bad input and NULL pointers
 	//----------------------------------------------------------
-	
+	#if(PARAGRAPH_ERROR_OUTPUT)
+	fprintf(errorFile,"\n\n"); // initial spacing
+	#endif
 	//check to make sure that the paragraph is valid
 	if(msg == NULL){
 		#if(PARAGRAPH_ERROR_OUTPUT)
-		fprintf(errorFile, "\nNULL msg sent to paragraph_to_lines() function.\n");
+		fprintf(errorFile, "paragraph_to_lines(): NULL msg argument.\n");
 		#endif
 		// this is the message that will be returned
-		msg = "NULL msg argument sent to paragraph_to_line() function.";
+		msg = "paragraph_to_lines(): NULL msg argument.";
 	}
 	//check to make sure the lines is a valid pointer
 	if(lines == NULL){
 		#if(PARAGRAPH_ERROR_OUTPUT)
-		fprintf(errorFile, "\nNULL lines sent to paragraph_to_lines() function.\n");
+		fprintf(errorFile, "paragraph_to_lines(): NULL lines argument.");
 		#endif
 		return -1; // return if the pointer to the lines is invalid
 	}
 	// check to make sure height is valid
 	if(height<1){
 		#if(PARAGRAPH_ERROR_OUTPUT)
-		fprintf(errorFile, "\nInvalid height! height = %d.\n", height);
+		fprintf(errorFile, "paragraph_to_lines(): Invalid height! height = %d.", height);
 		#endif
 		return -2;
 	}
 	// check to make sure width  is valid
 	if(width<1){
 		#if(PARAGRAPH_ERROR_OUTPUT)
-		fprintf(errorFile, "\nInvalid width! height = %d.\n", width);
+		fprintf(errorFile, "paragraph_to_lines(): Invalid width! height = %d.", width);
 		#endif
 		return -3;
 	}
@@ -89,7 +89,7 @@ int paragraph_to_lines(char *msg, int width, int height, char *lines, int *resul
 	// calculate the length of the input msg paragraph
 	int msgLen = strlen(msg);
 	#if(PARAGRAPH_DEBUG_OUTPUT)
-	fprintf(debugFile,"\nmsgLen = %d\n",msgLen);
+	fprintf(debugFile,"\n\nmsgLen = %d",msgLen);
 	#endif
 	
 	//----------------------------------------------------------
