@@ -97,6 +97,7 @@ void scale_surface(SDL_Surface *sour, SDL_Surface *dest, short scalingFactor);
 void clean_up();
 
 // include all of the other header files that have proprietary functions and variables that will be used throughout the program.
+#include "game_time.h"
 #include "words.h"
 #include "general_functions.h"
 #include "materials_and_cells.h"

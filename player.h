@@ -47,8 +47,8 @@ struct inventoryData{
 // the fastest you can ever travel in cells/millsecond (positive by SDL coordinate convention)
 #define TERMINAL_VELOCITY 0.33f
 
-#define DEFAULT_PLAYER_WALK_SPEED 0.045f
-#define DEFAULT_PLAYER_JUMP_VELOCITY -0.110f
+#define DEFAULT_PLAYER_WALK_VEL 0.045f
+#define DEFAULT_PLAYER_JUMP_VELOCITY -0.02f
 
 
 struct playerData{
@@ -56,6 +56,10 @@ struct playerData{
 	// x and y POSITION		in the grid (using the SDL coordinate system)
 	int x_pos; // on the left side of the avater
 	int y_pos; // position of feet (lowest point on avatar)
+	
+	// x and y positions. these are for the player's floating point 
+	float x_pos_f;
+	float y_pos_f;
 	
 	// x and y VELOCITY		in the grid (using the SDL coordinate system)
 	float x_vel;
@@ -124,11 +128,13 @@ void inventory_erase(struct inventoryData *datinv){
 void init_player_attributes(struct playerData *datplayer){
 	
 	
-	datplayer->x_pos =			// set all x position...
-	datplayer->x_vel =			// ...velocity...
-	datplayer->x_accel =		// ...and acceleration to 0.
-	datplayer->y_pos =			// set all y position...
-	datplayer->y_vel =			// ...velocity...
+	datplayer->x_pos = 0;		// set all x position...
+	datplayer->x_pos_f = 0.0f;	// ...position float...
+	datplayer->x_vel = 0;		// ...velocity...
+	datplayer->x_accel = 0;		// ...and acceleration to 0.
+	datplayer->y_pos = 0;		// set all y position...
+	datplayer->y_pos_f = 0.0f;	// ...position float...
+	datplayer->y_vel = 0;		// ...velocity...
 	datplayer->y_accel = 0;		// ...and acceleration to 0.
 	
 	datplayer->width  = DEFAULT_PLAYER_WIDTH;					// set default player dimensions.
@@ -137,7 +143,7 @@ void init_player_attributes(struct playerData *datplayer){
 	datplayer->jumpVelocity = DEFAULT_PLAYER_JUMP_VELOCITY;		// this is the speed at which the player jumps up from the ground.
 																// it is negative by SDL coordinate system convention.
 	
-	datplayer->walkSpeed = DEFAULT_PLAYER_WALK_SPEED;			// set default walking speed. this is used for walking left and right.
+	datplayer->walkSpeed = DEFAULT_PLAYER_WALK_VEL;			// set default walking speed. this is used for walking left and right.
 																// so just enter a positive value. evaluate_player_movement() will do the rest.
 	
 	datplayer->onCollMat = false;								// the player is, by default, not on a material. this gets evaluated almost immidiately.

@@ -343,7 +343,7 @@ void print_debugging_information(int mousex, int mousey){
 	itoa((int)player.x_pos,textDummy,10);					// generate integer portion of x pos in string form
 	strcat(textMessage,textDummy);							// "x_pos=1234"
 	strcat(textMessage,".");								// "x_pos=1234."
-	itoa(((int)(player.x_pos*1000))%1000,textDummy,10);		// generate the first three decimal places of x_pos
+	itoa(player.x_pos_f*1000,textDummy,10);					// generate the first three decimal places of x_pos
 	strcat(textMessage,textDummy);							// "x_pos=1234.567"
 	apply_text(screen, 3, row1, font16, textMessage, white);	// apply text to screen
 	
@@ -351,7 +351,7 @@ void print_debugging_information(int mousex, int mousey){
 	itoa((int)player.y_pos,textDummy,10);					// generate integer portion of y_pos in string form
 	strcat(textMessage,textDummy);							// "y_pos=1234"
 	strcat(textMessage,".");								// "y_pos=1234."
-	itoa(((int)(player.y_pos*1000))%1000,textDummy,10);		// generate the first three decimal places of y_pos
+	itoa(player.y_pos_f*1000,textDummy,10);					// generate the first three decimal places of y_pos
 	strcat(textMessage,textDummy);							// "y_pos=1234.567"
 	apply_text(screen,145,row1, font16, textMessage, white);// apply text to screen
 	
@@ -370,8 +370,8 @@ void print_debugging_information(int mousex, int mousey){
 	//----------------------------------------------------
 	// PRINT TICKS and FPS INFORMATION
 	//----------------------------------------------------
-	strcpy(textMessage, "ms=");							// "Ticks="
-	itoa(SDL_GetTicks(), textDummy, 10);					// generate string of the number of ticks
+	strcpy(textMessage, "gt=");								// "gt=" means "game time equals"
+	itoa(game_time(), textDummy, 10);					// generate string of the number of ticks
 	strcat(textMessage, textDummy);							// "Ticks=123456789"
 	apply_text(screen,100,row2, font16, textMessage, white);// apply text to screen
 	

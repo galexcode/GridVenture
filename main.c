@@ -7,7 +7,7 @@ int main( int argc, char* args[] )
 {
 	//get a random seed.
 	srand(time(NULL));
-	CELL_SIZE = 32; // set starting cell size	
+	CELL_SIZE = 16; // set starting cell size	
 	
 	//----------------------------------------------------
 	// VARIABLES USED IN MAIN()
@@ -53,6 +53,10 @@ int main( int argc, char* args[] )
 	// generate world; initialize player; blast off
 	//----------------------------------------------------
 	gen_world(w_normal,0);						// generate a world on startup
+	int i;
+	#if(DEBUG)
+	for(i=0; i<GRID_WIDTH_ELEMENTS; i++) grid[i][800].mat = m_plant;	// generate stone line for testing
+	#endif
 	init_player_attributes(&player);			// get default player data.
 	player.x_pos = GRID_WIDTH_ELEMENTS/2;		// set player location x
 	player.y_pos = 1080-500;					// set player location y
@@ -145,9 +149,9 @@ int main( int argc, char* args[] )
             }
             else if(event.type == SDL_VIDEORESIZE){							/// window resize
 				
-				float new_cell_size = CELL_SIZE * event.resize.h/((float)SCREEN_HEIGHT); // adjust the pixel size.
-				if(new_cell_size - ((int)new_cell_size) >= 0.5f) CELL_SIZE = new_cell_size + 1;
-				else CELL_SIZE = new_cell_size;
+//				float new_cell_size = CELL_SIZE * event.resize.h/((float)SCREEN_HEIGHT); // adjust the pixel size.
+//				if(new_cell_size - ((int)new_cell_size) >= 0.5f) CELL_SIZE = new_cell_size + 1;
+//				else CELL_SIZE = new_cell_size;
 				SCREEN_WIDTH = event.resize.w;
 				SCREEN_HEIGHT = event.resize.h;
 				verify_grid_and_cell_size(); // make sure the window isn't too big for the cell size
