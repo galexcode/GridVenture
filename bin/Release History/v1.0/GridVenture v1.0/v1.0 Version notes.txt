@@ -1,8 +1,8 @@
 --------------------------------------------------------------
 
 GridVenture
-Version 0.4
-Released ####-##-## (#### ##th, 2013) ##:## PM GMT -6:00
+Version 1.0
+Released 2013-12-15 (December 15th, 2013) 9:44 PM (GMT -6:00)
 
 --------------------------------------------------------------
 >>>>		Updates:		<<<<
@@ -28,6 +28,22 @@ Released ####-##-## (#### ##th, 2013) ##:## PM GMT -6:00
 
 >	Player can scroll through hotbar with the mouse wheel or the number keys
 
+--------------------------------------------------------------
+>>>>		jenNotes:		<<<<
+--------------------------------------------------------------
+	
+		The game has just taken a sharp turn from being a
+	simulation type game to an adventure RPG game. Much of the
+	work done thus far is invisible to the user. Most of the
+	things added since v0.3 have been a foundation upon which
+	the rest of the game will be built.
+		When you move around, it may seem very shakey and
+	irritating to look at. This is because, while the motion
+	of the player is calculated using floating point
+	calculations, the effective position of the player is
+	expressed using discrete integers. This will be fixed in a
+	later update.
+	
 --------------------------------------------------------------
 >>>>		Team Members:		<<<<
 --------------------------------------------------------------

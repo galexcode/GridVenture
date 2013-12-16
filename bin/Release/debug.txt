@@ -1,0 +1,5 @@
+
+
+QUIT GAME with
+	quitFlag = 0
+	errmsg = (null)

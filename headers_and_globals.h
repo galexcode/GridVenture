@@ -15,7 +15,7 @@
 // all debugging/error output will (or, at least, SHOULD) go to the "debug.txt" and "error.txt" files.
 // print all error and debugging information to those files with fprintf.
 // the FILE pointers are debugFile and errorFile respectively.
-#define DEBUG 1 // general debug output.
+#define DEBUG 0 // general debug output.
 #define DEBUG_QUIT_INFO 1 // this will print to the 
 #define DEBUG_IS_EMPTY_FILE 0 // this debugs specifically the is_empty_file() function.
 #define PARAGRAPH_DEBUG_OUTPUT 0 // this is for debugging output for the paragraph_to_lines() function

@@ -235,7 +235,7 @@ int load_files(){
 	
 	
 	
-	icon = load_image("resources//images//game icon.png");
+	icon = load_image("resources\\images\\game icon.png");
 	if(icon != NULL)
 		SDL_WM_SetIcon(icon, NULL); // sets the icon of the windows and taskbar item
 	
@@ -260,8 +260,6 @@ int load_files(){
 	if(item_set == NULL){
 		handle_error(e_loadfile, "resources\\images\\item_set.png");
 	}
-	
-	
 	
 	//If everthing loaded fine
 	return true;

@@ -47,7 +47,7 @@ struct inventoryData{
 // the fastest you can ever travel in cells/millsecond (positive by SDL coordinate convention)
 #define TERMINAL_VELOCITY 0.33f
 
-#define DEFAULT_PLAYER_WALK_VEL 0.045f
+#define DEFAULT_PLAYER_WALK_VEL 0.025f
 #define DEFAULT_PLAYER_JUMP_VELOCITY -0.087f
 
 
