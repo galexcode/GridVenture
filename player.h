@@ -48,7 +48,7 @@ struct inventoryData{
 #define TERMINAL_VELOCITY 0.33f
 
 #define DEFAULT_PLAYER_WALK_VEL 0.045f
-#define DEFAULT_PLAYER_JUMP_VELOCITY -0.02f
+#define DEFAULT_PLAYER_JUMP_VELOCITY -0.087f
 
 
 struct playerData{
@@ -57,7 +57,9 @@ struct playerData{
 	int x_pos; // on the left side of the avater
 	int y_pos; // position of feet (lowest point on avatar)
 	
-	// x and y positions. these are for the player's floating point 
+	// x and y positions. these are for the player's floating point position.
+	// they are meant to be used as relative values referenced to the integer x_pos and y_pox values.
+	// the "true" x position of the player is:  ( x_pos + x_pos_f )
 	float x_pos_f;
 	float y_pos_f;
 	

@@ -45,6 +45,7 @@
 			<Add option="-lSDL_ttf" />
 		</Linker>
 		<Unit filename="cell_engine.h" />
+		<Unit filename="game_time.h" />
 		<Unit filename="general_functions.h" />
 		<Unit filename="graphics.h" />
 		<Unit filename="headers_and_globals.h" />

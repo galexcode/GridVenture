@@ -3,8 +3,7 @@
 
 
 
-
-#define MILLISECONDS_PER_CELL 20
+//#define MILLISECONDS_PER_CELL 20
 /// evaluate the physics of the player's motion.
 void evaluate_player_movement(struct playerData *datplayer, int keyup, int keyleft, int keydown, int keyright){
 	
@@ -38,17 +37,21 @@ void evaluate_player_movement(struct playerData *datplayer, int keyup, int keyle
 	// checking for user input
 	//----------------------------------------------------
 	if(keyup && datplayer->onCollMat){
-		datplayer->y_accel = DEFAULT_PLAYER_JUMP_VELOCITY;
+		datplayer->y_vel = datplayer->jumpVelocity;
 	}
-	if( (keyright && keyleft) || (!keyright && !keyleft) ){
+	// if both keys are pressed or unpressed, x velocity = 0.
+	if( !(keyright^keyleft) ){
 		datplayer->x_vel = 0;
 	}
+	// if only the left key is pressed,  the player walks to the  left.
 	else if(keyright){
-		datplayer->x_vel = DEFAULT_PLAYER_WALK_VEL;
+		datplayer->x_vel = datplayer->walkSpeed;
 	}
+	// if only the right key is pressed, the player walks to the right.
 	else if(keyleft){
-		datplayer->x_vel = -DEFAULT_PLAYER_WALK_VEL;
+		datplayer->x_vel = -datplayer->walkSpeed;
 	}
+	
 	//----------------------------------------------------
 	// numerical position and velocity calculations
 	//----------------------------------------------------
@@ -58,6 +61,18 @@ void evaluate_player_movement(struct playerData *datplayer, int keyup, int keyle
 	// add speed*time to position
 	datplayer->x_pos_f += datplayer->x_vel*millis;
 	datplayer->y_pos_f += datplayer->y_vel*millis;
+	
+	// print debugging information to debug file.
+	#if(DEBUG_EVALUATE_PLAYER_MOVEMENT)
+	if(datplayer->onCollMat && keyup){
+		fprintf(debugFile, "\n\nevaluate_player_movement():\n\t");
+		fprintf(debugFile, "millis = %d",millis);
+		fprintf(debugFile, "x_accel = %f\n\ty_accel = %f\n\t",datplayer->x_accel,datplayer->y_accel);
+		fprintf(debugFile, "x_vel = %f\n\ty_vel = %f\n\t", datplayer->x_vel,datplayer->y_vel);
+		fprintf(debugFile, "x_pos_f = %f\n\ty_pos_f = %f\n\t",datplayer->x_pos_f,datplayer->y_pos_f);
+		fprintf(debugFile, "x_pos = %d\n\ty_pos = %d",datplayer->x_pos, datplayer->y_pos);
+	}
+	#endif
 	
 	//----------------------------------------------------
 	// moving the player

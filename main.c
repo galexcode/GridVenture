@@ -16,7 +16,7 @@ int main( int argc, char* args[] )
     
     int mouseStatusLeft = 0;					// these two keep track of the user's left and right mouse button statuses.
     int mouseStatusRight = 0;					
-	int keyw=0,keya=0,keys=0,keyd=0;			// these keep track of the user's WASD keys
+	int keyw=0,keya=0,keys=0,keyd=0,keyspace=0;	// these keep track of the user's WASD keys
 	bool keyF3=true;							// this keeps track of the state of the F3 key
 	bool inventoryView=0;						// this keeps track of the inventory key's state (E)
 	unsigned char ctrl=0;						// this keeps track of if either of the ctrl keys are pressed.
@@ -55,11 +55,11 @@ int main( int argc, char* args[] )
 	gen_world(w_normal,0);						// generate a world on startup
 	int i;
 	#if(DEBUG)
-	for(i=0; i<GRID_WIDTH_ELEMENTS; i++) grid[i][800].mat = m_plant;	// generate stone line for testing
+	for(i=0; i<GRID_WIDTH_ELEMENTS; i++) grid[i][500].mat = m_plant;	// generate stone line for testing
 	#endif
 	init_player_attributes(&player);			// get default player data.
 	player.x_pos = GRID_WIDTH_ELEMENTS/2;		// set player location x
-	player.y_pos = 1080-500;					// set player location y
+	player.y_pos = 500;					// set player location y
 	verify_grid_and_cell_size();				// final grid and cell verification
 	#if(1)//									// this is just for testing the user's inventory
 		player.inv.slot[24].item = i_hatchet_igneous;
@@ -164,7 +164,7 @@ int main( int argc, char* args[] )
             if( event.type == SDL_KEYDOWN ){		///keyboard event
                 switch( event.key.keysym.sym ){
 				case SDLK_c:		reset_cells();  break;	//clear the screen
-				case SDLK_SPACE:	if(paused == 0) {paused = 1;} else if(paused == 1) {paused = 0;} break; 	//pause the game
+				case SDLK_ESCAPE:	if(paused == 0) {paused = 1;} else if(paused == 1) {paused = 0;} break; 	//pause the game
 				//case SDLK_ESCAPE: quit = true; 		// quit with escape
 				case SDLK_F1:		gen_world(w_normal,wf_display_generation); break; // generate a world
 				case SDLK_F3:		keyF3 ^= 1; break;	// toggle printing debugging information
@@ -172,6 +172,7 @@ int main( int argc, char* args[] )
 				case SDLK_a:		keya=1; break;
 				case SDLK_s:		keys=1; break;
 				case SDLK_d:		keyd=1; break;
+				case SDLK_SPACE:	keyspace=1; break;
 				case SDLK_1:
 				case SDLK_2:
 				case SDLK_3:
@@ -188,10 +189,11 @@ int main( int argc, char* args[] )
 			}
 			if( event.type == SDL_KEYUP ){								///keyboard event
                 switch( event.key.keysym.sym ){
-				case SDLK_w: keyw=0; break; // store key state
-				case SDLK_a: keya=0; break;
-				case SDLK_s: keys=0; break;
-				case SDLK_d: keyd=0; break;
+				case SDLK_w: 		keyw=0; break; // store key state
+				case SDLK_a: 		keya=0; break;
+				case SDLK_s: 		keys=0; break;
+				case SDLK_d: 		keyd=0; break;
+				case SDLK_SPACE:	keyspace=0; break;
 				case SDLK_RCTRL: case SDLK_LCTRL: ctrl--; break; // ctrl was released
 				default: break;
 				}
@@ -203,7 +205,7 @@ int main( int argc, char* args[] )
 		
 		
 		//evaluate the player's movements.
-		evaluate_player_movement(&player, keyw, keya, keys, keyd);
+		evaluate_player_movement(&player, keyspace, keya, keys, keyd);
 		
 		
 	

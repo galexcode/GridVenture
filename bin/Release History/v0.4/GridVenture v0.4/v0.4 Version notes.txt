@@ -1,6 +1,6 @@
 --------------------------------------------------------------
 
-Grid Sim
+GridVenture
 Version 0.4
 Released ####-##-## (#### ##th, 2013) ##:## PM GMT -6:00
 
@@ -14,9 +14,11 @@ Released ####-##-## (#### ##th, 2013) ##:## PM GMT -6:00
 
 >	Added a character the the camera follows aorund the map.
 
+>	Added player physics.
+
 >	Added manual world generation via the F1 key.
 
->	Materials no longer dissapear out the bottom of the screen.
+>	Materials no longer disappear out the bottom of the screen.
 
 >	Added a debug screen. See it to the F3 key.
 
