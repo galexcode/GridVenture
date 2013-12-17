@@ -207,7 +207,8 @@ void init_items(){
 	
 }
 
-
+/// this generates all the different sizes of the item_set
+// this only need to be called once at the beginning of the game (assuming new items aren't created while the user is playing)
 void init_different_item_set_sizes(){
 	int s;
 	int scalingFactor;
@@ -220,13 +221,16 @@ void init_different_item_set_sizes(){
 	}
 }
 
-void apply_item(int itemtype, int x, int y, SDL_Surface *dest){
+
+/// this function prints an item texture to the dest surface at coordinates (x,y)
+// itemType specifies which item you will be printing
+void apply_item(int itemType, int x, int y, short itemSize, short guiSize, SDL_Surface *dest){
 	SDL_Rect itemclip;						// static. this will hopefully save time allocating memory.
-	itemclip.w = itemclip.h = ITEM_SIZE;			// set the width and height of the item image clip
-	itemclip.x = (items[itemtype].imagePos/0x100)*ITEM_SIZE;	// calculate the x clip value for clipping out the item from the item set
-	itemclip.y = (items[itemtype].imagePos%0x100)*ITEM_SIZE; 	// calculate the y ^...
+	itemclip.w = itemclip.h = itemSize;			// set the width and height of the item image clip
+	itemclip.x = (items[itemType].imagePos/0x100)*itemSize;	// calculate the x clip value for clipping out the item from the item set
+	itemclip.y = (items[itemType].imagePos%0x100)*itemSize; 	// calculate the y ^...
 	// apply the user's item at slot (i,j)
-	apply_surface_clips(x, y, item_set[GUI_SIZE], dest, &itemclip);
+	apply_surface_clips(x, y, item_set[guiSize], dest, &itemclip);
 }
 
 

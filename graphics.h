@@ -521,27 +521,36 @@ void draw_line(SDL_Surface *theSurface, int x1, int y1, int x2, int y2, int thic
 
 
 
-Uint32 INVENTORY_COLOR = 0xffaaaaaa;
+Uint32 INVENTORY_COLOR =	0xffaaaaaa;
+Uint32 INVENTORY_BORDER_COLOR =	0xff222222;
+// this is the thickness of the inventory border
+#define INVENTORY_BORDER (itemSize/4)
 
-void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
+void inventory_display(struct inventoryData *inv, int x, int y, short itemSize, short guiSize, SDL_Surface *dest){
 	
 	SDL_Rect guirect;								// this is the rectangle that the items are printed into
-	guirect.w = ITEM_SIZE*inv->width;				// calculate the gui's width  in pixels
-	guirect.h = ITEM_SIZE*inv->height;				// calculate the gui's height in pixels
-	guirect.x = ITEM_SIZE/2;						// calculate the x position in pixels
-	guirect.y = SCREEN_HEIGHT - (inv->height+0.5)*ITEM_SIZE;		// calculate the y position in pixels
+	guirect.w=itemSize*inv->width+2*INVENTORY_BORDER;	// calculate the gui's width  in pixels
+	guirect.h=itemSize*inv->height+2*INVENTORY_BORDER;// calculate the gui's height in pixels
+	guirect.x = x-INVENTORY_BORDER;						// calculate the x position in pixels
+	guirect.y = y-INVENTORY_BORDER;						// calculate the y position in pixels
+	SDL_FillRect(dest, &guirect, INVENTORY_BORDER_COLOR);	// fill the border around the inventory
+	
+	guirect.w = itemSize*inv->width;				// calculate the gui's width  in pixels
+	guirect.h = itemSize*inv->height;				// calculate the gui's height in pixels
+	guirect.x = x;									// calculate the x position in pixels
+	guirect.y = y;									// calculate the y position in pixels
 	SDL_FillRect(dest, &guirect, INVENTORY_COLOR);	// fill the gui rect.
 	
 	int i,j; 										// used for indexing 
 	SDL_Rect itemclip;								// this is used for selecting the item from the item_set
-	itemclip.w = itemclip.h = ITEM_SIZE;			// set the width and height of the item clip
+	itemclip.w = itemclip.h = itemSize;			// set the width and height of the item clip
 	
 	// loop through all the user's items and print them all in the inventory.
 	for(j=0; j<inv->height; j++){
 		for(i=0; i<inv->width; i++){
 			if(inv->slot[j*inv->width + i].item == i_none)continue;	// don't print empty item slots
 			// apply the texture of the item at the right location within the inventory
-			apply_item(inv->slot[j*inv->width + i].item, i*ITEM_SIZE+guirect.x, j*ITEM_SIZE+guirect.y, dest);
+			apply_item(inv->slot[j*inv->width + i].item, i*itemSize+guirect.x, j*itemSize+guirect.y, itemSize, guiSize, dest);
 		}
 	}
 }
@@ -550,7 +559,7 @@ void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
 SDL_Rect hotbarRect;
 #define HOTBAR_SELECTION_COLOR 0xffff0000
 
-void hotbar_display(struct playerData *datplayer, SDL_Surface *dest){
+void hotbar_display(struct playerData *datplayer, int x, int y, short itemSize, short guiSize, SDL_Surface *dest){
 	
 	struct inventoryData *datinv = &datplayer->inv;				// store a pointer to the user's inventory for quick and painless reference
 	
@@ -558,10 +567,10 @@ void hotbar_display(struct playerData *datplayer, SDL_Surface *dest){
 	short row = datinv->height-1;								// pick the row you want to display from the user's inventory
 	
 	// this stuff is for printing the rectangle of the hotbar.
-	hotbarRect.x = ITEM_SIZE/2;									// x position
-	hotbarRect.y = SCREEN_HEIGHT-1.5*ITEM_SIZE;					// y position
-	hotbarRect.w = ITEM_SIZE*datinv->width;						// width 
-	hotbarRect.h = ITEM_SIZE;									// height
+	hotbarRect.x = x;									// x position
+	hotbarRect.y = y;									// y position
+	hotbarRect.w = itemSize*datinv->width;				// width 
+	hotbarRect.h = itemSize;							// height
 	SDL_FillRect(dest, &hotbarRect, INVENTORY_COLOR);
 	
 	int itemType;
@@ -570,17 +579,17 @@ void hotbar_display(struct playerData *datplayer, SDL_Surface *dest){
 	for(i=0; i<datinv->width; i++){
 		itemType = datinv->slot[row*datinv->width+i].item;		// get item type
 		if(itemType == i_none)continue;							// don't print empty inventory slots
-		apply_item(itemType, hotbarRect.x + i*ITEM_SIZE, hotbarRect.y, dest);
+		apply_item(itemType, hotbarRect.x + i*itemSize, hotbarRect.y, itemSize, guiSize, dest);
 	}
 	
 	// print a selectoin box around the item the user is currently selecting
 	int thickness = 1<<(GUI_SIZE-1);							// generate the line thickness
 	
 	SDL_Rect outline;											// generate the box where the highlight needs to be printed
-	outline.x = hotbarRect.x+ITEM_SIZE*datplayer->hotbarIndex;	// ^
-	outline.h = ITEM_SIZE;										// ^
+	outline.x = hotbarRect.x+itemSize*datplayer->hotbarIndex;	// ^
+	outline.h = itemSize;										// ^
 	outline.y = hotbarRect.y;									// ^
-	outline.w = ITEM_SIZE;										// ^
+	outline.w = itemSize;										// ^
 	
 	apply_outline(dest, &outline, thickness, HOTBAR_SELECTION_COLOR);		// apply the outline to the player's selcted inventory spot.
 }

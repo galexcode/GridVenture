@@ -14,8 +14,8 @@ int main( int argc, char* args[] )
 	//----------------------------------------------------
     int x, y;									// this is the location of the player's mouse
     
-    int mouseStatusLeft = 0;					// these two keep track of the user's left and right mouse button statuses.
-    int mouseStatusRight = 0;					
+    int mouseLeft[2] = {0,0};					// this keeps track of the user's left  mouse button state. [0]=current, [1]=previous
+    int mouseRight[2] = {0,0};					// this keeps track of the user's right mouse button state. [0]=current, [1]=previous
 	int keyw=0,keya=0,keys=0,keyd=0,keyspace=0;	// these keep track of the user's WASD keys
 	bool keyF3=true;							// this keeps track of the state of the F3 key
 	bool inventoryView=0;						// this keeps track of the inventory key's state (E)
@@ -107,10 +107,10 @@ int main( int argc, char* args[] )
 				x = event.motion.x;
 				y = event.motion.y;
                 if( event.button.button == SDL_BUTTON_LEFT ){
-                    mouseStatusLeft = 1;
+                    mouseLeft[0] = 1;
                 }
                 else if( event.button.button == SDL_BUTTON_RIGHT ){
-                    mouseStatusRight = 1;
+                    mouseRight[0] = 1;
                 }
                 
                 else if( event.button.button == SDL_BUTTON_WHEELUP ){
@@ -137,10 +137,10 @@ int main( int argc, char* args[] )
 				x = event.motion.x;
 				y = event.motion.y;
                 if( event.button.button == SDL_BUTTON_LEFT ){
-                    mouseStatusLeft = 0;
+                    mouseLeft[0] = 0;
                 }
                 else if( event.button.button == SDL_BUTTON_RIGHT ){
-                    mouseStatusRight = 0;
+                    mouseRight[0] = 0;
                 }
             }
             else if( event.type == SDL_MOUSEMOTION ){						/// mouse motion
@@ -207,7 +207,8 @@ int main( int argc, char* args[] )
 		//evaluate the player's movements.
 		evaluate_player_movement(&player, keyspace, keya, keys, keyd);
 		
-		
+		//evaluate the player's inventory interaction
+		//if(mouseLeft){}
 	
 		
 		
@@ -218,10 +219,10 @@ int main( int argc, char* args[] )
 		ycell = y/CELL_SIZE+(int)player.y_pos-GRID_HEIGHT/2;
 		if(within_grid_bounds(xcell,ycell)){
 			//checks if the mouse is held or not
-			if(mouseStatusLeft == 1 && mouseModifier == 0){
+			if(mouseLeft[0] == 1 && mouseModifier == 0){
 				grid[xcell][ycell].mat = m_air;
 			}
-			if(mouseStatusRight == 1 && grid[xcell][ycell].mat == m_air){
+			if(mouseRight[0] == 1 && grid[xcell][ycell].mat == m_air){
 				gen_tree(xcell,ycell);
 			}
 		}
@@ -254,9 +255,9 @@ int main( int argc, char* args[] )
         // print the character
         SDL_FillRect(screen, &playerRect, player.color);
         // print the inventory
-        if(inventoryView) inventory_display(&player.inv, screen);
+        if(inventoryView) inventory_display(&player.inv, ITEM_SIZE/2, SCREEN_HEIGHT - (player.inv.height+0.5)*ITEM_SIZE, ITEM_SIZE, GUI_SIZE, screen);
         //print the hotbar
-        hotbar_display(&player, screen);
+        hotbar_display(&player, ITEM_SIZE/2, SCREEN_HEIGHT-1.5*ITEM_SIZE, ITEM_SIZE, GUI_SIZE, screen);
         
         // print the debugging information to the screen.
         if(keyF3) print_debugging_information(x,y);
@@ -278,7 +279,8 @@ int main( int argc, char* args[] )
 			ticksSinceLastFPSUpdate = currentTicks;	// reset the last FPS update to the number of ticks now.
         }
         cumulativeFrames++;
-		
+        mouseRight[1] = mouseRight[0];	//
+        mouseLeft[1]  = mouseLeft[0];	//
     }// end while(quit == false)
 
 
