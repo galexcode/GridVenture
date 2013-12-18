@@ -52,6 +52,7 @@
 		<Unit filename="icon.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="inventory.h" />
 		<Unit filename="items.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

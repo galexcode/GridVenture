@@ -60,7 +60,7 @@ struct itemData{
 	
 	// this is how many items can be in a single stack in the player's inventory.
 	// 0 is invalid and will be interpreted as 1.
-	Uint32 stackAmount;
+	Uint16 stackAmount;
 	
 	char *name;	// the name of the item
 	char *desc;	// the description of the item
@@ -79,7 +79,8 @@ struct itemData{
 #define dur_wood 0x40
 #define dur_stone 0x100
 #define dur_igneous 0x400
-#define DEFAULT_STACK_AMOUNT 256;
+#define STACK_AMOUNT_DEFAULT 256//		// the default stack depth of an item type
+#define STACK_AMOUNT_MAX 65535//		// the max stack depth of any item type (2^16 -1)
 /// this fuction sets a certain item to default values 
 void item_erase(struct itemData *datitem){
 	datitem->name = "!Invalid item!";				// default invalid name
@@ -90,7 +91,7 @@ void item_erase(struct itemData *datitem){
 	datitem->cooldown = ITEM_DEFAULT_COOLDOWN;		//
 	datitem->durability = 0;						// default to infinite durability
 	datitem->heal = 0;								//
-	datitem->stackAmount = DEFAULT_STACK_AMOUNT;	//
+	datitem->stackAmount = STACK_AMOUNT_DEFAULT;	//
 	datitem->imagePos = 0x0000;						// default imagePos no item
 }
 
@@ -224,13 +225,13 @@ void init_different_item_set_sizes(){
 
 /// this function prints an item texture to the dest surface at coordinates (x,y)
 // itemType specifies which item you will be printing
-void apply_item(int itemType, int x, int y, short itemSize, short guiSize, SDL_Surface *dest){
+void apply_item(int itemType, int x, int y, SDL_Surface *dest){
 	SDL_Rect itemclip;						// static. this will hopefully save time allocating memory.
-	itemclip.w = itemclip.h = itemSize;			// set the width and height of the item image clip
-	itemclip.x = (items[itemType].imagePos/0x100)*itemSize;	// calculate the x clip value for clipping out the item from the item set
-	itemclip.y = (items[itemType].imagePos%0x100)*itemSize; 	// calculate the y ^...
+	itemclip.w = itemclip.h = ITEM_SIZE;			// set the width and height of the item image clip
+	itemclip.x = (items[itemType].imagePos/0x100)*ITEM_SIZE;	// calculate the x clip value for clipping out the item from the item set
+	itemclip.y = (items[itemType].imagePos%0x100)*ITEM_SIZE; 	// calculate the y ^...
 	// apply the user's item at slot (i,j)
-	apply_surface_clips(x, y, item_set[guiSize], dest, &itemclip);
+	apply_surface_clips(x, y, item_set[GUI_SIZE], dest, &itemclip);
 }
 
 

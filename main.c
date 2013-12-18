@@ -206,10 +206,8 @@ int main( int argc, char* args[] )
 		
 		//evaluate the player's movements.
 		evaluate_player_movement(&player, keyspace, keya, keys, keyd);
-		
-		//evaluate the player's inventory interaction
-		//if(mouseLeft){}
-	
+		// keep the compiler quiet
+		if(keyw);
 		
 		
 		//apply/remove material (test feature for debugging)
@@ -255,14 +253,18 @@ int main( int argc, char* args[] )
         // print the character
         SDL_FillRect(screen, &playerRect, player.color);
         // print the inventory
-        if(inventoryView) inventory_display(&player.inv, ITEM_SIZE/2, SCREEN_HEIGHT - (player.inv.height+0.5)*ITEM_SIZE, ITEM_SIZE, GUI_SIZE, screen);
+        if(inventoryView) inventory_display(&player.inv, screen);
         //print the hotbar
-        hotbar_display(&player, ITEM_SIZE/2, SCREEN_HEIGHT-1.5*ITEM_SIZE, ITEM_SIZE, GUI_SIZE, screen);
+        hotbar_display(&player, ITEM_SIZE/2, SCREEN_HEIGHT-1.5*ITEM_SIZE, screen);
         
         // print the debugging information to the screen.
         if(keyF3) print_debugging_information(x,y);
         
-        
+        //evaluate the player's inventory interaction
+		if(mouseLeft[0]){
+			if( evaluate_inventories(x,y) )
+				print_red_box(screen);
+		}
         
         //updates the screen
         SDL_Flip( screen );
@@ -279,8 +281,10 @@ int main( int argc, char* args[] )
 			ticksSinceLastFPSUpdate = currentTicks;	// reset the last FPS update to the number of ticks now.
         }
         cumulativeFrames++;
-        mouseRight[1] = mouseRight[0];	//
-        mouseLeft[1]  = mouseLeft[0];	//
+        mouseRight[1] = mouseRight[0];	// make the previous mouse state equal the current one (for the next loop iteration)
+        mouseLeft[1]  = mouseLeft[0];	// ^
+        
+        
     }// end while(quit == false)
 
 

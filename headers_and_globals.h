@@ -100,13 +100,17 @@ void clean_up();
 // include all of the other header files that have proprietary functions and variables that will be used throughout the program.
 #include "game_time.h"
 #include "words.h"
+
 #include "general_functions.h"
 #include "materials_and_cells.h"
-#include "npc.h"
 #include "items.h"
+#include "inventory.h"
+
+#include "npc.h"
 #include "quests.h"
 #include "player.h"
 #include "player_movement.h"
+
 #include "cell_engine.h"
 #include "graphics.h"
 #include "map_editor.h"

@@ -310,3 +310,22 @@ int roll_ht(int chance){
 	return 0; // otherwise, return 0
 }
 
+/// this evaluates if a coordinate (x,y) is inside the given rectangle
+bool within_rect(SDL_Rect *datrect, int x, int y){
+	if(x >= datrect->x && x <= datrect->x+datrect->w && y >= datrect->y && y <= datrect->y+datrect->h)
+		return true;
+	else
+		return false;
+}
+
+/// this function prints a big red box in the middle of the screen.
+// it is nice for debugging things, but serves no gameplay purpose
+void print_red_box(SDL_Surface *dest){
+	SDL_Rect testRect;
+	testRect.x = SCREEN_WIDTH /4;
+	testRect.y = SCREEN_HEIGHT/4;
+	testRect.w = SCREEN_WIDTH /2;
+	testRect.h = SCREEN_HEIGHT/2;
+	SDL_FillRect(dest, &testRect, 0xffff0000);
+}
+

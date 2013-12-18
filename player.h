@@ -4,39 +4,6 @@
 ///-----------------------------------------------------------------------------
 
 
-/// this is a single slot of an inventory. this would be a user inventory or possibly a chest inventory.
-struct inventorySlot{
-	
-	// this is the number that indexes into the items[] array.
-	int item;
-	
-	// this is the number of uses left the item has.
-	// breaks at 0 NOT after 0.
-	int uses;
-	
-	// this is how many of this item are in this stack.
-	Uint32 quantity;
-};
-
-
-
-// these describe the inventory maximum sizes.
-#define MAX_INVENTORY_WIDTH		32
-#define MAX_INVENTORY_HEIGHT	16
-#define MAX_INVENTORY_LENGTH (MAX_INVENTORY_WIDTH*MAX_INVENTORY_HEIGHT)
-#define DEFAULT_PLAYER_INVENTORY_WIDTH	8
-#define DEFAULT_PLAYER_INVENTORY_HEIGHT	4
-
-/// this is a general purpose inventory it is a collection of inventory slots.
-// this is used for the player as well as storage chests.
-struct inventoryData{
-	unsigned char width;
-	unsigned char height;
-	struct inventorySlot slot[MAX_INVENTORY_LENGTH];
-};
-
-
-
 
 
 #define DEFAULT_PLAYER_WIDTH	1.0f
@@ -108,23 +75,6 @@ struct playerData player;
 ///-----------------------------------------------------------------------------
 
 
-/// this erases an inventory slot
-void inventory_slot_erase(struct inventorySlot *datslot){
-	datslot->item = i_none;
-	datslot->quantity = 0;
-	datslot->uses = 0;
-}
-
-
-void inventory_erase(struct inventoryData *datinv){
-	int i;
-	// loop through every inventory item and erase it.
-	for(i=0; i<MAX_INVENTORY_LENGTH; i++){
-			inventory_slot_erase(&datinv->slot[i]);
-	}
-}
-
-
 
 // this sets up a blank character
 void init_player_attributes(struct playerData *datplayer){
@@ -162,6 +112,9 @@ void init_player_attributes(struct playerData *datplayer){
 }
 
 
+///-----------------------------------------------------------------------------
+///----------------------------- PLAYER FUNCTIONS ------------------------------
+///-----------------------------------------------------------------------------
 
 
 /// tests to see if the position is valid for the player to be

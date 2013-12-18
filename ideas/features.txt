@@ -21,20 +21,15 @@
 
 ------------------------------------------------------------------------------------------------------
 
-
-
-------------------------------------------------------------------------------------------------------
-
-add a "get_time" function that will return the time in milliseconds that the game has been being PLAYED.
-this will not return the time since the SDL library was initialized. It will account for when the user PAUSES the game.
-This will be essential in making sure there are no glitches in movement/block breaking when the user pauses and un-pauses the game.
+change the gradient function to use set_pixel instead of SDL_FillRect.
+Maybe it will be faster?
 
 ------------------------------------------------------------------------------------------------------
 
 
-work on scaling up and down the item_set. It would be nice to be able to do that in the program on boot.
-so the sprites are all generated and rendered for every cell size available on program boot.
-you can make a collection of SDL surface pointers that will store the different sized item_set and material_set images.
+------------------------------------------------------------------------------------------------------
+
+
 
 ------------------------------------------------------------------------------------------------------
 
