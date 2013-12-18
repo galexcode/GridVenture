@@ -55,7 +55,7 @@ int main( int argc, char* args[] )
 	gen_world(w_normal,0);						// generate a world on startup
 	int i;
 	#if(DEBUG)
-	for(i=0; i<GRID_WIDTH_ELEMENTS; i++) grid[i][500].mat = m_plant;	// generate stone line for testing
+		for(i=0; i<GRID_WIDTH_ELEMENTS; i++) grid[i][500].mat = m_plant;	// generate stone line for testing
 	#endif
 	init_player_attributes(&player);			// get default player data.
 	player.x_pos = GRID_WIDTH_ELEMENTS/2;		// set player location x
@@ -70,6 +70,15 @@ int main( int argc, char* args[] )
 		player.inv.slot[17].item = i_sword_wood;
 		player.inv.slot[18].item = i_hammer_igneous;
 	#endif
+	#if(1)//									// testing inventory adding
+		struct inventoryData testingInv1;
+		inventory_erase(&testingInv1);
+		manage_inventories(inv_open,&testingInv1);
+		struct inventoryData testingInv2;
+		inventory_erase(&testingInv2);
+		manage_inventories(inv_open,&testingInv2);
+	#endif
+	
 	//----------------------------------------------------
 	// this simply tests the paragra_to_lines() function
 	//----------------------------------------------------
@@ -209,6 +218,8 @@ int main( int argc, char* args[] )
 		// keep the compiler quiet
 		if(keyw);
 		
+		//evaluate the player's inventory interaction
+		evaluate_inventories(x,y,mouseLeft[0],mouseRight[0]);
 		
 		//apply/remove material (test feature for debugging)
 		#if(1)
@@ -253,16 +264,18 @@ int main( int argc, char* args[] )
         // print the character
         SDL_FillRect(screen, &playerRect, player.color);
         // print the inventory
-        if(inventoryView) inventory_display(&player.inv, screen);
+        if(inventoryView){
+			inventory_display(&player.inv, screen);
+			inventory_display(&testingInv2, screen);
+			inventory_display(&testingInv1, screen);
+        }
         //print the hotbar
         hotbar_display(&player, ITEM_SIZE/2, SCREEN_HEIGHT-1.5*ITEM_SIZE, screen);
         
         // print the debugging information to the screen.
         if(keyF3) print_debugging_information(x,y);
         
-        //evaluate the player's inventory interaction
-		if( evaluate_inventories(x,y,mouseRight,mouseLeft) )
-			print_red_box(screen);
+        
         
         //updates the screen
         SDL_Flip( screen );

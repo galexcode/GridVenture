@@ -20,6 +20,7 @@
 #define DEBUG_IS_EMPTY_FILE 0 // this debugs specifically the is_empty_file() function.
 #define PARAGRAPH_DEBUG_OUTPUT 0 // this is for debugging output for the paragraph_to_lines() function
 #define PARAGRAPH_ERROR_OUTPUT 1 // this is for error output for the paragraph_to_lines() function
+#define DEBUG_EVALUATE_INVENTORIES 1// debugs the evaluate_inventories() function
 #define DEBUG_EVALUATE_PLAYER_MOVEMENT 0// this is for debug output from the evaluate_player_movement() function
 
 //allowing us to use the bool type. you might want to remove this definition if you are going to try to compile this project as a C++
