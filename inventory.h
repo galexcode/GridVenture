@@ -78,11 +78,17 @@ void inventory_erase(struct inventoryData *datinv){
 #define INVENTORY_BORDER (ITEM_SIZE/4)
 // this will evaluate mouseclicks for all the inventories open in the game.
 /// returns whether or not the user clicked on an open inventory
-bool evaluate_inventories(int x, int y){
+// true = clicked on an open inventory
+// false = did not click on an inventory
+bool evaluate_inventories(int x, int y, bool mouseLeft, bool mouseRight){
+	static int xLeftClick, yLeftClick;				// these keep track of the (x,y) point where the user left clicked
+	static int xInvOrig, yInvOrig;					// these keep track of where the inventory was originally
+	static bool mouseLeftLast=0, mouseRightLast=0;	// this keeps track of the previous mouse states
+	bool clickedAnInv = false;						// this keeps track of an inventory was clicked
+	SDL_Rect invRect;								// this is a rectangle used to describe the size/area/location of the inventory
+	int i;											// loop increment variable
 	
-	bool clickedAnInv = false;				// this keeps track of an inventory was clicked
-	SDL_Rect invRect;						// this is a rectangle used to describe the size/area/location of the inventory
-	int i;									// loop increment variable
+			
 	
 	for(i=0; i<MAX_INVENTORIES_OPEN; i++){
 		if(openInvs[i] == NULL) continue;								// don't evaluate a NULL inventory pointer.
@@ -90,10 +96,43 @@ bool evaluate_inventories(int x, int y){
 		invRect.y = openInvs[i]->y - INVENTORY_BORDER;
 		invRect.w = openInvs[i]->width*ITEM_SIZE  + 2*INVENTORY_BORDER;
 		invRect.h = openInvs[i]->height*ITEM_SIZE + 2*INVENTORY_BORDER;
-		if(within_rect(&invRect,x,y)){
+		if(within_rect(&invRect,x,y)){									// did the user click within the inventory rectangle?
+			
 			clickedAnInv = true;
+			invRect.x = openInvs[i]->x;									// generate rectangle for item area (non border area)
+			invRect.y = openInvs[i]->y;
+			invRect.w = openInvs[i]->width*ITEM_SIZE;
+			invRect.h = openInvs[i]->height*ITEM_SIZE;
+			if(within_rect(&invRect,x,y)){								// if you are within the item area
+				fprintf(debugFile,"\nclicked in item area");
+			}
+			else{														// if you clicked on the border...
+				fprintf(debugFile,"\nclicked on border");
+				if(mouseLeft && !mouseLeftLast){						// if the user clicked...
+					xLeftClick = x;
+					yLeftClick = y;
+					xInvOrig = openInvs[i]->x;
+					yInvOrig = openInvs[i]->y;
+					//#if(1)
+					fprintf(debugFile,"\n\nevaluate_inventories():\n\tLeft Mouse Clicked!\n\txLeftClick = %d\n\tyLeftClick = %d", xLeftClick, yLeftClick);
+					fprintf(debugFile,"\n\txInvOrig = %d\n\tyInvOrig = %d", xInvOrig, yInvOrig);
+					//#endif
+				}
+				if(mouseLeft && mouseLeftLast){							// if the left mouse button has been held down...
+					openInvs[i]->x = xInvOrig + x-xLeftClick;			// add the differece to the x coordinate
+					openInvs[i]->y = yInvOrig + y-yLeftClick;			// add the differnce to the y coordinate
+					//#if(1)
+					fprintf(debugFile,"\n\nevaluate_inventories():\n\tLeft Mouse Held!");
+					fprintf(debugFile,"\n\tx = %d\n\ty = %d",x,y);
+					fprintf(debugFile,"\n\topenInvs[%d]->x = %d\n\topenInvs[%d]->y = %d",i,openInvs[i]->x,i,openInvs[i]->y);
+					//#endif
+				}
+			}
 		}
 	}
+	
+	mouseRightLast = mouseRight;	// save previous mosue states
+	mouseLeftLast  = mouseLeft;
 	return clickedAnInv;
 }
 
@@ -127,12 +166,11 @@ int organize_open_inventories(){
 
 #define minv_open 1
 #define minv_close 0
-
 // this will open/close inventories 
 void manage_inventories(Uint8 action, struct inventoryData *inv){
 	
-	if(action == minv_open){
-		int i;
+	int i;
+	if(action == minv_open){							// if you want to open an inventory
 		int invIndex = organize_open_inventories();
 		
 		if(invIndex >= 0){								// if there is an open slot...
@@ -149,9 +187,17 @@ void manage_inventories(Uint8 action, struct inventoryData *inv){
 		}
 		#endif
 	}
-	else if(action == minv_close){
-		// WIP
+	else if(action == minv_close){						// if you want to close and inventory
+		for(i=0; i<MAX_INVENTORIES_OPEN; i++){			// loop through all the open inventories
+			if(openInvs[i] == inv)						// find the inventory that matches the one we want to close
+				openInvs[i] = NULL;						// and remove it from the stack
+		}
 	}
 }
+
+
+
+
+
 
 

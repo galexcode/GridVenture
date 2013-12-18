@@ -261,10 +261,8 @@ int main( int argc, char* args[] )
         if(keyF3) print_debugging_information(x,y);
         
         //evaluate the player's inventory interaction
-		if(mouseLeft[0]){
-			if( evaluate_inventories(x,y) )
-				print_red_box(screen);
-		}
+		if( evaluate_inventories(x,y,mouseRight,mouseLeft) )
+			print_red_box(screen);
         
         //updates the screen
         SDL_Flip( screen );
