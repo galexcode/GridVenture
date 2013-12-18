@@ -181,7 +181,7 @@ int main( int argc, char* args[] )
 				case SDLK_6:
 				case SDLK_7:
 				case SDLK_8:		player.hotbarIndex = event.key.keysym.sym - '1'; break; // set the user's hotbar location
-				case SDLK_e:		inventoryView^=1;break;	// toggle inventory view
+				case SDLK_e:		inventoryView^=1; manage_inventories(inventoryView, &player.inv); break;	// toggle inventory view
 				case SDLK_RCTRL: case SDLK_LCTRL:	ctrl++; break;	// ctrl was pressed
 				
 				default: break;
