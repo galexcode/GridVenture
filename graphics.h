@@ -524,35 +524,42 @@ void draw_line(SDL_Surface *theSurface, int x1, int y1, int x2, int y2, int thic
 Uint32 INVENTORY_COLOR =	0xffaaaaaa;
 Uint32 INVENTORY_BORDER_COLOR =	0xff222222;
 
-
 void inventory_display(struct inventoryData *inv, SDL_Surface *dest){
 	
-	SDL_Rect guirect;								// this is the rectangle that the items are printed into
-	guirect.w=ITEM_SIZE*inv->width+2*INVENTORY_BORDER;	// calculate the gui's width  in pixels
-	guirect.h=ITEM_SIZE*inv->height+2*INVENTORY_BORDER;// calculate the gui's height in pixels
+	SDL_Rect guirect;											// this is the rectangle that the items are printed into
+	guirect.w=ITEM_SIZE*inv->width+2*INVENTORY_BORDER;			// calculate the gui's width  in pixels
+	guirect.h=ITEM_SIZE*inv->height+2*INVENTORY_BORDER;			// calculate the gui's height in pixels
 	guirect.x = inv->x-INVENTORY_BORDER;						// calculate the x position in pixels
 	guirect.y = inv->y-INVENTORY_BORDER;						// calculate the y position in pixels
-	SDL_FillRect(dest, &guirect, INVENTORY_BORDER_COLOR);	// fill the border around the inventory
+	SDL_FillRect(dest, &guirect, INVENTORY_BORDER_COLOR);		// fill the border around the inventory
 	
-	guirect.w = ITEM_SIZE*inv->width;				// calculate the gui's width  in pixels
-	guirect.h = ITEM_SIZE*inv->height;				// calculate the gui's height in pixels
-	guirect.x = inv->x;									// calculate the x position in pixels
-	guirect.y = inv->y;									// calculate the y position in pixels
-	SDL_FillRect(dest, &guirect, INVENTORY_COLOR);	// fill the gui rect.
+	guirect.w = ITEM_SIZE*inv->width;							// calculate the gui's width  in pixels
+	guirect.h = ITEM_SIZE*inv->height;							// calculate the gui's height in pixels
+	guirect.x = inv->x;											// calculate the x position in pixels
+	guirect.y = inv->y;											// calculate the y position in pixels
+	SDL_FillRect(dest, &guirect, INVENTORY_COLOR);				// fill the gui rect.
 	
-	int i,j; 										// used for indexing 
-	SDL_Rect itemclip;								// this is used for selecting the item from the item_set
-	itemclip.w = itemclip.h = ITEM_SIZE;			// set the width and height of the item clip
+	int i,j; 													// used for indexing
 	
 	// loop through all the user's items and print them all in the inventory.
 	for(j=0; j<inv->height; j++){
 		for(i=0; i<inv->width; i++){
 			if(inv->slot[j*inv->width + i].item == i_none)continue;	// don't print empty item slots
 			// apply the texture of the item at the right location within the inventory
-			apply_item(inv->slot[j*inv->width + i].item, i*ITEM_SIZE+guirect.x, j*ITEM_SIZE+guirect.y, dest);
+			apply_item(inv->slot[j*inv->width + i].item, i*ITEM_SIZE+inv->x, j*ITEM_SIZE+inv->y, dest);
 		}
 	}
 }
+
+
+void inventories_display(SDL_Surface *dest){
+	int i;
+	for(i=MAX_INVENTORIES_OPEN-1; i>=0; i--){			// loop through all the open nventories
+		if(openInvs[i] != NULL)							// only print valid inventories
+			inventory_display(openInvs[i],dest);
+	}
+}
+
 
 // this is the area of the hotbar
 SDL_Rect hotbarRect;

@@ -69,14 +69,19 @@ int main( int argc, char* args[] )
 		player.inv.slot[8].item = i_hatchet_stone;
 		player.inv.slot[17].item = i_sword_wood;
 		player.inv.slot[18].item = i_hammer_igneous;
+		inventories_manage(inv_open, &player.inv);
 	#endif
 	#if(1)//									// testing inventory adding
+		
 		struct inventoryData testingInv1;
 		inventory_erase(&testingInv1);
-		manage_inventories(inv_open,&testingInv1);
+		inventories_manage(inv_open,&testingInv1);
 		struct inventoryData testingInv2;
 		inventory_erase(&testingInv2);
-		manage_inventories(inv_open,&testingInv2);
+		inventories_manage(inv_open,&testingInv2);
+		struct inventoryData testingInv3;
+		inventory_erase(&testingInv3);
+		inventories_manage(inv_open,&testingInv3);
 	#endif
 	
 	//----------------------------------------------------
@@ -184,13 +189,13 @@ int main( int argc, char* args[] )
 				case SDLK_SPACE:	keyspace=1; break;
 				case SDLK_1:
 				case SDLK_2:
-				case SDLK_3:
+				case SDLK_3:	organize_open_inventories();
 				case SDLK_4:
 				case SDLK_5:
 				case SDLK_6:
 				case SDLK_7:
 				case SDLK_8:		player.hotbarIndex = event.key.keysym.sym - '1'; break; // set the user's hotbar location
-				case SDLK_e:		inventoryView^=1; manage_inventories(inventoryView, &player.inv); break;	// toggle inventory view
+				case SDLK_e:		inventoryView^=1; break;	// toggle inventory view
 				case SDLK_RCTRL: case SDLK_LCTRL:	ctrl++; break;	// ctrl was pressed
 				
 				default: break;
@@ -265,9 +270,7 @@ int main( int argc, char* args[] )
         SDL_FillRect(screen, &playerRect, player.color);
         // print the inventory
         if(inventoryView){
-			inventory_display(&player.inv, screen);
-			inventory_display(&testingInv2, screen);
-			inventory_display(&testingInv1, screen);
+			inventories_display(screen);
         }
         //print the hotbar
         hotbar_display(&player, ITEM_SIZE/2, SCREEN_HEIGHT-1.5*ITEM_SIZE, screen);
