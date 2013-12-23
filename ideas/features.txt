@@ -17,8 +17,37 @@
 
 ------------------------------------------------------------------------------------------------------
 
+when the user saves a game, all the data for that player's game will need to be written to file.
+however, it might be nice to apply a cypher to the written data.
+so each letter/number has a corresponding letter/number that will be printed to the file in it's place.
+and when you are reading the file, you simply have to use that same letter/number relationship to get back the original information.
+The purpose of this will be solely to make the player data inconvenient to manipulate/change
 
+maybe have a "version.txt" included with the player's save. So then you can load old player game saves with new versions.
+I'm assuming that there might conceivably be changes to the way data is saved/loaded in the future.
+So then for each version of the game, there would be a separate way to load the data for that player.
+maybe in the "player_load()" function, there would be a switch-case statement like the following:
+(assume version is a global variable telling you what version gridVenture currently is)
+(assume saveVersion is a local variable telling you what version of gridVenture the player's data was saved with.
 
+	if(saveVersion <= 1.0) // if game is version 1.0 or older
+	{
+		// load character old way
+	}
+	else if(saveVersion <= 2.3)	// otherwise, if the user's save was made at or before version 2.3
+	{
+		// load character the new 2.3 way
+	}
+	else if(saveVersion > version) // the player was made with a newer version of gridVenture
+	{
+		// ok, the player must have been saved while playing a newer version of gridVenture.
+		// then the user must have loaded that new player data with an older client.
+		
+		// the only thing we can do here is load it with the most recent settings.
+		// but be sure to tell the user he isn't the sharpest tack in the box.
+		
+		// load character the 2.3 way
+	}
 ------------------------------------------------------------------------------------------------------
 
 change the gradient function to use set_pixel instead of SDL_FillRect.
